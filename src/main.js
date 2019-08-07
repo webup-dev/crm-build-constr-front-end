@@ -6,7 +6,7 @@ import Vue from 'vue'
 import BootstrapVue from 'bootstrap-vue'
 import App from './App'
 import router from './router/index'
-import axios from './backend/vue-axios/index'
+import axios from './backend/vue-axios/axios'
 
 // todo
 // cssVars()
