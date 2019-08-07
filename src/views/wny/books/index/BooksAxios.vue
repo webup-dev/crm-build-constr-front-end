@@ -65,7 +65,7 @@
         },
         mounted() {
             axios
-                .get('codeci.pp.ua/api/book')
+                .get('http://codeci.pp.ua/api/book')
                 .then(response => (
                     this.data = response.data.data
                 ))
