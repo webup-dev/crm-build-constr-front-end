@@ -11,6 +11,30 @@ export default {
     },
     {
       title: true,
+      name: 'Demo',
+      class: '',
+      wrapper: {
+        element: '',
+        attributes: {}
+      }
+    },
+    {
+      name: 'Books Static',
+      url: '/demo/books-static',
+      icon: 'icon-book-open'
+    },
+    {
+      name: 'Books Axios',
+      url: '/demo/books-axios',
+      icon: 'icon-book-open'
+    },
+    {
+      name: 'Books Final',
+      url: '/demo/books-final',
+      icon: 'icon-book-open'
+    },
+    {
+      title: true,
       name: 'Theme',
       class: '',
       wrapper: {

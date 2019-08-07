@@ -2,10 +2,10 @@
   <div className="animated">
     <b-card>
       <b-card-header>
-        <i class="icon-menu mr-1"></i>Data Table
-        <a href="https://coreui.io/pro/vue/" class="badge badge-danger">CoreUI Pro</a>
+        <i class="icon-menu mr-1"></i>Book Index
+        <a href="https://coreui.io/pro/vue/" class="badge badge-danger">Demo Module Axios</a>
         <div class="card-header-actions">
-          <a href="https://github.com/matfish2/vue-tables-2" rel="noopener noreferrer" target="_blank"
+          <a href="https://github.com/vadis2/helper/blob/master/vuejs/admin-template/coreUI/components/04-table-axios.md" rel="noopener noreferrer" target="_blank"
              className="card-header-action">
             <small className="text-muted">docs</small>
           </a>
@@ -13,11 +13,11 @@
       </b-card-header>
       <b-card-body>
         <v-client-table :columns="columns" :data="data" :options="options" :theme="theme" id="dataTable">
-          <a slot="uri" slot-scope="props" target="_blank" :href="props.row.uri" class="icon-eye"></a>
+          <!--          <a slot="uri" slot-scope="props" target="_blank" :href="props.row.uri" class="icon-eye"></a>-->
 
-          <div slot="child_row" slot-scope="props">
-            The link to {{props.row.name}} is <a :href="props.row.uri">{{props.row.uri}}</a>
-          </div>
+          <!--          <div slot="child_row" slot-scope="props">-->
+          <!--            The link to {{props.row.name}} is <a :href="props.row.uri">{{props.row.uri}}</a>-->
+          <!--          </div>-->
         </v-client-table>
       </b-card-body>
     </b-card>
@@ -27,28 +27,30 @@
 <script>
     import Vue from 'vue'
     import {ClientTable, Event} from 'vue-tables-2'
+    import axios from 'axios'
     import sampleData from './_data'
 
     Vue.use(ClientTable)
 
     export default {
-        name: 'DataTable',
+        name: 'Books',
         components: {
             ClientTable,
             Event
         },
         data: function () {
             return {
-                columns: ['name', 'code', 'uri'],
-                data: sampleData,
+                columns: ['id', 'title', 'author_name', 'actions'],
+                data: [],
                 options: {
                     headings: {
-                        name: 'Country Name',
-                        code: 'Country Code',
-                        uri: 'View Record'
+                        id: 'ID',
+                        title: 'Title',
+                        author_name: 'Author Name',
+                        actions: 'Actions'
                     },
-                    sortable: ['name', 'code'],
-                    filterable: ['name', 'code'],
+                    sortable: ['title', 'author_name'],
+                    filterable: ['title', 'author_name'],
                     sortIcon: {base: 'fa', up: 'fa-sort-asc', down: 'fa-sort-desc', is: 'fa-sort'},
                     pagination: {
                         chunk: 5,
@@ -60,6 +62,14 @@
                 theme: 'bootstrap4',
                 template: 'default'
             }
+        },
+        mounted() {
+            axios
+                .get('http://wny2.com/api/book')
+                .then(response => (
+                    this.data = response.data.data
+                ))
+                .catch(error => console.log(error));
         }
     };
 </script>
@@ -116,4 +126,5 @@
       content: "-";
     }
   }
+
 </style>

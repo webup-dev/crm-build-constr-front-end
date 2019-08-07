@@ -7,6 +7,14 @@ const DefaultContainer = () => import('@/containers/DefaultContainer')
 // Views
 const Dashboard = () => import('@/views/Dashboard')
 
+// Views - Books
+const BooksStatic = () => import('@/views/wny/books/index/BooksStatic')
+const BooksAxios = () => import('@/views/wny/books/index/BooksAxios')
+const BooksFinal = () => import('@/views/wny/books/index/BooksFinal')
+
+// Views - WNY
+const SignIn = () => import('@/views/wny/auth/Login')
+
 const Colors = () => import('@/views/theme/Colors')
 const Typography = () => import('@/views/theme/Typography')
 
@@ -101,6 +109,33 @@ export default new Router({
           path: 'dashboard',
           name: 'Dashboard',
           component: Dashboard
+        },
+        {
+          path: 'demo',
+          redirect: '/demo/books',
+          name: 'Book',
+          component: {
+            render(c) {
+              return c('router-view')
+            }
+          },
+          children: [
+            {
+              path: 'books-static',
+              name: 'BookStatic',
+              component: BooksStatic
+            },
+            {
+              path: 'books-axios',
+              name: 'BookAxios',
+              component: BooksAxios
+            },
+            {
+              path: 'books-final',
+              name: 'BookFinal',
+              component: BooksFinal
+            }
+          ]
         },
         {
           path: 'theme',
@@ -489,6 +524,36 @@ export default new Router({
           path: 'login',
           name: 'Login',
           component: Login
+        },
+        {
+          path: 'register',
+          name: 'Register',
+          component: Register
+        }
+      ]
+    },
+    {
+      path: '/auth',
+      redirect: '/auth/404',
+      name: 'Auth',
+      component: {
+        render (c) { return c('router-view') }
+      },
+      children: [
+        // {
+        //   path: '404',
+        //   name: 'Page404',
+        //   component: Page404
+        // },
+        // {
+        //   path: '500',
+        //   name: 'Page500',
+        //   component: Page500
+        // },
+        {
+          path: 'sign-in',
+          name: 'SignIn',
+          component: SignIn
         },
         {
           path: 'register',
