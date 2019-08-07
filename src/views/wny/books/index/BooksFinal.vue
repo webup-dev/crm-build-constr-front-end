@@ -62,7 +62,7 @@
             }
         },
         mounted() {
-            this.$http.get('/book')
+            this.$http.get('http://codeci.pp.ua/api/book')
                 .then(response => (
                     this.data = response.data.data
                 ))
