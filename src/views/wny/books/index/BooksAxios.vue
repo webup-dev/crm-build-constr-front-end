@@ -28,8 +28,9 @@
     import Vue from 'vue'
     import {ClientTable, Event} from 'vue-tables-2'
     import axios from 'axios'
-    import sampleData from './_data'
+    // import sampleData from './_data'
 
+    const API_URL = process.env.VUE_APP_API_URL;
     Vue.use(ClientTable)
 
     export default {
@@ -65,7 +66,7 @@
         },
         mounted() {
             axios
-                .get('http://codeci.pp.ua/api/book')
+                .get(API_URL + '/book')
                 .then(response => (
                     this.data = response.data.data
                 ))

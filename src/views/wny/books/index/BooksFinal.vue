@@ -3,7 +3,7 @@
     <b-card>
       <b-card-header>
         <i class="icon-menu mr-1"></i>Book Index
-        <a href="https://coreui.io/pro/vue/" class="badge badge-danger">Demo Module Axios</a>
+        <a href="https://coreui.io/pro/vue/" class="badge badge-danger">Demo Module Final</a>
         <div class="card-header-actions">
           <a href="https://github.com/vadis2/helper/blob/master/vuejs/admin-template/coreUI/components/05-table-final.md" rel="noopener noreferrer" target="_blank"
              className="card-header-action">
@@ -28,6 +28,7 @@
     import Vue from 'vue'
     import {ClientTable, Event} from 'vue-tables-2'
 
+    const API_URL = process.env.VUE_APP_API_URL;
     Vue.use(ClientTable)
 
     export default {
@@ -62,7 +63,7 @@
             }
         },
         mounted() {
-            this.$http.get('http://codeci.pp.ua/api/book')
+            this.$http.get(API_URL + '/book')
                 .then(response => (
                     this.data = response.data.data
                 ))
