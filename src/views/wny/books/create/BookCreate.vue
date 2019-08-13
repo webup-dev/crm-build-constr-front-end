@@ -80,7 +80,7 @@
                 variant="primary">
                 <i class="fa fa-dot-circle-o"></i> Submit
               </b-button>
-              <b-button type="reset" size="sm" variant="danger"><i class="fa fa-ban"></i> Reset</b-button>
+              <b-button type="reset" size="sm" variant="danger" href="#/demo/books-final"><i class="fa fa-ban"></i> Reset</b-button>
             </div>
           </b-form>
         </b-card>
