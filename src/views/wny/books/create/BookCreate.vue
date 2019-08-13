@@ -16,6 +16,9 @@
                 <li v-for="error in errors">{{ error }}</li>
               </ul>
             </div>
+            <div class="alert alert-danger" v-if="error">
+              {{ error }}
+            </div>
             <b-form-group
               description="Enter, please Book Title."
               label="Title"
@@ -57,25 +60,26 @@
                 placeholder="XXX">
               </b-form-input>
             </b-form-group>
-<!--            <b-form-group-->
-<!--              label="Creator"-->
-<!--              label-for="userId"-->
-<!--              :label-cols="3"-->
-<!--            >-->
-<!--              <b-form-input-->
-<!--                plaintext id="userId"-->
-<!--                v-model="userId"-->
-<!--                type="text"-->
-<!--                value="Username">-->
+            <!--            <b-form-group-->
+            <!--              label="Creator"-->
+            <!--              label-for="userId"-->
+            <!--              :label-cols="3"-->
+            <!--            >-->
+            <!--              <b-form-input-->
+            <!--                plaintext id="userId"-->
+            <!--                v-model="userId"-->
+            <!--                type="text"-->
+            <!--                value="Username">-->
 
-<!--              </b-form-input>-->
-<!--            </b-form-group>-->
+            <!--              </b-form-input>-->
+            <!--            </b-form-group>-->
             <div slot="footer">
               <b-button
                 type="submit"
                 size="sm"
                 variant="primary">
-                <i class="fa fa-dot-circle-o"></i> Submit</b-button>
+                <i class="fa fa-dot-circle-o"></i> Submit
+              </b-button>
               <b-button type="reset" size="sm" variant="danger"><i class="fa fa-ban"></i> Reset</b-button>
             </div>
           </b-form>
@@ -96,7 +100,8 @@
                 title: '',
                 authorName: '',
                 pagesCount: 0,
-                errors: []
+                errors: [],
+                error: false
             }
         },
         methods: {
@@ -143,12 +148,14 @@
 
             bookCreatingSuccessful(req) {
                 this.errors = false;
+                this.error = false;
 
                 this.$router.replace(this.$route.query.redirect || '/demo/books-final')
             },
 
             bookCreatingFailed(req) {
-                this.errors = 'Book Creating failed! ' + req;
+                this.errors = false;
+                this.error = 'Book Creating failed! ' + req;
                 console.log(req);
             }
         }
