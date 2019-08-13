@@ -34,6 +34,11 @@ export default {
       icon: 'icon-book-open'
     },
     {
+      name: 'Create New Book',
+      url: '/demo/create',
+      icon: 'icon-pencil'
+    },
+    {
       title: true,
       name: 'Theme',
       class: '',

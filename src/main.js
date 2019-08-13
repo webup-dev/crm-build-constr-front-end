@@ -14,6 +14,12 @@ import axios from './backend/vue-axios'
 
 Vue.use(BootstrapVue)
 
+const token = localStorage.token;
+if (token) {
+  Vue.prototype.$http.defaults.headers.common['Authorization'] = 'Bearer ' + token
+  Vue.prototype.$http.defaults.headers.common['Accept'] = 'application/json'
+}
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

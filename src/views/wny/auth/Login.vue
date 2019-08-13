@@ -67,8 +67,8 @@
                 this.$http.post('/auth/login', {email: this.email, password: this.password})
                     .then(request => this.loginSuccessful(request))
                     .catch(() => this.loginFailed());
-                console.log(this.email);
-                console.log(this.password)
+                // console.log(this.email);
+                // console.log(this.password)
             },
 
             loginSuccessful (req) {
@@ -80,7 +80,7 @@
                 localStorage.token = req.data.token
                 this.error = false
 
-                this.$router.replace(this.$route.query.redirect || '/demo/books-axios')
+                this.$router.replace(this.$route.query.redirect || '/demo/books-final')
             },
 
             loginFailed (req) {

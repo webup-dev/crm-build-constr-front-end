@@ -11,6 +11,7 @@ const Dashboard = () => import('@/views/Dashboard')
 const BooksStatic = () => import('@/views/wny/books/index/BooksStatic')
 const BooksAxios = () => import('@/views/wny/books/index/BooksAxios')
 const BooksFinal = () => import('@/views/wny/books/index/BooksFinal')
+const BookCreate = () => import('@/views/wny/books/create/BookCreate')
 
 // Views - WNY
 const SignIn = () => import('@/views/wny/auth/Login')
@@ -134,6 +135,11 @@ export default new Router({
               path: 'books-final',
               name: 'BookFinal',
               component: BooksFinal
+            },
+            {
+              path: 'create',
+              name: 'BookCreate',
+              component: BookCreate
             }
           ]
         },

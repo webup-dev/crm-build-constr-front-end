@@ -3,10 +3,12 @@
     <b-card>
       <b-card-header>
         <i class="icon-menu mr-1"></i>Book Index
-        <a href="https://coreui.io/pro/vue/" class="badge badge-danger">Demo Module Final</a>
+        <a href="#" class="badge badge-danger">Demo Module Final</a>
+        <a href="/#/demo/create" class="badge badge-warning" style="margin-left: 20px">Create Book</a>
+
         <div class="card-header-actions">
           <a href="https://github.com/vadis2/helper/blob/master/vuejs/admin-template/coreUI/components/05-table-final.md" rel="noopener noreferrer" target="_blank"
-             className="card-header-action">
+             className="card-header-action" class="btn btn-ghost-default">
             <small className="text-muted">docs</small>
           </a>
         </div>
