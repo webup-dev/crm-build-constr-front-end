@@ -12,6 +12,8 @@ const BooksStatic = () => import('@/views/wny/books/index/BooksStatic')
 const BooksAxios = () => import('@/views/wny/books/index/BooksAxios')
 const BooksFinal = () => import('@/views/wny/books/index/BooksFinal')
 const BookCreate = () => import('@/views/wny/books/create/BookCreate')
+const BookShowStatic = () => import('@/views/wny/books/show/BookShowStatic')
+const BookShowFinal = () => import('@/views/wny/books/show/BookShowFinal')
 
 // Views - WNY
 const SignIn = () => import('@/views/wny/auth/Login')
@@ -98,7 +100,7 @@ Vue.use(Router)
 export default new Router({
   mode: 'hash', // https://router.vuejs.org/api/#mode
   linkActiveClass: 'open active',
-  scrollBehavior: () => ({ y: 0 }),
+  scrollBehavior: () => ({y: 0}),
   routes: [
     {
       path: '/',
@@ -140,6 +142,14 @@ export default new Router({
               path: 'create',
               name: 'BookCreate',
               component: BookCreate
+            },
+            {
+              path: 'books/:id/static',
+              component: BookShowStatic
+            },
+            {
+              path: 'books/:id',
+              component: BookShowFinal
             }
           ]
         },
@@ -148,7 +158,9 @@ export default new Router({
           redirect: '/theme/colors',
           name: 'Theme',
           component: {
-            render (c) { return c('router-view') }
+            render(c) {
+              return c('router-view')
+            }
           },
           children: [
             {
@@ -175,9 +187,11 @@ export default new Router({
         },
         {
           path: 'users',
-          meta: { label: 'Users'},
+          meta: {label: 'Users'},
           component: {
-            render (c) { return c('router-view') }
+            render(c) {
+              return c('router-view')
+            }
           },
           children: [
             {
@@ -186,7 +200,7 @@ export default new Router({
             },
             {
               path: ':id',
-              meta: { label: 'User Details'},
+              meta: {label: 'User Details'},
               name: 'User',
               component: User,
             },
@@ -197,7 +211,9 @@ export default new Router({
           redirect: '/base/cards',
           name: 'Base',
           component: {
-            render (c) { return c('router-view') }
+            render(c) {
+              return c('router-view')
+            }
           },
           children: [
             {
@@ -277,7 +293,9 @@ export default new Router({
           redirect: '/buttons/standard-buttons',
           name: 'Buttons',
           component: {
-            render (c) { return c('router-view') }
+            render(c) {
+              return c('router-view')
+            }
           },
           children: [
             {
@@ -307,7 +325,9 @@ export default new Router({
           redirect: '/editors/text-editors',
           name: 'Editors',
           component: {
-            render (c) { return c('router-view') }
+            render(c) {
+              return c('router-view')
+            }
           },
           children: [
             {
@@ -327,7 +347,9 @@ export default new Router({
           redirect: '/forms/basic-forms',
           name: 'Forms',
           component: {
-            render (c) { return c('router-view') }
+            render(c) {
+              return c('router-view')
+            }
           },
           children: [
             {
@@ -357,7 +379,9 @@ export default new Router({
           redirect: '/icons/font-awesome',
           name: 'Icons',
           component: {
-            render (c) { return c('router-view') }
+            render(c) {
+              return c('router-view')
+            }
           },
           children: [
             {
@@ -387,7 +411,9 @@ export default new Router({
           redirect: '/notifications/alerts',
           name: 'Notifications',
           component: {
-            render (c) { return c('router-view') }
+            render(c) {
+              return c('router-view')
+            }
           },
           children: [
             {
@@ -417,7 +443,9 @@ export default new Router({
           redirect: '/plugins/draggable',
           name: 'Plugins',
           component: {
-            render (c) { return c('router-view') }
+            render(c) {
+              return c('router-view')
+            }
           },
           children: [
             {
@@ -442,7 +470,9 @@ export default new Router({
           redirect: '/tables/tables',
           name: 'Tables',
           component: {
-            render (c) { return c('router-view') }
+            render(c) {
+              return c('router-view')
+            }
           },
           children: [
             {
@@ -461,7 +491,9 @@ export default new Router({
           path: 'apps',
           name: 'Apps',
           component: {
-            render (c) { return c('router-view') }
+            render(c) {
+              return c('router-view')
+            }
           },
           children: [
             {
@@ -469,7 +501,9 @@ export default new Router({
               redirect: '/apps/invoicing/invoice',
               name: 'Invoicing',
               component: {
-                render (c) { return c('router-view') }
+                render(c) {
+                  return c('router-view')
+                }
               },
               children: [
                 {
@@ -484,7 +518,9 @@ export default new Router({
               redirect: '/apps/email/inbox',
               name: 'Email',
               component: {
-                render (c) { return c('router-view') }
+                render(c) {
+                  return c('router-view')
+                }
               },
               children: [
                 {
@@ -513,7 +549,9 @@ export default new Router({
       redirect: '/pages/404',
       name: 'Pages',
       component: {
-        render (c) { return c('router-view') }
+        render(c) {
+          return c('router-view')
+        }
       },
       children: [
         {
@@ -543,7 +581,9 @@ export default new Router({
       redirect: '/auth/404',
       name: 'Auth',
       component: {
-        render (c) { return c('router-view') }
+        render(c) {
+          return c('router-view')
+        }
       },
       children: [
         // {

@@ -15,7 +15,7 @@
       </b-card-header>
       <b-card-body>
         <v-client-table :columns="columns" :data="data" :options="options" :theme="theme" id="dataTable">
-          <!--          <a slot="uri" slot-scope="props" target="_blank" :href="props.row.uri" class="icon-eye"></a>-->
+                    <a slot="actions" slot-scope="props" target="_blank" :href="'#/demo/books/' + props.row.id" class="icon-eye"></a>
 
           <!--          <div slot="child_row" slot-scope="props">-->
           <!--            The link to {{props.row.name}} is <a :href="props.row.uri">{{props.row.uri}}</a>-->
