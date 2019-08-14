@@ -4,7 +4,7 @@
       <b-col md="6">
         <b-card>
           <div slot="header">
-            <strong>Book</strong>
+            <strong>Edit Book</strong>
           </div>
           <b-form
             @submit.prevent=checkForm
@@ -37,7 +37,6 @@
               :label-cols="3"
             >
               <b-form-input
-                plaintext
                 id="title"
                 v-model="title"
                 type="text"
@@ -50,7 +49,6 @@
               :label-cols="3"
             >
               <b-form-input
-                plaintext
                 id="author_name"
                 v-model="author_name"
                 type="text"
@@ -64,7 +62,6 @@
               :label-cols="3"
             >
               <b-form-input
-                plaintext
                 id="pages_count"
                 v-model.number="pages_count"
                 type="number"
@@ -89,16 +86,10 @@
               <b-button
                 type="submit"
                 size="sm"
-                variant="primary"
-                v-bind:href="'#/demo/books/' + id + '/edit'">
-                <i class="fa fa-dot-circle-o"></i> Edit
+                variant="primary">
+                <i class="fa fa-dot-circle-o"></i> Submit
               </b-button>
-              <b-button
-                type="reset"
-                size="sm"
-                variant="danger"
-                href="#/demo/books-final">
-                <i class="fa fa-ban"></i>
+              <b-button type="reset" size="sm" variant="danger" href="#/demo/books-final"><i class="fa fa-ban"></i>
                 Reset
               </b-button>
             </div>
@@ -111,11 +102,9 @@
 
 <script>
     const API_URL = process.env.VUE_APP_API_URL;
-    // console.log(localStorage.token);
-    // console.log($route.params.id);
 
     export default {
-        name: 'BookShowFinal',
+        name: 'BookEdit',
         data() {
             return {
                 id: this.$route.params.id,
@@ -129,13 +118,67 @@
                 errors: []
             }
         },
+        methods: {
+            checkForm: function (e) {
+                // validation
+                this.errors = [];
+
+                if (!this.title) {
+                    this.errors.push('Title is required.');
+                }
+
+                if (!this.author_name) {
+                    this.errors.push('Author Name is required.');
+                }
+
+                if (!this.pages_count) {
+                    this.errors.push('Pages Count is required.');
+                }
+
+                if (!this.errors.length) {
+                    this.update();
+                    return true;
+                }
+
+                e.preventDefault();
+            },
+            update() {
+                let headers = {
+                    headers: {
+                        'Accept': 'application/json',
+                        'Authorization': 'Bearer ' + localStorage.token
+                    }
+                };
+                let dataPost = {
+                    title: this.title,
+                    author_name: this.author_name,
+                    pages_count: this.pages_count
+                };
+                this.$http.put('/book/' + this.$route.params.id, dataPost, headers)
+                    .then(request => this.bookUpdatingSuccessful(request))
+                    .catch((request) => this.bookUpdatingFailed(request));
+            },
+
+            bookUpdatingSuccessful(req) {
+                this.errors = false;
+                this.error = false;
+
+                this.$router.replace(this.$route.query.redirect || '/demo/books/' + this.$route.params.id )
+            },
+
+            bookUpdatingFailed(req) {
+                this.errors = false;
+                this.error = 'Book Updating failed! ' + req;
+                console.log(req);
+            }
+        },
         mounted() {
             this.$http.get(API_URL + '/book/' + this.$route.params.id)
                 .then(response => (
                     this.title = response.data.data.title,
-                        this.author_name = response.data.data.author_name,
-                        this.pages_count = response.data.data.pages_count,
-                        this.user_id = response.data.data.user_name
+                    this.author_name = response.data.data.author_name,
+                    this.pages_count = response.data.data.pages_count,
+                    this.user_id = response.data.data.user_name
                 ))
         }
     }

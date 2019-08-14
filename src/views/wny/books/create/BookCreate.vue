@@ -91,7 +91,6 @@
 
 <script>
     const API_URL = process.env.VUE_APP_API_URL;
-    console.log(localStorage.token);
 
     export default {
         name: 'BookCreate',

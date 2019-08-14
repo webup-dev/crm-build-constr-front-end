@@ -15,7 +15,8 @@
       </b-card-header>
       <b-card-body>
         <v-client-table :columns="columns" :data="data" :options="options" :theme="theme" id="dataTable">
-                    <a slot="actions" slot-scope="props" target="_blank" :href="'#/demo/books/' + props.row.id" class="icon-eye"></a>
+                    <p slot="actions" slot-scope="props" ><a target="_blank" :href="'#/demo/books/' + props.row.id" class="icon-eye action-icon"></a>
+                    <a target="_blank" :href="'#/demo/books/' + props.row.id + '/edit'" class="icon-pencil"></a></p>
 
           <!--          <div slot="child_row" slot-scope="props">-->
           <!--            The link to {{props.row.name}} is <a :href="props.row.uri">{{props.row.uri}}</a>-->
@@ -93,6 +94,10 @@
 
     .VueTables__search-field {
       display: flex;
+    }
+
+    .action-icon {
+      margin-right: 10px;
     }
 
     .VueTables__search-field input {

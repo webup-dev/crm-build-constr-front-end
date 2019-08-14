@@ -14,10 +14,7 @@ const BooksFinal = () => import('@/views/wny/books/index/BooksFinal')
 const BookCreate = () => import('@/views/wny/books/create/BookCreate')
 const BookShowStatic = () => import('@/views/wny/books/show/BookShowStatic')
 const BookShowFinal = () => import('@/views/wny/books/show/BookShowFinal')
-// const BookShowFinal = {
-//   props: ['id'],
-//   view: import('@/views/wny/books/show/BookShowFinal')
-// };
+const BookEdit = () => import('@/views/wny/books/edit/BookEdit')
 
 // Views - WNY
 const SignIn = () => import('@/views/wny/auth/Login')
@@ -154,6 +151,10 @@ export default new Router({
             {
               path: 'books/:id',
               component: BookShowFinal
+            }            ,
+            {
+              path: 'books/:id/edit',
+              component: BookEdit
             }
           ]
         },
