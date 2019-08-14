@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.3] - 2019-08-14
+### Added
+- Demo module Books. Show book with specific ID (for authenticated user).
+
 ## [0.2] - 2019-08-12
 ### Added
 - .env.
