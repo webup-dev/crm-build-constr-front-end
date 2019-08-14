@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.4] - 2019-08-14
+### Added
+- Demo module Books. Edit book with specific ID (for authenticated user).
+
 ## [0.3] - 2019-08-14
 ### Added
 - Demo module Books. Show book with specific ID (for authenticated user).
