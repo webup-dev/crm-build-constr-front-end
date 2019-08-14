@@ -7,16 +7,21 @@
         <a href="/#/demo/create" class="badge badge-warning" style="margin-left: 20px">Create Book</a>
 
         <div class="card-header-actions">
-          <a href="https://github.com/vadis2/helper/blob/master/vuejs/admin-template/coreUI/components/05-table-final.md" rel="noopener noreferrer" target="_blank"
-             className="card-header-action" class="btn btn-ghost-default">
+          <a
+            href="https://github.com/vadis2/helper/blob/master/vuejs/admin-template/coreUI/components/05-table-final.md"
+            rel="noopener noreferrer" target="_blank"
+            className="card-header-action" class="btn btn-ghost-default">
             <small className="text-muted">docs</small>
           </a>
         </div>
       </b-card-header>
       <b-card-body>
         <v-client-table :columns="columns" :data="data" :options="options" :theme="theme" id="dataTable">
-                    <p slot="actions" slot-scope="props" ><a target="_blank" :href="'#/demo/books/' + props.row.id" class="icon-eye action-icon"></a>
-                    <a target="_blank" :href="'#/demo/books/' + props.row.id + '/edit'" class="icon-pencil"></a></p>
+          <p slot="actions" slot-scope="props">
+            <a target="_blank" :href="'#/demo/books/' + props.row.id" class="icon-eye action-icon"></a>
+            <a target="_blank" :href="'#/demo/books/' + props.row.id + '/edit'" class="icon-pencil action-icon"></a>
+            <a class="icon-trash" v-on:click="deleteBook(props.row.id)"></a>
+          </p>
 
           <!--          <div slot="child_row" slot-scope="props">-->
           <!--            The link to {{props.row.name}} is <a :href="props.row.uri">{{props.row.uri}}</a>-->
@@ -65,14 +70,40 @@
                 template: 'default'
             }
         },
-        mounted() {
-            this.$http.get(API_URL + '/book')
-                .then(response => (
-                    this.data = response.data.data
-                ))
-                .catch(error => console.log(error));
-            console.log(response);
+        methods: {
+            deleteBook: function (bookId) {
+                let headers = {
+                    headers: {
+                        'Accept': 'application/json',
+                        'Authorization': 'Bearer ' + localStorage.token
+                    }
+                };
 
+                this.$http.delete(API_URL + '/book/' + bookId, headers)
+                    .then(request => this.bookDeletingSuccessful(request))
+                    .catch((request) => this.bookDeletingFailed(request));
+            },
+            bookDeletingSuccessful(req) {
+                this.errors = false;
+                this.error = false;
+
+                this.downloadData();
+            },
+            bookDeletingFailed(req) {
+                this.errors = false;
+                this.error = 'Book Deleting failed! ' + req;
+                console.log(req);
+            },
+            downloadData() {
+                this.$http.get(API_URL + '/book')
+                    .then(response => (
+                        this.data = response.data.data
+                    ))
+                    .catch(error => console.log(error));
+            }
+        },
+        mounted() {
+            this.downloadData();
         }
     };
 </script>
