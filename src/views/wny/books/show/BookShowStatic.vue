@@ -20,6 +20,19 @@
               {{ error }}
             </div>
             <b-form-group
+              label="Book ID"
+              label-for="id"
+              :label-cols="3"
+            >
+              <b-form-input
+                plaintext
+                id="id"
+                v-model.number="id"
+                type="number">
+
+              </b-form-input>
+            </b-form-group>
+            <b-form-group
               label="Title"
               label-for="title"
               :label-cols="3"
@@ -100,7 +113,7 @@
         name: 'BookShowStatic',
         data() {
             return {
-                id: 1,
+                id: this.$route.params.id,
                 title: "Book Name 1",
                 authorName: "Tom Richards",
                 pagesCount: 123,
@@ -109,61 +122,6 @@
                 updated_at: "2015-04-24T01:46:50.459593",
                 error: false,
                 errors: []
-            }
-        },
-        methods: {
-            checkForm: function (e) {
-                // validation
-                this.errors = [];
-
-                if (!this.title) {
-                    this.errors.push('Title is required.');
-                }
-
-                if (!this.authorName) {
-                    this.errors.push('Author Name is required.');
-                }
-
-                if (!this.pagesCount) {
-                    this.errors.push('Pages Count is required.');
-                }
-
-                if (!this.errors.length) {
-                    this.create();
-                    return true;
-                }
-
-                e.preventDefault();
-            },
-            create() {
-                let headers = {
-                    headers: {
-                        'Accept': 'application/json',
-                        'Authorization': 'Bearer ' + localStorage.token
-                    }
-                };
-                console.log(headers);
-                let dataPost = {
-                    title: this.title,
-                    author_name: this.authorName,
-                    pages_count: this.pagesCount
-                };
-                this.$http.post('/book', dataPost, headers)
-                    .then(request => this.bookCreatingSuccessful(request))
-                    .catch((request) => this.bookCreatingFailed(request));
-            },
-
-            bookCreatingSuccessful(req) {
-                this.errors = false;
-                this.error = false;
-
-                this.$router.replace(this.$route.query.redirect || '/demo/books-final')
-            },
-
-            bookCreatingFailed(req) {
-                this.errors = false;
-                this.error = 'Book Creating failed! ' + req;
-                console.log(req);
             }
         }
     }

@@ -20,6 +20,18 @@
               {{ error }}
             </div>
             <b-form-group
+              label="Book ID"
+              label-for="id"
+              :label-cols="3"
+            >
+              <b-form-input
+                plaintext
+                id="id"
+                v-model.number="id"
+                type="number">
+              </b-form-input>
+            </b-form-group>
+            <b-form-group
               label="Title"
               label-for="title"
               :label-cols="3"
@@ -30,18 +42,18 @@
                 v-model="title"
                 type="text"
                 autocomplete="title">
-
+                {{title}}
               </b-form-input>
             </b-form-group>
             <b-form-group
               label="Author"
-              label-for="authorName"
+              label-for="author_name"
               :label-cols="3"
             >
               <b-form-input
                 plaintext
-                id="authorName"
-                v-model="authorName"
+                id="author_name"
+                v-model="author_name"
                 type="text"
                 placeholder="Author Name">
 
@@ -49,26 +61,26 @@
             </b-form-group>
             <b-form-group
               label="Pages Count"
-              label-for="pagesCount"
+              label-for="pages_count"
               :label-cols="3"
             >
               <b-form-input
                 plaintext
-                id="pagesCount"
-                v-model.number="pagesCount"
+                id="pages_count"
+                v-model.number="pages_count"
                 type="number"
                 placeholder="XXX">
               </b-form-input>
             </b-form-group>
             <b-form-group
               label="Creator"
-              label-for="userId"
+              label-for="user_id"
               :label-cols="3"
             >
               <b-form-input
                 plaintext
-                id="userId"
-                v-model="userId"
+                id="user_id"
+                v-model="user_id"
                 type="text"
                 value="Username">
 
@@ -93,78 +105,35 @@
 </template>
 
 <script>
+    import Vue from 'vue'
+
     const API_URL = process.env.VUE_APP_API_URL;
     console.log(localStorage.token);
+    // console.log($route.params.id);
 
     export default {
-        name: 'BookShowStatic',
+        name: 'BookShowFinal',
         data() {
             return {
-                id: 1,
-                title: "Book Name 1",
-                authorName: "Tom Richards",
-                pagesCount: 123,
-                userId: 1,
-                created_at: "2015-04-24T01:46:50.459583",
-                updated_at: "2015-04-24T01:46:50.459593",
+                id: this.$route.params.id,
+                title: '',
+                author_name: '',
+                pages_count: 0,
+                user_id: 0,
+                created_at: '',
+                updated_at: '',
                 error: false,
                 errors: []
             }
         },
-        methods: {
-            checkForm: function (e) {
-                // validation
-                this.errors = [];
-
-                if (!this.title) {
-                    this.errors.push('Title is required.');
-                }
-
-                if (!this.authorName) {
-                    this.errors.push('Author Name is required.');
-                }
-
-                if (!this.pagesCount) {
-                    this.errors.push('Pages Count is required.');
-                }
-
-                if (!this.errors.length) {
-                    this.create();
-                    return true;
-                }
-
-                e.preventDefault();
-            },
-            create() {
-                let headers = {
-                    headers: {
-                        'Accept': 'application/json',
-                        'Authorization': 'Bearer ' + localStorage.token
-                    }
-                };
-                console.log(headers);
-                let dataPost = {
-                    title: this.title,
-                    author_name: this.authorName,
-                    pages_count: this.pagesCount
-                };
-                this.$http.post('/book', dataPost, headers)
-                    .then(request => this.bookCreatingSuccessful(request))
-                    .catch((request) => this.bookCreatingFailed(request));
-            },
-
-            bookCreatingSuccessful(req) {
-                this.errors = false;
-                this.error = false;
-
-                this.$router.replace(this.$route.query.redirect || '/demo/books-final')
-            },
-
-            bookCreatingFailed(req) {
-                this.errors = false;
-                this.error = 'Book Creating failed! ' + req;
-                console.log(req);
-            }
+        mounted() {
+            this.$http.get(API_URL + '/book/' + this.$route.params.id)
+                .then(response => (
+                    this.title = response.data.data.title,
+                    this.author_name = response.data.data.author_name,
+                    this.pages_count = response.data.data.pages_count,
+                    this.user_id = response.data.data.user_name
+                ))
         }
     }
 </script>
