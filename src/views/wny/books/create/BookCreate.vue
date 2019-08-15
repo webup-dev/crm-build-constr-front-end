@@ -90,9 +90,6 @@
 </template>
 
 <script>
-    // import Vue from 'vue';
-    // import VueFlashMessage from 'vue-flash-message';
-    // Vue.use(VueFlashMessage);
     const API_URL = process.env.VUE_APP_API_URL;
 
     export default {

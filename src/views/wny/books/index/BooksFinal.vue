@@ -1,9 +1,6 @@
 <template>
   <div className="animated">
     <b-card>
-      <div class="alert alert-success" v-if="success">
-        <b>{{ message }}</b>
-      </div>
       <flash-message></flash-message>
 
       <b-card-header>
@@ -24,8 +21,8 @@
 
         <v-client-table :columns="columns" :data="data" :options="options" :theme="theme" id="dataTable">
           <p slot="actions" slot-scope="props">
-            <a target="_blank" :href="'#/demo/books/' + props.row.id" class="icon-eye action-icon"></a>
-            <a target="_blank" :href="'#/demo/books/' + props.row.id + '/edit'" class="icon-pencil action-icon"></a>
+            <a :href="'#/demo/books/' + props.row.id" class="icon-eye action-icon"></a>
+            <a :href="'#/demo/books/' + props.row.id + '/edit'" class="icon-pencil action-icon"></a>
             <a class="icon-trash" v-on:click="deleteBook(props.row.id)"></a>
           </p>
 
@@ -95,6 +92,7 @@
             bookDeletingSuccessful(req) {
                 this.errors = false;
                 this.error = false;
+                this.flash('The Book is deleted.', 'success');
 
                 this.downloadData();
             },

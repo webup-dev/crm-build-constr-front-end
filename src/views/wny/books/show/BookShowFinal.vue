@@ -10,6 +10,8 @@
             @submit.prevent=checkForm
             novalidate=novalidate
           >
+            <flash-message></flash-message>
+
             <div class="alert alert-danger" v-if="errors.length">
               <b>Correct, please the following error(s):</b>
               <ul>

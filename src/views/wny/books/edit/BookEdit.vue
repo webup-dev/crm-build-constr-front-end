@@ -162,6 +162,7 @@
             bookUpdatingSuccessful(req) {
                 this.errors = false;
                 this.error = false;
+                this.flash('The Book updated.', 'success');
 
                 this.$router.replace(this.$route.query.redirect || '/demo/books/' + this.$route.params.id )
             },
