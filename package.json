@@ -56,6 +56,7 @@
     "vue-axios": "^2.1.4",
     "vue-chartjs": "^3.4.2",
     "vue-codemirror": "^4.0.6",
+    "vue-flash-message": "^0.7.2",
     "vue-grid-layout": "^2.3.4",
     "vue-mq": "^1.0.1",
     "vue-multiselect": "^2.1.6",

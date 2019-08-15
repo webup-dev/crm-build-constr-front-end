@@ -7,12 +7,15 @@ import BootstrapVue from 'bootstrap-vue'
 import App from './App'
 import router from './router/index'
 import axios from './backend/vue-axios'
+import VueFlashMessage from 'vue-flash-message';
+require('vue-flash-message/dist/vue-flash-message.min.css');
 // import VueAxios from 'vue-axios'
 
 // todo
 // cssVars()
 
 Vue.use(BootstrapVue)
+Vue.use(VueFlashMessage)
 
 const token = localStorage.token;
 if (token) {

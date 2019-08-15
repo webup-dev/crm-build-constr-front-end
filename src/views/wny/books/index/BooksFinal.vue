@@ -1,6 +1,11 @@
 <template>
   <div className="animated">
     <b-card>
+      <div class="alert alert-success" v-if="success">
+        <b>{{ message }}</b>
+      </div>
+      <flash-message></flash-message>
+
       <b-card-header>
         <i class="icon-menu mr-1"></i>Book Index
         <a href="#" class="badge badge-danger">Demo Module Final</a>
@@ -16,6 +21,7 @@
         </div>
       </b-card-header>
       <b-card-body>
+
         <v-client-table :columns="columns" :data="data" :options="options" :theme="theme" id="dataTable">
           <p slot="actions" slot-scope="props">
             <a target="_blank" :href="'#/demo/books/' + props.row.id" class="icon-eye action-icon"></a>
@@ -49,6 +55,9 @@
             return {
                 columns: ['id', 'title', 'author_name', 'actions'],
                 data: [],
+                message: '',
+                success: false,
+                res: [],
                 options: {
                     headings: {
                         id: 'ID',
@@ -95,10 +104,15 @@
                 console.log(req);
             },
             downloadData() {
+                let dataAll;
                 this.$http.get(API_URL + '/book')
-                    .then(response => (
-                        this.data = response.data.data
-                    ))
+                    .then(response => {
+                        this.data = response.data.data;
+                        this.message = response.data.message;
+                        this.success = response.data.success;
+                        console.log(this.message);
+                        console.log(this.status);
+                    })
                     .catch(error => console.log(error));
             }
         },

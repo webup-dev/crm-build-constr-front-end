@@ -90,6 +90,9 @@
 </template>
 
 <script>
+    // import Vue from 'vue';
+    // import VueFlashMessage from 'vue-flash-message';
+    // Vue.use(VueFlashMessage);
     const API_URL = process.env.VUE_APP_API_URL;
 
     export default {
@@ -148,6 +151,7 @@
             bookCreatingSuccessful(req) {
                 this.errors = false;
                 this.error = false;
+                this.flash('New Book created.', 'success');
 
                 this.$router.replace(this.$route.query.redirect || '/demo/books-final')
             },
