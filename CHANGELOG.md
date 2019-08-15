@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.6] - 2019-08-15
+### Added
+- Flesh-messages are added.
+
 ## [0.5] - 2019-08-15
 ### Added
 - Demo module Books. Delete book with specific ID (for authenticated user).
