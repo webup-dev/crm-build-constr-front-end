@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.7] - 2019-09-03
+### Added
+- Roles are added.
+
 ## [0.6] - 2019-08-15
 ### Added
 - Flesh-messages are added.
