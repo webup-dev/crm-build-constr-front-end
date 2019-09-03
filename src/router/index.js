@@ -17,7 +17,16 @@ const BookShowFinal = () => import('@/views/wny/books/show/BookShowFinal')
 const BookEdit = () => import('@/views/wny/books/edit/BookEdit')
 
 // Views - WNY
-const SignIn = () => import('@/views/wny/auth/Login')
+const SignIn = () => import('@/views/wny/auth/Login');
+
+// Views - Roles
+const RolesStatic = () => import('@/views/wny/roles/index/RolesStatic')
+const RolesAxios = () => import('@/views/wny/roles/index/RolesAxios')
+const RolesFinal = () => import('@/views/wny/roles/index/RolesFinal')
+const RoleCreate = () => import('@/views/wny/roles/create/RoleCreate')
+const RoleShowStatic = () => import('@/views/wny/roles/show/RoleShowStatic')
+const RoleShowFinal = () => import('@/views/wny/roles/show/RoleShowFinal')
+const RoleEdit = () => import('@/views/wny/roles/edit/RoleEdit')
 
 const Colors = () => import('@/views/theme/Colors')
 const Typography = () => import('@/views/theme/Typography')
@@ -155,6 +164,50 @@ export default new Router({
             {
               path: 'books/:id/edit',
               component: BookEdit
+            }
+          ]
+        },
+        {
+          path: 'roles',
+          redirect: '/roles',
+          name: 'Role',
+          component: {
+            render(c) {
+              return c('router-view')
+            }
+          },
+          children: [
+            {
+              path: 'roles-static',
+              name: 'RoleStatic',
+              component: RolesStatic
+            },
+            {
+              path: 'roles-axios',
+              name: 'RoleAxios',
+              component: RolesAxios
+            },
+            {
+              path: 'index',
+              name: 'Roles',
+              component: RolesFinal
+            },
+            {
+              path: 'create',
+              name: 'RoleCreate',
+              component: RoleCreate
+            },
+            {
+              path: ':id/static',
+              component: RoleShowStatic
+            },
+            {
+              path: ':id',
+              component: RoleShowFinal
+            }            ,
+            {
+              path: ':id/edit',
+              component: RoleEdit
             }
           ]
         },

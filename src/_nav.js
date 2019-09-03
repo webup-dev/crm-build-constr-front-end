@@ -40,6 +40,37 @@ export default {
     },
     {
       title: true,
+      name: 'WNY',
+      class: '',
+      wrapper: {
+        element: '',
+        attributes: {}
+      }
+    },
+    {
+      name: 'Roles',
+      url: 'roles',
+      icon: 'fa fa-cog',
+      children: [
+        // {
+        //   name: 'Roles Static',
+        //   url: '/roles/roles-static',
+        //   icon: 'fa fa-cog'
+        // },
+        {
+          name: 'Roles',
+          url: '/roles/index',
+          icon: 'fa fa-cog'
+        },
+        {
+          name: 'Create Role',
+          url: '/roles/create',
+          icon: 'fa fa-cog'
+        }
+      ]
+    },
+    {
+      title: true,
       name: 'Theme',
       class: '',
       wrapper: {
@@ -411,7 +442,7 @@ export default {
         variant: 'secondary',
         text: 'NEW'
       },
-      attributes: { disabled: true },
+      attributes: {disabled: true},
     },
     {
       name: 'Apps',
