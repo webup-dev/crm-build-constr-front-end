@@ -70,6 +70,23 @@ export default {
       ]
     },
     {
+      name: 'User-Roles',
+      url: 'user-roles',
+      icon: 'fa fa-cog',
+      children: [
+        {
+          name: 'User-Roles Static',
+          url: '/user-roles/index-static',
+          icon: 'fa fa-cog'
+        },
+        {
+          name: 'User-Roles',
+          url: '/user-roles/index',
+          icon: 'fa fa-cog'
+        }
+      ]
+    },
+    {
       title: true,
       name: 'Theme',
       class: '',

@@ -39,7 +39,7 @@
         <SidebarMinimizer/>
       </AppSidebar>
       <main class="main">
-        <Breadcrumb :list="list"/>
+<!--        <Breadcrumb :list="list"/>-->
         <div class="container-fluid">
           <router-view></router-view>
         </div>

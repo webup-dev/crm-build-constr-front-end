@@ -4,9 +4,8 @@
       <flash-message></flash-message>
 
       <b-card-header>
-        <i class="icon-menu mr-1"></i>Roles Index
+        <i class="icon-menu mr-1"></i>User Roles Index
         <a href="#" class="badge badge-danger">Module Roles</a>
-        <a href="/#/roles/create" class="badge badge-warning" style="margin-left: 20px">Create Role</a>
 
         <div class="card-header-actions">
           <a
@@ -21,9 +20,13 @@
 
         <v-client-table :columns="columns" :data="data" :options="options" :theme="theme" id="dataTable">
           <p slot="actions" slot-scope="props">
-            <a :href="'#/roles/' + props.row.id" class="icon-eye action-icon"></a>
-            <a :href="'#/roles/' + props.row.id + '/edit'" class="icon-pencil action-icon"></a>
-            <a class="icon-trash" v-on:click="deleteRole(props.row.id)" style="cursor: pointer"></a>
+            <section v-if="props.row.role_ids != ''">
+            <a :href="'#/user-roles/' + props.row.id + '/edit'" class="icon-pencil action-icon"></a>
+            <a class="icon-trash" v-on:click="deleteUserRole(props.row.id)" style="cursor: pointer"></a>
+            </section>
+            <section v-if="props.row.role_ids == ''">
+            <a  :href="'#/user-roles/create/' + props.row.id" class="icon-plus action-icon"></a>
+            </section>
           </p>
 
           <!--          <div slot="child_row" slot-scope="props">-->
@@ -43,27 +46,28 @@
     Vue.use(ClientTable)
 
     export default {
-        name: 'RolesFinal',
+        name: 'UserRolesFinal',
         components: {
             ClientTable,
             Event
         },
         data: function () {
             return {
-                columns: ['id', 'name', 'description', 'actions'],
+                columns: ['id', 'name', 'role_ids', 'role_names', 'actions'],
                 data: [],
                 message: '',
                 success: false,
                 res: [],
                 options: {
                     headings: {
-                        id: 'ID',
-                        name: 'Name',
-                        description: 'Description',
+                        id: 'User ID',
+                        name: 'User Name',
+                        role_ids: 'Role IDs',
+                        role_names: 'Role Names',
                         actions: 'Actions'
                     },
-                    sortable: ['id', 'name'],
-                    filterable: ['id', 'name', 'description'],
+                    sortable: ['id', 'name', 'role_names'],
+                    filterable: ['id', 'name', 'role_ids', 'role_names'],
                     sortIcon: {base: 'fa', up: 'fa-sort-asc', down: 'fa-sort-desc', is: 'fa-sort'},
                     pagination: {
                         chunk: 5,
@@ -77,7 +81,7 @@
             }
         },
         methods: {
-            deleteRole: function (roleId) {
+            deleteUserRole: function (userId) {
                 let headers = {
                     headers: {
                         'Accept': 'application/json',
@@ -85,20 +89,20 @@
                     }
                 };
 
-                this.$http.delete(API_URL + '/roles/' + roleId, headers)
-                    .then(request => this.roleDeletingSuccessful(request))
-                    .catch((request) => this.roleDeletingFailed(request));
+                this.$http.delete(API_URL + '/user-roles/' + userId, headers)
+                    .then(request => this.userRoleDeletingSuccessful(request))
+                    .catch((request) => this.userRoleDeletingFailed(request));
             },
-            roleDeletingSuccessful(req) {
+            userRoleDeletingSuccessful(req) {
                 this.errors = false;
                 this.error = false;
-                this.flash('The Role is deleted.', 'success');
+                this.flash('The User Roles are deleted.', 'success');
 
                 this.downloadData();
             },
-            roleDeletingFailed(req) {
+            userRoleDeletingFailed(req) {
                 this.errors = false;
-                this.error = 'Role Deleting failed! ' + req;
+                this.error = 'The User Roles Deleting Failed! ' + req;
                 console.log(req);
             },
             downloadData() {
@@ -109,13 +113,13 @@
                     }
                 };
 
-                this.$http.get(API_URL + '/roles', headers)
+                this.$http.get(API_URL + '/user-roles/full', headers)
                     .then(response => {
                         this.data = response.data.data;
                         this.message = response.data.message;
                         this.success = response.data.success;
                         console.log(this.message);
-                        console.log(this.status);
+                        console.log(this.success);
                         console.log(this.data);
                     })
                     .catch(error => console.log(error));

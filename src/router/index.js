@@ -28,6 +28,13 @@ const RoleShowStatic = () => import('@/views/wny/roles/show/RoleShowStatic')
 const RoleShowFinal = () => import('@/views/wny/roles/show/RoleShowFinal')
 const RoleEdit = () => import('@/views/wny/roles/edit/RoleEdit')
 
+// Views - User-Roles
+const UserRolesStatic = () => import('@/views/wny/user-roles/index/UserRolesStatic')
+const UserRoles = () => import('@/views/wny/user-roles/index/UserRoles')
+const UserRoleCreate = () => import('@/views/wny/user-roles/create/UserRoleCreate')
+const UserRoleEdit = () => import('@/views/wny/user-roles/edit/UserRoleEdit')
+const UserRoleEditStatic = () => import('@/views/wny/user-roles/edit/UserRoleEditStatic')
+
 const Colors = () => import('@/views/theme/Colors')
 const Typography = () => import('@/views/theme/Typography')
 
@@ -208,6 +215,41 @@ export default new Router({
             {
               path: ':id/edit',
               component: RoleEdit
+            }
+          ]
+        },
+        {
+          path: 'user-roles',
+          redirect: '/user-roles',
+          name: 'User-Roles',
+          component: {
+            render(c) {
+              return c('router-view')
+            }
+          },
+          children: [
+            {
+              path: 'index-static',
+              name: 'UserRoleStatic',
+              component: UserRolesStatic
+            },
+            {
+              path: 'index',
+              name: 'UserRoles',
+              component: UserRoles
+            },
+            {
+              path: 'create/:id',
+              name: 'UserRoleCreate',
+              component: UserRoleCreate
+            },
+            {
+              path: ':id/edit',
+              component: UserRoleEdit
+            },
+            {
+              path: ':id/edit/static',
+              component: UserRoleEditStatic
             }
           ]
         },
