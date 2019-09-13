@@ -156,12 +156,12 @@
                     this.options = response.data.data
                 ));
 
+
             // get selected user-roles from DB
             this.$http.get(API_URL + '/user-roles/' + this.$route.params.id)
                 .then(response => (
                     this.multi = response.data.data
                 ));
-
         }
     }
 </script>
