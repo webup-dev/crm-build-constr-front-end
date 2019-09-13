@@ -86,7 +86,7 @@
             return {
                 user_id: this.$route.params.id,
                 user_name: '',
-                multi: [{id: 1, name: 'superadmin'},{id: 2, name: 'admin'}],
+                multi: [{role_id: 1, name: 'superadmin'},{role_id: 2, name: 'admin'}],
                 options: [],
                 errors: [],
                 error: false
@@ -146,7 +146,7 @@
         mounted() {
             this.$http.get(API_URL + '/user-roles/' + this.$route.params.id)
                 .then(response => (
-                    this.user_id = response.data.data.name
+                    this.multi = response.data.data
                 ));
             this.$http.get(API_URL + '/profiles/' + this.$route.params.id)
                 .then(response => (
