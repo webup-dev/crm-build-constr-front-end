@@ -82,6 +82,23 @@ export default {
       ]
     },
     {
+      name: 'Controllers',
+      url: 'controllers',
+      icon: 'fa fa-cog',
+      children: [
+        {
+          name: 'Controllers Static',
+          url: '/controllers/controllers-static',
+          icon: 'fa fa-cog'
+        },
+        {
+          name: 'Controllers',
+          url: '/controllers/index',
+          icon: 'fa fa-cog'
+        }
+      ]
+    },
+    {
       name: 'User-Roles',
       url: 'user-roles',
       icon: 'fa fa-cog',

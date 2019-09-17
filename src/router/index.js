@@ -28,6 +28,12 @@ const RoleShowStatic = () => import('@/views/wny/roles/show/RoleShowStatic')
 const RoleShowFinal = () => import('@/views/wny/roles/show/RoleShowFinal')
 const RoleEdit = () => import('@/views/wny/roles/edit/RoleEdit')
 
+// Views - Controllers
+const ControllersStatic = () => import('@/views/wny/controllers/index/ControllersStatic')
+const Controllers = () => import('@/views/wny/controllers/index/Controllers')
+const ControllerCreate = () => import('@/views/wny/controllers/create/ControllerCreate')
+const ControllerEdit = () => import('@/views/wny/controllers/edit/ControllerEdit')
+
 // Views - User-Roles
 const UserRolesStatic = () => import('@/views/wny/user-roles/index/UserRolesStatic')
 const UserRoles = () => import('@/views/wny/user-roles/index/UserRoles')
@@ -215,6 +221,37 @@ export default new Router({
             {
               path: ':id/edit',
               component: RoleEdit
+            }
+          ]
+        },
+        {
+          path: 'controllers',
+          redirect: '/controllers',
+          name: 'Controllers',
+          component: {
+            render(c) {
+              return c('router-view')
+            }
+          },
+          children: [
+            {
+              path: 'controllers-static',
+              name: 'ControllersStatic',
+              component: ControllersStatic
+            },
+            {
+              path: 'index',
+              name: 'Controllers',
+              component: Controllers
+            },
+            {
+              path: 'create',
+              name: 'ControllerCreate',
+              component: ControllerCreate
+            },
+            {
+              path: ':id/edit',
+              component: ControllerEdit
             }
           ]
         },
