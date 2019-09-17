@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.8] - 2019-09-17
+### Added
+- Module Controllers is added.
+
 ## [0.7] - 2019-09-03
 ### Added
 - Roles are added.
