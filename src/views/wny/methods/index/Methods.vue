@@ -4,9 +4,9 @@
       <flash-message></flash-message>
 
       <b-card-header>
-        <i class="icon-menu mr-1"></i>Controllers Index
-        <a href="#" class="badge badge-danger">Module Controllers</a>
-        <a href="/#/controllers/create" class="badge badge-warning" style="margin-left: 20px">Create Controller</a>
+        <i class="icon-menu mr-1"></i>Controller <b><span style="color: red">{{controllerName}}</span></b>. Index of Methods&nbsp
+        <a href="#" class="badge badge-danger">Module Methods</a>
+        <a v-bind:href="'/#/methods/' + controllerId + '/create'" class="badge badge-warning" style="margin-left: 20px">Create Method</a>
 
         <div class="card-header-actions">
           <a
@@ -21,10 +21,9 @@
 
         <v-client-table :columns="columns" :data="data" :options="options" :theme="theme" id="dataTable">
           <p slot="actions" slot-scope="props">
-            <a :href="'#/controllers/' + props.row.id + '/edit'" class="icon-pencil action-icon"></a>
-            <a class="icon-trash action-icon" v-on:click="deleteController(props.row.id)" style="cursor: pointer"></a>
-            <a :href="'#/methods/' + props.row.id" class="icon-list action-icon"></a>
-            </p>
+            <a :href="'#/methods/' + props.row.id + '/edit'" class="icon-pencil action-icon"></a>
+            <a class="icon-trash" v-on:click="deleteMethod(props.row.id)" style="cursor: pointer"></a>
+          </p>
 
           <!--          <div slot="child_row" slot-scope="props">-->
           <!--            The link to {{props.row.name}} is <a :href="props.row.uri">{{props.row.uri}}</a>-->
@@ -54,7 +53,8 @@
                 data: [],
                 message: '',
                 success: false,
-                res: [],
+                controllerName: '',
+                controllerId: '',
                 options: {
                     headings: {
                         id: 'ID',
@@ -76,7 +76,7 @@
             }
         },
         methods: {
-            deleteController: function (controllerId) {
+            deleteMethod: function (methodId) {
                 let headers = {
                     headers: {
                         'Accept': 'application/json',
@@ -84,21 +84,20 @@
                     }
                 };
 
-                this.$http.delete(API_URL + '/controllers/' + controllerId, headers)
-                    .then(request => this.controllerDeletingSuccessful(request))
-                    .catch((request) => this.controllerDeletingFailed(request));
+                this.$http.delete(API_URL + '/methods/' + methodId, headers)
+                    .then(request => this.methodDeletingSuccessful(request))
+                    .catch((request) => this.methodDeletingFailed(request));
             },
-            controllerDeletingSuccessful(req) {
+            methodDeletingSuccessful(req) {
                 this.errors = false;
                 this.error = false;
-                this.flash('The Controller is deleted.', 'success');
+                this.flash('The Method is deleted.', 'success');
 
                 this.downloadData();
             },
-            controllerDeletingFailed(req) {
+            methodDeletingFailed(req) {
                 this.errors = false;
-                this.error = 'Controller Deleting failed! ' + req;
-                console.log(req);
+                this.error = 'Method Deleting failed! ' + req;
             },
             downloadData() {
                 let headers = {
@@ -108,16 +107,19 @@
                     }
                 };
 
-                this.$http.get(API_URL + '/controllers', headers)
+                this.$http.get(API_URL + '/methods/'  + this.$route.params.id, headers)
                     .then(response => {
                         this.data = response.data.data;
                         this.message = response.data.message;
                         this.success = response.data.success;
-                        console.log(this.message);
-                        console.log(this.status);
-                        console.log(this.data);
                     })
                     .catch(error => console.log(error));
+
+                this.$http.get(API_URL + '/controllers/' + this.$route.params.id, headers)
+                    .then(response => {
+                        this.controllerName = response.data.data.name;
+                        this.controllerId = response.data.data.id;
+                    })
             }
         },
         mounted() {

@@ -34,6 +34,12 @@ const Controllers = () => import('@/views/wny/controllers/index/Controllers')
 const ControllerCreate = () => import('@/views/wny/controllers/create/ControllerCreate')
 const ControllerEdit = () => import('@/views/wny/controllers/edit/ControllerEdit')
 
+// Views - Methods
+const MethodsStatic = () => import('@/views/wny/methods/index/MethodsStatic')
+const Methods = () => import('@/views/wny/methods/index/Methods')
+const MethodCreate = () => import('@/views/wny/methods/create/MethodCreate')
+const MethodEdit = () => import('@/views/wny/methods/edit/MethodEdit')
+
 // Views - User-Roles
 const UserRolesStatic = () => import('@/views/wny/user-roles/index/UserRolesStatic')
 const UserRoles = () => import('@/views/wny/user-roles/index/UserRoles')
@@ -252,6 +258,37 @@ export default new Router({
             {
               path: ':id/edit',
               component: ControllerEdit
+            }
+          ]
+        },
+        {
+          path: 'methods',
+          redirect: '/methods',
+          name: 'Methods',
+          component: {
+            render(c) {
+              return c('router-view')
+            }
+          },
+          children: [
+            {
+              path: ':id/methods-static',
+              name: 'MethodsStatic',
+              component: MethodsStatic
+            },
+            {
+              path: ':id',
+              name: 'Methods',
+              component: Methods
+            },
+            {
+              path: ':id/create',
+              name: 'MethodCreate',
+              component: MethodCreate
+            },
+            {
+              path: ':id/edit',
+              component: MethodEdit
             }
           ]
         },
