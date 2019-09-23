@@ -4,11 +4,9 @@
       <flash-message></flash-message>
 
       <b-card-header>
-        <i class="icon-menu mr-1"></i>Controller <b><span style="color: red">{{controllerName}}</span></b>. Index of
-        Methods&nbsp
+        <i class="icon-menu mr-1"></i>Controller <b><span style="color: red">{{controllerName}}</span></b>. Index of Methods&nbsp
         <a href="#" class="badge badge-danger">Module Methods</a>
-        <a v-bind:href="'/#/methods/' + controllerId + '/create'" class="badge badge-warning" style="margin-left: 20px">Create
-          Method</a>
+        <a v-bind:href="'/#/methods/' + controllerId + '/create'" class="badge badge-warning" style="margin-left: 20px">Create Method</a>
 
         <div class="card-header-actions">
           <a
@@ -26,19 +24,6 @@
             <a :href="'#/methods/' + props.row.id + '/edit'" class="icon-pencil action-icon"></a>
             <a class="icon-trash" v-on:click="deleteMethod(props.row.id)" style="cursor: pointer"></a>
           </p>
-
-          <p slot="actionsRoles" slot-scope="props">
-            <section v-if="props.row.role_names != ''">
-              <a :href="'#/method-roles/' + props.row.id + '/edit'" class="icon-pencil action-icon"></a>
-              <a class="icon-trash" v-on:click="deleteMethodRole(props.row.id)" style="cursor: pointer"></a>
-            </section>
-            <section v-if="props.row.role_names == ''">
-              <a :href="'#/method-roles/' + props.row.id + '/create'" class="icon-plus action-icon"></a>
-            </section>
-          </p>
-
-          <!--<section v-if="props.row.role_names == ''">-->
-          <!--          </section>-->
 
           <!--          <div slot="child_row" slot-scope="props">-->
           <!--            The link to {{props.row.name}} is <a :href="props.row.uri">{{props.row.uri}}</a>-->
@@ -64,7 +49,7 @@
         },
         data: function () {
             return {
-                columns: ['id', 'name', 'role_names', 'actions', 'actionsRoles'],
+                columns: ['id', 'name', 'actions'],
                 data: [],
                 message: '',
                 success: false,
@@ -72,11 +57,9 @@
                 controllerId: '',
                 options: {
                     headings: {
-                        id: 'Method ID',
+                        id: 'ID',
                         name: 'Name',
-                        role_names: 'Role Names',
-                        actions: 'Actions',
-                        actionsRoles: 'Actions: Roles'
+                        actions: 'Actions'
                     },
                     sortable: ['id', 'name'],
                     filterable: ['id', 'name'],
@@ -116,29 +99,6 @@
                 this.errors = false;
                 this.error = 'Method Deleting failed! ' + req;
             },
-            deleteMethodRole: function (methodId) {
-                let headers = {
-                    headers: {
-                        'Accept': 'application/json',
-                        'Authorization': 'Bearer ' + localStorage.token
-                    }
-                };
-
-                this.$http.delete(API_URL + '/method-roles/' + methodId, headers)
-                    .then(request => this.methodRoleDeletingSuccessful(request))
-                    .catch((request) => this.methodRoleDeletingFailed(request));
-            },
-            methodRoleDeletingSuccessful(req) {
-                this.errors = false;
-                this.error = false;
-                this.flash('Method Roles are deleted.', 'success');
-
-                this.downloadData();
-            },
-            methodRoleDeletingFailed(req) {
-                this.errors = false;
-                this.error = 'Method Roles Deleting failed! ' + req;
-            },
             downloadData() {
                 let headers = {
                     headers: {
@@ -147,15 +107,13 @@
                     }
                 };
 
-                this.$http.get(API_URL + '/methods/' + this.$route.params.id, headers)
+                this.$http.get(API_URL + '/methods/'  + this.$route.params.id, headers)
                     .then(response => {
                         this.data = response.data.data;
                         this.message = response.data.message;
                         this.success = response.data.success;
                     })
                     .catch(error => console.log(error));
-
-                console.log(this.data);
 
                 this.$http.get(API_URL + '/controllers/' + this.$route.params.id, headers)
                     .then(response => {
@@ -166,7 +124,6 @@
         },
         mounted() {
             this.downloadData();
-
         }
     };
 </script>
