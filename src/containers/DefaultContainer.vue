@@ -100,6 +100,18 @@ export default {
       nav: nav.items
     }
   },
+  created() {
+      let headers = {
+          headers: {
+              'Accept': 'application/json',
+              'Authorization': 'Bearer ' + localStorage.token
+          }
+      };
+
+      this.$http.get('/auth/me', headers)
+          .then(request => this.meSuccessful(request))
+          .catch((request) => this.meFailed(request));
+  },
   computed: {
     name () {
       return this.$route.name
@@ -107,6 +119,19 @@ export default {
     list () {
       return this.$route.matched.filter((route) => route.name || route.meta.label )
     }
-  }
+  },
+    methods: {
+        meSuccessful(req) {
+            this.errors = false;
+            this.error = false;
+            console.log(req);
+            this.flash('Successful Login.', 'success');
+        },
+
+        meFailed(req) {
+            this.$router.replace('/auth/sign-in');
+            console.log(req);
+        }
+    }
 }
 </script>
