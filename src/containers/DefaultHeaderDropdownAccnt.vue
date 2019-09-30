@@ -43,6 +43,7 @@
 
 <script>
     import {HeaderDropdown as AppHeaderDropdown} from '@coreui/vue'
+    import store from "../store";
 
     export default {
         name: 'DefaultHeaderDropdownAccnt',
@@ -57,21 +58,33 @@
         },
         methods: {
             logout() {
-                this.$http.post('/auth/logout')
+                // console.log("Start Logout. Token: " + localStorage.token)
+                let headers = {
+                    headers: {
+                        'Accept': 'application/json',
+                        'Authorization': 'Bearer ' + localStorage.token
+                    }
+                };
+                this.$http.post('/auth/logout', [], headers)
                     .then(request => this.logoutSuccessful(request))
                     .catch(() => this.logoutFailed());
             },
             logoutSuccessful(req) {
+                // console.log(req);
                 delete localStorage.token;
+                this.allToFalse();
                 this.error = false;
+                // console.log("Logout successful. Token was deleted. Token: " + localStorage);
+                console.log("store.state.user.isSuperadmin: " + store.state.user.isSuperadmin);
+                console.log("store.state.user.isAdmin: " + store.state.user.isAdmin);
                 this.$router.replace('/auth/sign-in');
-                console.log('logout successful');
-                return
             },
-            logoutFailed(req) {
+            logoutFailed() {
+                // console.log(req);
                 this.error = true;
                 this.message = 'Login failed!';
-                console.log('logout failed');
+                // console.log("Logout Failed. Token: " + localStorage);
+                // console.log("store.state.user: " + store.state.user);
             }
         }
     }

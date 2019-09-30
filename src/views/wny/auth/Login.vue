@@ -10,6 +10,7 @@
                   <h1>Login</h1>
                   <p class="text-muted">Sign In to your account</p>
                   <div class="alert alert-danger" v-if="error">{{ error }}</div>
+                  <flash-message></flash-message>
                   <b-input-group class="mb-3">
                     <b-input-group-prepend>
                       <b-input-group-text><i class="icon-user"></i></b-input-group-text>
@@ -53,6 +54,8 @@
 </template>
 
 <script>
+    import store from "../../../store";
+
     export default {
         name: 'Login',
         data() {
@@ -64,6 +67,9 @@
         },
         methods: {
             login() {
+                console.log("Login. Before start.");
+                console.log("store.state.user.isSuperadmin: " + store.state.user.isSuperadmin);
+                console.log("store.state.user.isAdmin: " + store.state.user.isAdmin);
                 this.$http.post('/auth/login', {email: this.email, password: this.password})
                     .then(request => this.loginSuccessful(request))
                     .catch(() => this.loginFailed());
@@ -71,22 +77,82 @@
                 // console.log(this.password)
             },
 
-            loginSuccessful (req) {
+            loginSuccessful(req) {
+                console.log("Login. Success.");
                 if (!req.data.token) {
-                    this.loginFailed(req)
+                    console.log("Login. Success. Token is absent. Token: " + req.data.token);
+                    this.loginFailedFromLoginSuccessful(req);
                     return
                 }
 
-                localStorage.token = req.data.token
-                this.error = false
+                localStorage.token = req.data.token;
+                console.log("Login. Success. Token in the Storage: " + localStorage.token);
+                this.error = false;
+
+                this.mainRole();
 
                 this.$router.replace(this.$route.query.redirect || '/demo/books-final')
             },
 
-            loginFailed (req) {
+            loginFailedFromLoginSuccessful(req) {
+                this.error = 'Login was successful but failed!';
+                console.log(req);
+                delete localStorage.token;
+                console.log("FailedFromLoginSuccessful. Token was deleted. Token: " + localStorage.token);
+            },
+
+            loginFailed(req) {
                 this.error = 'Login failed!';
                 console.log(req);
-                delete localStorage.token
+                delete localStorage.token;
+                console.log("loginFailed. Token was deleted. Token: " + localStorage.token);
+            },
+
+            mainRole() {
+                let headers = {
+                    headers: {
+                        'Accept': 'application/json',
+                        'Authorization': 'Bearer ' + localStorage.token
+                    }
+                };
+                this.$http.get('/rules/main-role', headers)
+                    .then(request => this.mainRoleSuccessful(request))
+                    .catch(() => this.mainRoleFailed());
+
+                return;
+            },
+
+            mainRoleSuccessful(req) {
+                const mainRole = req.data.data.name;
+                console.log("MainRole. Success. MainRole: " + mainRole);
+                console.log(req);
+                if (Array.isArray(mainRole) && !mainRole.length) {
+                    console.log("Main Role. Success. Data is not empty array.");
+                    this.mainRoleSuccessfulFailed(req);
+                    return
+                }
+
+                this.roleStoreConfig(mainRole);
+
+                console.log("MainRole. Success. isSuperadmin: " + store.state.user.isSuperadmin);
+                console.log("MainRole. Success. isAdmin: " + store.state.user.isAdmin);
+                this.error = false;
+
+                this.$router.replace(this.$route.query.redirect || '/demo/books-final')
+            },
+
+            mainRoleSuccessfulFailed(req) {
+                this.flash('You do not have any role.', 'error');
+                this.roleStoreConfig('guest');
+                this.$router.replace(this.$route.query.redirect || '/demo/books-final')
+            },
+
+            mainRoleFailed(req) {
+                this.error = 'Main role getting is failed!';
+                console.log("Main role getting is failed. Request: " + req);
+                delete localStorage.token;
+                console.log("loginFailed. Token was deleted. Token: " + localStorage.token);
+                console.log("Main role getting is failed. Token: " + localStorage.token);
             }
         }
     }

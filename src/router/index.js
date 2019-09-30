@@ -238,7 +238,7 @@ export default new Router({
         },
         {
           path: 'controllers',
-          redirect: '/controllers',
+          redirect: '/index',
           name: 'Controllers',
           component: {
             render(c) {
@@ -253,7 +253,7 @@ export default new Router({
             },
             {
               path: 'index',
-              name: 'Controllers',
+              name: 'ControllerIndex',
               component: Controllers
             },
             {
@@ -284,7 +284,7 @@ export default new Router({
             },
             {
               path: ':id',
-              name: 'Methods',
+              name: 'MethodIndex',
               component: Methods
             },
             {
@@ -315,7 +315,7 @@ export default new Router({
             },
             {
               path: ':id',
-              name: 'MethodRoles',
+              name: 'MethodRoleIndex',
               component: MethodRoles
             },
             {
@@ -814,7 +814,7 @@ export default new Router({
         },
         {
           path: 'register',
-          name: 'Register',
+          name: 'SignUp',
           component: Register
         }
       ]
