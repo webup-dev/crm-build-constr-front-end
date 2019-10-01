@@ -158,17 +158,19 @@
                     .catch((request) => this.bookCreatingFailed(request));
             },
 
-            // meSuccessful(req) {
-            //     this.errors = false;
-            //     this.error = false;
-            //     console.log(req);
-            //     this.flash('Successful Login.', 'success');
-            // },
-            //
-            // meFailed(req) {
-            //     this.$router.replace('/auth/sign-in');
-            //     console.log(req);
-            // }
+            bookCreatingSuccessful(req) {
+                this.errors = false;
+                this.error = false;
+                this.flash('New Book created.', 'success');
+
+                this.$router.replace(this.$route.query.redirect || '/demo/books-final')
+            },
+
+            bookCreatingFailed(req) {
+                this.errors = false;
+                this.error = 'Book Creating failed! ' + req;
+                console.log(req);
+            }
         }
     }
 </script>

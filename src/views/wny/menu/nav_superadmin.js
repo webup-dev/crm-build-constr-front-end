@@ -116,6 +116,11 @@ export default {
       ]
     },
     {
+      name: 'Activities',
+      url: '/admin/activities',
+      icon: 'fa fa-paw'
+    },
+    {
       title: true,
       name: 'Theme',
       class: '',

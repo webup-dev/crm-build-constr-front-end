@@ -68,7 +68,7 @@
 </template>
 
 <script>
-    import navSuperadmin from '../views/wny/menu/nav_supeadmin'
+    import navSuperadmin from '../views/wny/menu/nav_superadmin'
     import navGuest from '../views/wny/menu/nav_guest'
     import {
         Header as AppHeader,

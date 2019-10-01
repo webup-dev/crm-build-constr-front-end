@@ -53,6 +53,8 @@ const UserRoleCreate = () => import('@/views/wny/user-roles/create/UserRoleCreat
 const UserRoleEdit = () => import('@/views/wny/user-roles/edit/UserRoleEdit')
 const UserRoleEditStatic = () => import('@/views/wny/user-roles/edit/UserRoleEditStatic')
 
+const Activities = () => import('@/views/wny/activities/index/Activities')
+
 const Colors = () => import('@/views/theme/Colors')
 const Typography = () => import('@/views/theme/Typography')
 
@@ -361,6 +363,23 @@ export default new Router({
             {
               path: ':id/edit/static',
               component: UserRoleEditStatic
+            }
+          ]
+        },
+        {
+          path: 'admin',
+          redirect: '/admin/activities',
+          name: 'Activities',
+          component: {
+            render(c) {
+              return c('router-view')
+            }
+          },
+          children: [
+            {
+              path: 'activities',
+              name: 'Activities',
+              component: Activities
             }
           ]
         },
