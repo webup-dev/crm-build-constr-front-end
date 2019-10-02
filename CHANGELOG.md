@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.11] - 2019-10-02
+### Added
+- Module History/Activities.
+
 ## [0.10] - 2019-09-23
 ### Added
 - Module Method-Roles is added.
