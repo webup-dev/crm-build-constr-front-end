@@ -104,7 +104,14 @@
             }
         },
         mounted() {
-            this.$http.get(API_URL + '/roles/' + this.$route.params.id)
+            let headers = {
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': 'Bearer ' + localStorage.token
+                }
+            };
+
+            this.$http.get(API_URL + '/roles/' + this.$route.params.id, headers)
                 .then(response => (
                     this.roleName = response.data.data.name,
                         this.description = response.data.data.description

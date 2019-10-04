@@ -121,13 +121,19 @@
             },
         },
         mounted() {
-            this.$http.get(API_URL + '/methods/' + this.$route.params.id + '/show')
+            let headers = {
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': 'Bearer ' + localStorage.token
+                }
+            };
+            this.$http.get(API_URL + '/methods/' + this.$route.params.id + '/show', headers)
                 .then(response => {
                     this.methodName = response.data.data.name;
                     this.methodId = response.data.data.id;
                     this.controllerId = response.data.data.controller_id;
                 });
-            this.$http.get(API_URL + '/roles')
+            this.$http.get(API_URL + '/roles', headers)
                 .then(response => (
                     this.options = response.data.data
                 ));

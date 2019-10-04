@@ -132,7 +132,13 @@
             }
         },
         mounted() {
-            this.$http.get(API_URL + '/controllers/' + this.$route.params.id)
+            let headers = {
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': 'Bearer ' + localStorage.token
+                }
+            };
+            this.$http.get(API_URL + '/controllers/' + this.$route.params.id, headers)
                 .then(response => {
                     this.controllerName = response.data.data.name;
                     this.controllerId = response.data.data.id;

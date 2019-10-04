@@ -127,7 +127,13 @@
             }
         },
         mounted() {
-            this.$http.get(API_URL + '/methods/' + this.$route.params.id + '/show')
+            let headers = {
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': 'Bearer ' + localStorage.token
+                }
+            };
+            this.$http.get(API_URL + '/methods/' + this.$route.params.id + '/show', headers)
                 .then(response => {
                     this.name = response.data.data.name;
                     this.controllerId = response.data.data.controller_id;

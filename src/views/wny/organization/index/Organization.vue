@@ -4,9 +4,10 @@
       <flash-message></flash-message>
 
       <b-card-header>
-        <i class="icon-menu mr-1"></i>Book Index
-        <a href="#" class="badge badge-danger">Demo Module Final</a>
-        <a href="/#/demo/create" class="badge badge-warning" style="margin-left: 20px">Create Book</a>
+        <i class="icon-menu mr-1"></i>Organizational Structure
+        <a href="#" class="badge badge-danger">Module Company</a>
+        <a v-bind:href="'/#/admin/organization/create'" class="badge badge-warning" style="margin-left: 20px">Create
+          Organizational Item</a>
 
         <div class="card-header-actions">
           <a
@@ -21,14 +22,9 @@
 
         <v-client-table :columns="columns" :data="data" :options="options" :theme="theme" id="dataTable">
           <p slot="actions" slot-scope="props">
-            <a :href="'#/demo/books/' + props.row.id" class="icon-eye action-icon"></a>
-            <a :href="'#/demo/books/' + props.row.id + '/edit'" class="icon-pencil action-icon"></a>
-            <a class="icon-trash" v-on:click="deleteBook(props.row.id)"></a>
+            <a :href="'#/admin/organization/' + props.row.id + '/edit'" class="icon-pencil action-icon"></a>
+            <a class="icon-trash" v-on:click="deleteItem(props.row.id)" style="cursor: pointer"></a>
           </p>
-
-          <!--          <div slot="child_row" slot-scope="props">-->
-          <!--            The link to {{props.row.name}} is <a :href="props.row.uri">{{props.row.uri}}</a>-->
-          <!--          </div>-->
         </v-client-table>
       </b-card-body>
     </b-card>
@@ -40,30 +36,29 @@
     import {ClientTable, Event} from 'vue-tables-2'
 
     const API_URL = process.env.VUE_APP_API_URL;
-    Vue.use(ClientTable)
+    Vue.use(ClientTable);
 
     export default {
-        name: 'Books',
+        name: 'Methods',
         components: {
             ClientTable,
             Event
         },
         data: function () {
             return {
-                columns: ['id', 'title', 'author_name', 'actions'],
+                columns: ['id', 'name', 'parent_id', 'actions'],
                 data: [],
                 message: '',
                 success: false,
-                res: [],
                 options: {
                     headings: {
-                        id: 'ID',
-                        title: 'Title',
-                        author_name: 'Author Name',
+                        id: 'Item ID',
+                        name: 'Name',
+                        parent_id: 'Parent',
                         actions: 'Actions'
                     },
-                    sortable: ['title', 'author_name'],
-                    filterable: ['title', 'author_name'],
+                    sortable: ['id', 'name', 'parent_id'],
+                    filterable: ['id', 'name', 'parent_id'],
                     sortIcon: {base: 'fa', up: 'fa-sort-asc', down: 'fa-sort-desc', is: 'fa-sort'},
                     pagination: {
                         chunk: 5,
@@ -77,7 +72,7 @@
             }
         },
         methods: {
-            deleteBook: function (bookId) {
+            deleteItem: function (orgId) {
                 let headers = {
                     headers: {
                         'Accept': 'application/json',
@@ -85,21 +80,20 @@
                     }
                 };
 
-                this.$http.delete(API_URL + '/book/' + bookId, headers)
-                    .then(request => this.bookDeletingSuccessful(request))
-                    .catch((request) => this.bookDeletingFailed(request));
+                this.$http.delete(API_URL + '/organizations/' + orgId, headers)
+                    .then(request => this.itemDeletingSuccessful(request))
+                    .catch((request) => this.itemDeletingFailed(request));
             },
-            bookDeletingSuccessful(req) {
+            itemDeletingSuccessful(req) {
                 this.errors = false;
                 this.error = false;
-                this.flash('The Book is deleted.', 'success');
+                this.flash('The Item is deleted.', 'success');
 
                 this.downloadData();
             },
-            bookDeletingFailed(req) {
+            itemDeletingFailed(req) {
                 this.errors = false;
-                this.error = 'Book Deleting failed! ' + req;
-                console.log(req);
+                this.error = 'Item Deleting failed! ' + req;
             },
             downloadData() {
                 let headers = {
@@ -108,19 +102,21 @@
                         'Authorization': 'Bearer ' + localStorage.token
                     }
                 };
-                this.$http.get(API_URL + '/book', headers)
+
+                this.$http.get(API_URL + '/organizations', headers)
                     .then(response => {
                         this.data = response.data.data;
                         this.message = response.data.message;
                         this.success = response.data.success;
-                        console.log(this.message);
-                        console.log(this.status);
                     })
                     .catch(error => console.log(error));
+
+                console.log(this.data);
             }
         },
         mounted() {
             this.downloadData();
+
         }
     };
 </script>

@@ -121,6 +121,11 @@ export default {
       icon: 'fa fa-paw'
     },
     {
+      name: 'Company',
+      url: '/admin/organization',
+      icon: 'fa fa-building-o'
+    },
+    {
       title: true,
       name: 'Theme',
       class: '',
