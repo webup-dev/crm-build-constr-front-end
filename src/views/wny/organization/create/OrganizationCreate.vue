@@ -193,7 +193,7 @@
                 this.error = false;
                 this.flash('New Organization created.', 'success');
 
-                this.$router.replace(this.$route.query.redirect || '/organizations')
+                this.$router.replace(this.$route.query.redirect || '/admin/organization')
             },
 
             organizationsCreatingFailed(req) {
