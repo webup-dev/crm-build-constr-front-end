@@ -58,6 +58,7 @@ const Activities = () => import('@/views/wny/activities/index/Activities')
 const Organization = () => import('@/views/wny/organization/index/Organization')
 const OrganizationCreate = () => import('@/views/wny/organization/create/OrganizationCreate')
 const OrganizationEdit = () => import('@/views/wny/organization/edit/OrganizationEdit')
+const OrganizationShow = () => import('@/views/wny/organization/show/Structure')
 
 const Colors = () => import('@/views/theme/Colors')
 const Typography = () => import('@/views/theme/Typography')
@@ -398,6 +399,10 @@ export default new Router({
             {
               path: 'organization/:id/edit',
               component: OrganizationEdit
+            },
+            {
+              path: 'organization/show',
+              component: OrganizationShow
             }
           ]
         },

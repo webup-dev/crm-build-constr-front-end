@@ -5,9 +5,9 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    user: {
-      loggedIn: false,
+    role: {
       isSuperadmin: false,
+      isDeveloper: false,
       isAdmin: false,
       isPlatformSuperadmin: false,
       isPlatformAdmin: false,
@@ -15,6 +15,10 @@ export default new Vuex.Store({
       isOrganizationGeneralManager: false,
       isOrganizationSalesManager: false,
       isGuest: false
+    },
+    user: {
+      name: '',
+      role: ''
     }
   },
 

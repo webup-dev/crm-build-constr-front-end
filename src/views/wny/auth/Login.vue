@@ -68,8 +68,8 @@
         methods: {
             login() {
                 console.log("Login. Before start.");
-                console.log("store.state.user.isSuperadmin: " + store.state.user.isSuperadmin);
-                console.log("store.state.user.isAdmin: " + store.state.user.isAdmin);
+                console.log("store.state.role.isSuperadmin: " + store.state.role.isSuperadmin);
+                console.log("store.state.role.isAdmin: " + store.state.role.isAdmin);
                 this.$http.post('/auth/login', {email: this.email, password: this.password})
                     .then(request => this.loginSuccessful(request))
                     .catch(() => this.loginFailed());
@@ -90,8 +90,9 @@
                 this.error = false;
 
                 this.mainRole();
+                this.me();
 
-                this.$router.replace(this.$route.query.redirect || '/demo/books-final')
+                this.$router.replace(this.$route.query.redirect || '/dashboard')
             },
 
             loginFailedFromLoginSuccessful(req) {
@@ -133,21 +134,53 @@
                 }
 
                 this.roleStoreConfig(mainRole);
+                this.userRoleStoreConfig(mainRole);
 
-                console.log("MainRole. Success. isSuperadmin: " + store.state.user.isSuperadmin);
-                console.log("MainRole. Success. isAdmin: " + store.state.user.isAdmin);
+                console.log("MainRole. Success. isSuperadmin: " + store.state.role.isSuperadmin);
+                console.log("MainRole. Success. isAdmin: " + store.state.role.isAdmin);
+                console.log("MainRole. Success. user.role: " + store.state.user.role);
                 this.error = false;
+            },
 
-                this.$router.replace(this.$route.query.redirect || '/demo/books-final')
+            mainRoleFailed(req) {
+                this.error = 'Main role getting is failed!';
+                console.log("Main role getting is failed. Request: " + req);
+                delete localStorage.token;
+                console.log("loginFailed. Token was deleted. Token: " + localStorage.token);
+                console.log("Main role getting is failed. Token: " + localStorage.token);
             },
 
             mainRoleSuccessfulFailed(req) {
                 this.flash('You do not have any role.', 'error');
                 this.roleStoreConfig('guest');
-                this.$router.replace(this.$route.query.redirect || '/demo/books-final')
             },
 
-            mainRoleFailed(req) {
+            me() {
+                let headers = {
+                    headers: {
+                        'Accept': 'application/json',
+                        'Authorization': 'Bearer ' + localStorage.token
+                    }
+                };
+                this.$http.get('/auth/me', headers)
+                    .then(request => this.meSuccessful(request))
+                    .catch(() => this.meFailed());
+
+                return;
+            },
+
+            meSuccessful(req) {
+                const name = req.data.name;
+
+                this.userStoreConfig(name);
+
+                console.log("Me: " + store.state.user.name);
+                this.error = false;
+
+                this.$router.replace(this.$route.query.redirect || '/dashboard')
+            },
+
+            meFailed(req) {
                 this.error = 'Main role getting is failed!';
                 console.log("Main role getting is failed. Request: " + req);
                 delete localStorage.token;

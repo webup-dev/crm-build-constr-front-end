@@ -13,6 +13,8 @@
         <b-nav-item class="px-3">Settings</b-nav-item>
       </b-navbar-nav>
       <b-navbar-nav class="ml-auto">
+        <span class="px-3">{{ store.state.user.name }}</span>
+        <span class="badge badge-success" v-if="store.state.user.role" >Role: {{ store.state.user.role }}</span>
         <b-nav-item class="d-md-down-none">
           <DefaultHeaderDropdownNotif/>
         </b-nav-item>
@@ -35,8 +37,10 @@
         <SidebarHeader/>
         <SidebarForm/>
 
-        <SidebarNav v-if="store.state.user.isSuperadmin === true" :navItems="navSuperadmin" ></SidebarNav>
-        <SidebarNav v-if="store.state.user.isGuest === true" :navItems="navGuest" ></SidebarNav>
+        <SidebarNav v-if="store.state.role.isSuperadmin === true" :navItems="navSuperadmin" ></SidebarNav>
+        <SidebarNav v-if="store.state.role.isDeveloper === true" :navItems="navDeveloper" ></SidebarNav>
+        <SidebarNav v-if="store.state.role.isPlatformSuperadmin === true" :navItems="navPlatformSuperadmin" ></SidebarNav>
+        <SidebarNav v-if="store.state.role.isGuest === true" :navItems="navGuest" ></SidebarNav>
         <!--            <user-view v-if="userType === 'user'"></user-view>&ndash;&gt;-->
         <!--        <guest-view v-if="userType === 'guest'"></guest-view>-->
         <SidebarFooter/>
@@ -70,6 +74,8 @@
 <script>
     import navSuperadmin from '../views/wny/menu/nav_superadmin'
     import navGuest from '../views/wny/menu/nav_guest'
+    import navDeveloper from '../views/wny/menu/nav_developer'
+    import navPlatformSuperadmin from '../views/wny/menu/nav_platform_superadmin'
     import {
         Header as AppHeader,
         SidebarToggler,
@@ -118,6 +124,8 @@
             return {
                 navSuperadmin: navSuperadmin.items,
                 navGuest: navGuest.items,
+                navDeveloper: navDeveloper.items,
+                navPlatformSuperadmin: navPlatformSuperadmin.items,
                 store: store
             }
         },

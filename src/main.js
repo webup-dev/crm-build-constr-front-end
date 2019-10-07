@@ -33,41 +33,52 @@ Vue.mixin({
       this.allToFalse();
       switch (mainRole) {
         case 'superadmin':
-          store.state.user.isSuperadmin = true;
+          store.state.role.isSuperadmin = true;
+          break;
+        case 'developer':
+          store.state.role.isDeveloper = true;
           break;
         case 'admin':
-          store.state.user.isAdmin = true;
+          store.state.role.isAdmin = true;
           break;
         case 'platform-superadmin':
-          store.state.user.isPlatformSuperadmin = true;
+          store.state.role.isPlatformSuperadmin = true;
           break;
         case 'platform-admin':
-          store.state.user.isPlatformAdmin = true;
+          store.state.role.isPlatformAdmin = true;
           break;
         case 'organization-superadmin':
-          store.state.user.isOrganizationSuperadmin = true;
+          store.state.role.isOrganizationSuperadmin = true;
           break;
         case 'organization-general-manager':
-          store.state.user.isOrganizationGeneralManager = true;
+          store.state.role.isOrganizationGeneralManager = true;
           break;
         case 'organization-sales-manager':
-          store.state.user.isOrganizationSalesManager = true;
+          store.state.role.isOrganizationSalesManager = true;
           break;
         default:
-          store.state.user.isGuest = true;
+          store.state.role.isGuest = true;
           break;
       }
     },
   
     allToFalse() {
-      store.state.user.isSuperadmin = false;
-      store.state.user.isAdmin = false;
-      store.state.user.isPlatformSuperadmin = false;
-      store.state.user.isPlatformAdmin = false;
-      store.state.user.isOrganizationSuperadmin = false;
-      store.state.user.isOrganizationGeneralManager = false;
-      store.state.user.isOrganizationSalesManager = false
-      store.state.user.isGuest = false
+      store.state.role.isSuperadmin = false;
+      store.state.role.isDeveloper = false;
+      store.state.role.isAdmin = false;
+      store.state.role.isPlatformSuperadmin = false;
+      store.state.role.isPlatformAdmin = false;
+      store.state.role.isOrganizationSuperadmin = false;
+      store.state.role.isOrganizationGeneralManager = false;
+      store.state.role.isOrganizationSalesManager = false;
+      store.state.role.isGuest = false
+    },
+  
+    userStoreConfig(name) {
+      store.state.user.name = name;
+    },
+    userRoleStoreConfig(role) {
+      store.state.user.role = role;
     }
   }
 });

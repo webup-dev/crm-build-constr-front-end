@@ -8,6 +8,7 @@
         <a href="#" class="badge badge-danger">Module Company</a>
         <a v-bind:href="'/#/admin/organization/create'" class="badge badge-warning" style="margin-left: 20px">Create
           Organizational Item</a>
+        <a v-bind:href="'/#/admin/organization/show'" class="badge badge-info" style="margin-left: 20px">Show Structure</a>
 
         <div class="card-header-actions">
           <a

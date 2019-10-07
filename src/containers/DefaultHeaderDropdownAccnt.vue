@@ -9,6 +9,9 @@
     \
     <template slot="dropdown">
       <b-dropdown-header tag="div" class="text-center"><strong>Account</strong></b-dropdown-header>
+<!--      <b-dropdown-item><i class="fa fa-bell-o"/> Name-->
+<!--        <b-badge variant="info">{{ store.state.role.isSuperadmin }}</b-badge>-->
+<!--      </b-dropdown-item>-->
       <b-dropdown-item><i class="fa fa-bell-o"/> Updates
         <b-badge variant="info">{{ itemsCount }}</b-badge>
       </b-dropdown-item>
@@ -73,10 +76,13 @@
                 // console.log(req);
                 delete localStorage.token;
                 this.allToFalse();
+                this.userStoreConfig("");
                 this.error = false;
                 // console.log("Logout successful. Token was deleted. Token: " + localStorage);
-                console.log("store.state.user.isSuperadmin: " + store.state.user.isSuperadmin);
-                console.log("store.state.user.isAdmin: " + store.state.user.isAdmin);
+                console.log("Logout:");
+                console.log("store.state.role.isSuperadmin: " + store.state.role.isSuperadmin);
+                console.log("store.state.role.isAdmin: " + store.state.role.isAdmin);
+                console.log("store.state.user.name: " + store.state.user.name);
                 this.$router.replace('/auth/sign-in');
             },
             logoutFailed() {
