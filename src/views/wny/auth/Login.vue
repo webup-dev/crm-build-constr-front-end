@@ -68,8 +68,8 @@
         methods: {
             login() {
                 console.log("Login. Before start.");
-                console.log("store.state.role.isSuperadmin: " + store.state.role.isSuperadmin);
-                console.log("store.state.role.isAdmin: " + store.state.role.isAdmin);
+                // console.log("store.state.role.isSuperadmin: " + store.state.role.isSuperadmin);
+                // console.log("store.state.role.isAdmin: " + store.state.role.isAdmin);
                 this.$http.post('/auth/login', {email: this.email, password: this.password})
                     .then(request => this.loginSuccessful(request))
                     .catch(() => this.loginFailed());
@@ -147,7 +147,7 @@
                 console.log("Main role getting is failed. Request: " + req);
                 delete localStorage.token;
                 console.log("loginFailed. Token was deleted. Token: " + localStorage.token);
-                console.log("Main role getting is failed. Token: " + localStorage.token);
+                console.log("Main role getting is failed. Role: " + localStorage.token);
             },
 
             mainRoleSuccessfulFailed(req) {
