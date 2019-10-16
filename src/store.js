@@ -12,6 +12,7 @@ export default new Vuex.Store({
       isPlatformSuperadmin: false,
       isPlatformAdmin: false,
       isOrganizationSuperadmin: false,
+      isOrganizationAdmin: false,
       isOrganizationGeneralManager: false,
       isOrganizationSalesManager: false,
       isGuest: false

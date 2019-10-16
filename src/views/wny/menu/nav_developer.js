@@ -85,6 +85,11 @@ export default {
       icon: 'fa fa-building-o'
     },
     {
+      name: 'User Profiles',
+      url: '/admin/user-profiles',
+      icon: 'fa fa-users'
+    },
+    {
       title: true,
       name: 'Theme',
       class: '',

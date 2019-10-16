@@ -42,6 +42,11 @@ export default {
       name: 'Company',
       url: '/admin/organization',
       icon: 'fa fa-building-o'
+    },
+    {
+      name: 'User Profiles',
+      url: '/admin/user-profiles',
+      icon: 'fa fa-users'
     }
   ]
 }

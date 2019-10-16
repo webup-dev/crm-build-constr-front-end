@@ -53,12 +53,19 @@ const UserRoleCreate = () => import('@/views/wny/user-roles/create/UserRoleCreat
 const UserRoleEdit = () => import('@/views/wny/user-roles/edit/UserRoleEdit')
 const UserRoleEditStatic = () => import('@/views/wny/user-roles/edit/UserRoleEditStatic')
 
+// Views - Activities
 const Activities = () => import('@/views/wny/activities/index/Activities')
 
+// Views - Organizations
 const Organization = () => import('@/views/wny/organization/index/Organization')
 const OrganizationCreate = () => import('@/views/wny/organization/create/OrganizationCreate')
 const OrganizationEdit = () => import('@/views/wny/organization/edit/OrganizationEdit')
 const OrganizationShow = () => import('@/views/wny/organization/show/Structure')
+
+// Views - User Profiles
+const UserProfiles = () => import('@/views/wny/user-profiles/index/UserProfiles')
+const UserProfilesEdit = () => import('@/views/wny/user-profiles/edit/UserProfileEdit')
+const UserProfilesShow = () => import('@/views/wny/user-profiles/show/UserProfileShow')
 
 const Colors = () => import('@/views/theme/Colors')
 const Typography = () => import('@/views/theme/Typography')
@@ -403,6 +410,18 @@ export default new Router({
             {
               path: 'organization/show',
               component: OrganizationShow
+            },
+            {
+              path: 'user-profiles',
+              component: UserProfiles
+            },
+            {
+              path: 'user-profiles/:id',
+              component: UserProfilesShow
+            },
+            {
+              path: 'user-profiles/:id/edit',
+              component: UserProfilesEdit
             }
           ]
         },

@@ -40,6 +40,9 @@
         <SidebarNav v-if="store.state.role.isSuperadmin === true" :navItems="navSuperadmin" ></SidebarNav>
         <SidebarNav v-if="store.state.role.isDeveloper === true" :navItems="navDeveloper" ></SidebarNav>
         <SidebarNav v-if="store.state.role.isPlatformSuperadmin === true" :navItems="navPlatformSuperadmin" ></SidebarNav>
+        <SidebarNav v-if="store.state.role.isPlatformAdmin === true" :navItems="navPlatformAdmin" ></SidebarNav>
+        <SidebarNav v-if="store.state.role.isOrganizationSuperadmin === true" :navItems="navOrganizationSuperadmin" ></SidebarNav>
+        <SidebarNav v-if="store.state.role.isOrganizationAdmin === true" :navItems="navOrganizationAdmin" ></SidebarNav>
         <SidebarNav v-if="store.state.role.isGuest === true" :navItems="navGuest" ></SidebarNav>
         <!--            <user-view v-if="userType === 'user'"></user-view>&ndash;&gt;-->
         <!--        <guest-view v-if="userType === 'guest'"></guest-view>-->
@@ -76,6 +79,9 @@
     import navGuest from '../views/wny/menu/nav_guest'
     import navDeveloper from '../views/wny/menu/nav_developer'
     import navPlatformSuperadmin from '../views/wny/menu/nav_platform_superadmin'
+    import navPlatformAdmin from '../views/wny/menu/nav_platform_admin'
+    import navOrganizationSuperadmin from '../views/wny/menu/nav_organization_superadmin'
+    import navOrganizationAdmin from '../views/wny/menu/nav_organization_admin'
     import {
         Header as AppHeader,
         SidebarToggler,
@@ -126,6 +132,9 @@
                 navGuest: navGuest.items,
                 navDeveloper: navDeveloper.items,
                 navPlatformSuperadmin: navPlatformSuperadmin.items,
+                navPlatformAdmin: navPlatformAdmin.items,
+                navOrganizationSuperadmin: navOrganizationSuperadmin.items,
+                navOrganizationAdmin: navOrganizationAdmin.items,
                 store: store
             }
         },
@@ -143,12 +152,12 @@
                 .catch((request) => this.meFailed(request));
         },
         computed: {
-            name() {
-                return this.$route.name
-            },
-            list() {
-                return this.$route.matched.filter((route) => route.name || route.meta.label)
-            }
+            // name() {
+            //     return this.$route.name
+            // },
+            // list() {
+            //     return this.$route.matched.filter((route) => route.name || route.meta.label)
+            // }
         },
         methods: {
             meSuccessful(req) {
@@ -173,51 +182,6 @@
                 this.$router.replace('/auth/sign-in');
                 console.log(req);
             }
-
-            // mainRoleSuccessful(req) {
-            //     this.errors = false;
-            //     this.error = false;
-            //     console.log(req);
-            //     const role = req.data;
-            //     console.log(role);
-            //     this.falseAll();
-            //     switch (role) {
-            //         case 'superadmin':
-            //             store.state.user.isSuperadmin = true;
-            //             break;
-            //         case 'admin':
-            //             store.state.user.isAdmin = true;
-            //             break;
-            //         case 'platform-superadmin':
-            //             store.state.user.isPlatformSuperadmin = true;
-            //             break;
-            //         case 'platform-admin':
-            //             store.state.user.isPlatformAdmin = true;
-            //             break;
-            //         case 'organization-superadmin':
-            //             store.state.user.isOrganizationSuperadmin = true;
-            //             break;
-            //         case 'organization-general-manager':
-            //             store.state.user.isOrganizationGeneralManager = true;
-            //             break;
-            //         case 'organization-sales-manager':
-            //             store.state.user.isOrganizationSalesManager = true;
-            //             break;
-            //         default:
-            //             break;
-            //
-            //     }
-            // },
-
-            // falseAll() {
-            //     store.state.user.isSuperadmin = false;
-            //     store.state.user.isAdmin = false;
-            //     store.state.user.isPlatformSuperadmin = false;
-            //     store.state.user.isPlatformAdmin = false;
-            //     store.state.user.isOrganizationSuperadmin = false;
-            //     store.state.user.isOrganizationGeneralManager = false;
-            //     store.state.user.isOrganizationSalesManager = false
-            // }
         }
     }
 </script>

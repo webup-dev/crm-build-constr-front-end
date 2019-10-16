@@ -57,10 +57,11 @@
               :label-cols="3"
             >
               <b-form-select id="parent_id"
-                             v-model="parentId"
+                             v-model="$v.parentId.$model"
                              :plain="true"
                              :options=options
-                             value="Please select">
+                             :class="status($v.parentId)"
+                             placeholder="Please select">
               </b-form-select>
             </b-form-group>
 
@@ -92,6 +93,13 @@
         return /^[0-9a-zA-Z #]*$/.test(value)
     };
 
+    const alphaSpace = (value) => {
+        if (typeof value === 'undefined' || value === null || value === '') {
+            return true
+        }
+        return /^[a-zA-Z #]*$/.test(value)
+    };
+
     import {required, minLength, maxLength, numeric} from 'vuelidate/lib/validators'
     import store from "../../../../store";
 
@@ -104,7 +112,8 @@
                 parentId: 'Please select an option',
                 optionsApi: [],
                 errors: [],
-                myError: false
+                error: false,
+                submitStatus: "Empty"
             }
         },
         validations: {
@@ -118,6 +127,10 @@
                 numeric,
                 minLength: minLength(1),
                 maxLength: maxLength(3)
+            },
+            parentId: {
+                required,
+                numeric
             }
         },
         computed: {
@@ -152,21 +165,34 @@
             },
             checkForm: function (e) {
                 // validation
-                this.errors = [];
+                // this.errors = [];
+                //
+                // if (!this.name) {
+                //     this.errors.push('Name is required.');
+                // }
+                //
+                // if (!this.order) {
+                //     this.errors.push('Order is required.');
+                // }
+                //
+                // if (!this.errors.length && !this.error.length) {
+                //     this.create();
+                //     return true;
+                // }
 
-                if (!this.name) {
-                    this.errors.push('Name is required.');
-                }
-
-                if (!this.order) {
-                    this.errors.push('Order is required.');
-                }
-
-                if (!this.errors.length) {
+                console.log("Submit Create.");
+                this.$v.$touch();
+                if (this.$v.$invalid) {
+                    this.submitStatus = "Error";
+                    this.errors.push('Field requirements not satisfied. See, please red fields.')
+                } else {
                     this.create();
-                    return true;
+                    this.submitStatus = "Creating";
+                    console.log("submitStatus: " + this.submitStatus)
+                    return true
                 }
 
+                console.log("submitStatus: " + this.submitStatus)
                 e.preventDefault();
             },
             create() {

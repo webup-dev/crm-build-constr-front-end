@@ -19,29 +19,9 @@ export default {
       }
     },
     {
-      name: 'Roles',
-      url: '/roles/index',
-      icon: 'fa fa-cog'
-    },
-    {
-      name: 'Controllers',
-      url: '/controllers/index',
-      icon: 'fa fa-cog'
-    },
-    {
       name: 'User-Roles',
       url: '/user-roles/index',
       icon: 'fa fa-cog'
-    },
-    {
-      name: 'Activities',
-      url: '/admin/activities',
-      icon: 'fa fa-paw'
-    },
-    {
-      name: 'Company',
-      url: '/admin/organization',
-      icon: 'fa fa-building-o'
     },
     {
       name: 'User Profiles',
