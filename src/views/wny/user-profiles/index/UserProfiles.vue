@@ -49,7 +49,7 @@
         },
         data: function () {
             return {
-                columns: ['id', 'user_id', 'first_name', 'last_name', 'department_id', 'organization.name', 'status', 'start_date', 'termination_date', 'created_date', 'updated_date', 'actions'],
+                columns: ['id', 'user_id', 'first_name', 'last_name', 'department_id', 'organization.name', 'status', 'start_date', 'termination_date', 'created_at', 'updated_at', 'actions'],
                 data: [],
                 message: '',
                 success: false,
