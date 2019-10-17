@@ -78,11 +78,7 @@
                 this.allToFalse();
                 this.userStoreConfig("");
                 this.error = false;
-                // console.log("Logout successful. Token was deleted. Token: " + localStorage);
-                console.log("Logout:");
-                console.log("store.state.role.isSuperadmin: " + store.state.role.isSuperadmin);
-                console.log("store.state.role.isAdmin: " + store.state.role.isAdmin);
-                console.log("store.state.user.name: " + store.state.user.name);
+                console.log("Logout!");
                 this.$router.replace('/auth/sign-in');
             },
             logoutFailed() {

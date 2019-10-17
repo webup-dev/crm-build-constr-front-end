@@ -65,7 +65,6 @@ Vue.mixin({
           break;
       }
     },
-  
     allToFalse() {
       store.state.role.isSuperadmin = false;
       store.state.role.isDeveloper = false;
@@ -78,12 +77,53 @@ Vue.mixin({
       store.state.role.isOrganizationSalesManager = false;
       store.state.role.isGuest = false
     },
-  
     userStoreConfig(name) {
       store.state.user.name = name;
     },
     userRoleStoreConfig(role) {
       store.state.user.role = role;
+    },
+    mainRole() {
+      let headers = {
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.token
+        }
+      };
+      this.$http.get('/rules/main-role', headers)
+          .then(request => this.mainRoleSuccessful(request))
+          .catch(() => this.mainRoleFailed());
+    
+      return;
+    },
+    mainRoleSuccessful(req) {
+      const mainRole = req.data.data.name;
+      console.log("MainRole. Success. MainRole: " + mainRole);
+      console.log(req);
+      if (Array.isArray(mainRole) && !mainRole.length) {
+        console.log("Main Role. Success. Data is not empty array.");
+        this.mainRoleSuccessfulFailed(req);
+        return
+      }
+    
+      this.roleStoreConfig(mainRole);
+      this.userRoleStoreConfig(mainRole);
+    
+      console.log("MainRole. Success. isSuperadmin: " + store.state.role.isSuperadmin);
+      console.log("MainRole. Success. isAdmin: " + store.state.role.isAdmin);
+      console.log("MainRole. Success. user.role: " + store.state.user.role);
+      this.error = false;
+    },
+    mainRoleFailed(req) {
+      this.error = 'Main role getting is failed!';
+      console.log("Main role getting is failed. Request: " + req);
+      delete localStorage.token;
+      console.log("loginFailed. Token was deleted. Token: " + localStorage.token);
+      console.log("Main role getting is failed. Role: " + localStorage.token);
+    },
+    mainRoleSuccessfulFailed(req) {
+      this.flash('You do not have any role.', 'error');
+      this.roleStoreConfig('guest');
     }
   }
 });

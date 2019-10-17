@@ -6,7 +6,7 @@
         <img class="navbar-brand-full" src="img/brand/logo-wny-755.png" width="25" height="25" alt="WNY logo">
         <img class="navbar-brand-minimized" src="img/brand/logo-wny-755.png" width="30" height="30" alt="WNY logo">
       </b-link>
-      <SidebarToggler class="d-md-down-none" display="lg" :defaultOpen=true />
+      <SidebarToggler class="d-md-down-none" :defaultOpen=true display="lg"/>
       <b-navbar-nav class="d-md-down-none">
         <b-nav-item class="px-3" to="/dashboard">Dashboard</b-nav-item>
         <b-nav-item class="px-3" to="/users" exact>Users</b-nav-item>
@@ -14,7 +14,7 @@
       </b-navbar-nav>
       <b-navbar-nav class="ml-auto">
         <span class="px-3">{{ store.state.user.name }}</span>
-        <span class="badge badge-success" v-if="store.state.user.role" >Role: {{ store.state.user.role }}</span>
+        <span class="badge badge-success" v-if="store.state.user.role">Role: {{ store.state.user.role }}</span>
         <b-nav-item class="d-md-down-none">
           <DefaultHeaderDropdownNotif/>
         </b-nav-item>
@@ -37,13 +37,15 @@
         <SidebarHeader/>
         <SidebarForm/>
 
-        <SidebarNav v-if="store.state.role.isSuperadmin === true" :navItems="navSuperadmin" ></SidebarNav>
-        <SidebarNav v-if="store.state.role.isDeveloper === true" :navItems="navDeveloper" ></SidebarNav>
-        <SidebarNav v-if="store.state.role.isPlatformSuperadmin === true" :navItems="navPlatformSuperadmin" ></SidebarNav>
-        <SidebarNav v-if="store.state.role.isPlatformAdmin === true" :navItems="navPlatformAdmin" ></SidebarNav>
-        <SidebarNav v-if="store.state.role.isOrganizationSuperadmin === true" :navItems="navOrganizationSuperadmin" ></SidebarNav>
-        <SidebarNav v-if="store.state.role.isOrganizationAdmin === true" :navItems="navOrganizationAdmin" ></SidebarNav>
-        <SidebarNav v-if="store.state.role.isGuest === true" :navItems="navGuest" ></SidebarNav>
+        <SidebarNav v-if="store.state.role.isSuperadmin === true" :navItems="navSuperadmin"></SidebarNav>
+        <SidebarNav v-if="store.state.role.isDeveloper === true" :navItems="navDeveloper"></SidebarNav>
+        <SidebarNav v-if="store.state.role.isPlatformSuperadmin === true"
+                    :navItems="navPlatformSuperadmin"></SidebarNav>
+        <SidebarNav v-if="store.state.role.isPlatformAdmin === true" :navItems="navPlatformAdmin"></SidebarNav>
+        <SidebarNav v-if="store.state.role.isOrganizationSuperadmin === true"
+                    :navItems="navOrganizationSuperadmin"></SidebarNav>
+        <SidebarNav v-if="store.state.role.isOrganizationAdmin === true" :navItems="navOrganizationAdmin"></SidebarNav>
+        <SidebarNav v-if="store.state.role.isGuest === true" :navItems="navGuest"></SidebarNav>
         <!--            <user-view v-if="userType === 'user'"></user-view>&ndash;&gt;-->
         <!--        <guest-view v-if="userType === 'guest'"></guest-view>-->
         <SidebarFooter/>
@@ -139,7 +141,7 @@
             }
         },
         created() {
-            console.log("isSuperadmin: " + store.state.user.isSuperadmin)
+            console.log("defaultContainer. isSuperadmin: " + store.state.role.isSuperadmin)
             let headers = {
                 headers: {
                     'Accept': 'application/json',
@@ -152,32 +154,14 @@
                 .catch((request) => this.meFailed(request));
         },
         computed: {
-            // name() {
-            //     return this.$route.name
-            // },
-            // list() {
-            //     return this.$route.matched.filter((route) => route.name || route.meta.label)
-            // }
+
         },
         methods: {
             meSuccessful(req) {
                 this.errors = false;
                 this.error = false;
-                // console.log(req);
-                // this.flash('Successful Login.', 'success');
-
-                // let headers = {
-                //     headers: {
-                //         'Accept': 'application/json',
-                //         'Authorization': 'Bearer ' + localStorage.token
-                //     }
-                // };
-                //
-                // this.$http.get('/rules/main-role', headers)
-                //     .then(request => this.mainRoleSuccessful(request))
-                //     .catch(() => this.mainRoleFailed());
+                this.mainRole();
             },
-
             meFailed(req) {
                 this.$router.replace('/auth/sign-in');
                 console.log(req);
