@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.13] - 2019-10-17
+### Added
+- Module User Profiles.
+
 ## [0.12] - 2019-10-04
 ### Added
 - Module Organizational Structure.
