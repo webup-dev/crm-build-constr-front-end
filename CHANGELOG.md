@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.13.2] - 2019-10-19
+### Changed
+- Company structure. UserProfile Update Page is styled. Bugs fixed.
+
 ## [0.13.1] - 2019-10-17
 ### Fixed
 - Bug (refresh page leads to menu hiding) fixed.
