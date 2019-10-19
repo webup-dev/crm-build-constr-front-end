@@ -37,7 +37,7 @@
 
             <b-form-group
               description="Enter, please Order of the Item (integer)"
-              label="Order in ths Structure"
+              label="Order in the Structure"
               label-for="order"
               :label-cols="3"
             >

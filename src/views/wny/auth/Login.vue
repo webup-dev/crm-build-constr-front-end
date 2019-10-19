@@ -55,9 +55,11 @@
 
 <script>
     import store from "../../../store";
+    import mixin from "../../../mixins/mixin";
 
     export default {
         name: 'Login',
+        mixins: [mixin],
         data() {
             return {
                 email: '',

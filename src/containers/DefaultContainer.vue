@@ -105,9 +105,11 @@
     import DefaultHeaderDropdownMssgs from './DefaultHeaderDropdownMssgs'
     import DefaultHeaderDropdownTasks from './DefaultHeaderDropdownTasks'
     import store from "../store";
+    import mixin from "../mixins/mixin";
 
     export default {
         name: 'DefaultContainer',
+        mixins: [mixin],
         components: {
             AsideToggler,
             AppHeader,

@@ -17,26 +17,34 @@
             return {
                 ds: {
                     'id': '1',
-                    'name': 'Lao Lao',
-                    'title': 'general manager',
+                    'name': 'Steven Caamano',
+                    'title': 'Administration',
                     'children': [
-                        { 'id': '2', 'name': 'Bo Miao', 'title': 'department manager' },
-                        { 'id': '3', 'name': 'Su Miao', 'title': 'department manager',
-                            'children': [
-                                { 'id': '4', 'name': 'Tie Hua', 'title': 'senior engineer' },
-                                { 'id': '5', 'name': 'Hei Hei', 'title': 'senior engineer',
-                                    'children': [
-                                        { 'id': '6', 'name': 'Pang Pang', 'title': 'engineer' },
-                                        { 'id': '7', 'name': 'Xiang Xiang', 'title': 'UE engineer' }
-                                    ]
-                                }
-                            ]
-                        },
-                        { 'id': '8', 'name': 'Hong Miao', 'title': 'department manager' },
-                        { 'id': '9', 'name': 'Chun Miao', 'title': 'department manager' }
+                        { 'id': '2', 'name': 'First-Name Last-Name', 'title': 'Accounting' },
+                        { 'id': '3', 'name': 'First-Name Last-Name', 'title': 'Sales'},
+                        // { 'id': '3', 'name': 'First-Name Last-Name', 'title': 'Sales',
+                        //     'children': [
+                        //         { 'id': '4', 'name': 'Tie Hua', 'title': 'senior engineer' },
+                        //         { 'id': '5', 'name': 'Hei Hei', 'title': 'senior engineer',
+                        //             'children': [
+                        //                 { 'id': '6', 'name': 'Pang Pang', 'title': 'engineer' },
+                        //                 { 'id': '7', 'name': 'Xiang Xiang', 'title': 'UE engineer' }
+                        //             ]
+                        //         }
+                        //     ]
+                        // },
+                        { 'id': '8', 'name': 'First-Name Last-Name', 'title': 'Service' },
+                        { 'id': '9', 'name': 'First-Name Last-Name', 'title': 'Production' },
+                        { 'id': '9', 'name': 'Volodymyr Vadiasov', 'title': 'Web Support' }
                     ]
                 }
             }
         }
     }
 </script>
+
+<style>
+  .orgchart .node {
+    width: 200px;
+  }
+</style>

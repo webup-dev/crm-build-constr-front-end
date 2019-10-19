@@ -21,45 +21,71 @@
               {{ error }}
             </div>
             <b-row class="form-group">
-              <b-col cols="6">
+              <b-col cols="5">
                 <b-form-group
                   label="User ID"
                   label-for="user_id"
-                  :label-cols="4"
-                  style="padding-left: 15px"
-                >
+                  :label-cols="3"
+                  style="padding-left: 15px">
                   <b-form-input
                     plaintext
                     id="user_id"
                     v-model="user_id"
                     type="text">
-
                   </b-form-input>
                 </b-form-group>
               </b-col>
-              <b-col cols="6">
-                <b-form-group
-                  label="Title"
-                  label-for="title"
-                  :label-cols="4"
-                  description="Letters, space, hyphen"
-                >
-                  <b-form-input
-                    id="title"
-                    v-model="$v.title.$model"
-                    :class="status($v.title)"
-                    type="text">
-
-                  </b-form-input>
+              <b-col cols="1"></b-col>
+              <b-col cols="5">
+                <b-form-group label="Start Date"
+                              label-for="start_date"
+                              :label-cols="3">
+                  <v-date-picker id="startDate"
+                                 v-model='$v.startDate.$model'
+                                 popover-visibility='hover'
+                                 :input-props='inputProps'
+                                 :formats='formats'>
+                  </v-date-picker>
                 </b-form-group>
               </b-col>
             </b-row>
+
             <b-row class="form-group">
-              <b-col cols="6">
+              <b-col cols="5">
+                <b-form-group label="Title"
+                              label-for="title"
+                              :label-cols="3"
+                              description="Letters, space, hyphen"
+                              style="padding-left: 15px">
+                  <b-form-input id="title"
+                                v-model="$v.title.$model"
+                                :class="status($v.title)"
+                                type="text">
+                  </b-form-input>
+                </b-form-group>
+              </b-col>
+              <b-col cols="1"></b-col>
+              <b-col cols="5">
+                <b-form-group label="Termination Date"
+                              label-for="termination_date"
+                              :label-cols="3">
+                  <v-date-picker id="terminationDate"
+                                 v-model='$v.terminationDate.$model'
+                                 popover-visibility='hover'
+                                 :input-props='inputProps'
+                                 :formats='formatsT'
+                                 :class="status($v.terminationDate)">
+                  </v-date-picker>
+                </b-form-group>
+              </b-col>
+            </b-row>
+
+            <b-row class="form-group">
+              <b-col cols="5">
                 <b-form-group
                   label="First Name *"
                   label-for="first_name"
-                  :label-cols="4"
+                  :label-cols="3"
                   style="padding-left: 15px"
                   description="Letters, space, hyphen"
                 >
@@ -72,31 +98,12 @@
                   </b-form-input>
                 </b-form-group>
               </b-col>
-              <b-col cols="6">
-                <b-form-group
-                  label="Last Name *"
-                  label-for="last_name"
-                  :label-cols="4"
-                  description="Letters, space, hyphen"
-                >
-                  <b-form-input
-                    id="last_name"
-                    v-model="$v.last_name.$model"
-                    :class="status($v.last_name)"
-                    type="text">
-
-                  </b-form-input>
-                </b-form-group>
-              </b-col>
-            </b-row>
-
-            <b-row class="form-group">
-              <b-col cols="6">
+              <b-col cols="1"></b-col>
+              <b-col cols="5">
                 <b-form-group
                   label="Department *"
                   label-for="department_id"
-                  :label-cols="4"
-                  style="padding-left: 15px"
+                  :label-cols="3"
                   description="Select one"
                 >
                   <b-form-select
@@ -108,51 +115,50 @@
                   </b-form-select>
                 </b-form-group>
               </b-col>
-              <b-col cols="6">
-                <b-form-group label="Status *"
-                              label-for="status"
-                              :label-cols="4"
-                >
-                  <b-form-select id="statusProfile"
-                                 v-model="$v.statusProfile.$model"
-                                 :plain="true"
-                                 :options=statuses
-                                 :class="status($v.statusProfile)"
-                                 value="Please select one">
-                  </b-form-select>
+            </b-row>
 
+            <b-row class="form-group">
+              <b-col cols="5">
+                <b-form-group label="Last Name *"
+                              label-for="last_name"
+                              :label-cols="3"
+                              description="Letters, space, hyphen"
+                              style="padding-left: 15px">
+                  <b-form-input id="last_name"
+                                v-model="$v.last_name.$model"
+                                :class="status($v.last_name)"
+                                type="text">
+                  </b-form-input>
+                </b-form-group>
+              </b-col>
+              <b-col cols="1"></b-col>
+              <b-col cols="5">
+                <b-form-group label="Email Work"
+                              :label-cols="3">
+                  <b-input-group>
+                    <div class="input-group-prepend">
+                <span class="input-group-text">
+                  <i class='fa fa-envelope-o'></i>
+                </span>
+                    </div>
+                    <b-form-input id="email_work"
+                                  type="text"
+                                  name="email_work"
+                                  class="form-control"
+                                  v-model="$v.email_work.$model"
+                                  :class="status($v.email_work)">
+                    </b-form-input>
+                  </b-input-group>
                 </b-form-group>
               </b-col>
             </b-row>
 
             <b-row class="form-group">
-              <b-col cols="6">
-                <b-form-group label="Home Phone"
-                              description="ex. (999) 999-9999"
-                              :label-cols="4">
-                  <b-input-group>
-                    <div class="input-group-prepend">
-                <span class="input-group-text">
-                  <i class='fa fa-phone'></i>
-                </span>
-                    </div>
-                    <masked-input id="phone_home"
-                                  type="tel"
-                                  name="phone_home"
-                                  class="form-control"
-                                  v-model="$v.phone_home.$model"
-                                  :mask="['(', /[0-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]"
-                                  :class="status($v.phone_home)"
-                                  :guide="true"
-                                  placeholderChar="#">
-                    </masked-input>
-                  </b-input-group>
-                </b-form-group>
-              </b-col>
-              <b-col cols="6">
+              <b-col cols="5">
                 <b-form-group label="Cell Phone"
                               description="ex. (999) 999-9999"
-                              :label-cols="4">
+                              :label-cols="3"
+                              style="padding-left: 15px">
                   <b-input-group>
                     <div class="input-group-prepend">
                 <span class="input-group-text">
@@ -172,13 +178,75 @@
                   </b-input-group>
                 </b-form-group>
               </b-col>
+              <b-col cols="1"></b-col>
+              <b-col cols="5">
+                <b-form-group label="Email Personal"
+                              :label-cols="3"
+                              description="Email">
+                  <b-input-group>
+                    <div class="input-group-prepend">
+                <span class="input-group-text">
+                  <i class='fa fa-envelope-o'></i>
+                </span>
+                    </div>
+                    <b-form-input id="email_personal"
+                                  type="text"
+                                  name="email_personal"
+                                  class="form-control"
+                                  v-model="$v.email_personal.$model"
+                                  :class="status($v.email_personal)">
+                    </b-form-input>
+                  </b-input-group>
+                </b-form-group>
+              </b-col>
             </b-row>
 
             <b-row class="form-group">
-              <b-col cols="6">
+              <b-col cols="5">
+                <b-form-group label="Home Phone"
+                              description="ex. (999) 999-9999"
+                              :label-cols="3"
+                              style="padding-left: 15px">
+                  <b-input-group>
+                    <div class="input-group-prepend">
+                <span class="input-group-text">
+                  <i class='fa fa-phone'></i>
+                </span>
+                    </div>
+                    <masked-input id="phone_home"
+                                  type="tel"
+                                  name="phone_home"
+                                  class="form-control"
+                                  v-model="$v.phone_home.$model"
+                                  :mask="['(', /[0-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]"
+                                  :class="status($v.phone_home)"
+                                  :guide="true"
+                                  placeholderChar="#">
+                    </masked-input>
+                  </b-input-group>
+                </b-form-group>
+              </b-col>
+              <b-col cols="1"></b-col>
+              <b-col cols="5">
+                <b-form-group label="Address Line 1 *"
+                              label-for="address_line_1"
+                              :label-cols="3"
+                              description="Letters, spaces, numbers, dot, comma, slash, hyphen">
+                  <b-form-input id="address_line_1"
+                                v-model="$v.address_line_1.$model"
+                                type="text"
+                                :class="status($v.address_line_1)">
+                  </b-form-input>
+                </b-form-group>
+              </b-col>
+            </b-row>
+
+            <b-row class="form-group">
+              <b-col cols="5">
                 <b-form-group label="Work Phone"
                               description="ex. (999) 999-9999"
-                              :label-cols="4">
+                              :label-cols="3"
+                              style="padding-left: 15px">
                   <b-input-group>
                     <div class="input-group-prepend">
                 <span class="input-group-text">
@@ -198,79 +266,11 @@
                   </b-input-group>
                 </b-form-group>
               </b-col>
-              <b-col cols="6">
-                <b-form-group label="Extension"
-                              :label-cols="4"
-                              description="Numbers">
-
-                  <b-form-input id="phone_extension"
-                                type="text"
-                                name="phone_extension"
-                                class="form-control"
-                                v-model="$v.phone_extension.$model"
-                                :class="status($v.phone_extension)">
-                  </b-form-input>
-                </b-form-group>
-              </b-col>
-            </b-row>
-            <b-row class="form-group">
-              <b-col cols="6">
-                <b-form-group label="Email Personal"
-                              :label-cols="4"
-                              description="Email">
-                  <b-input-group>
-                    <div class="input-group-prepend">
-                <span class="input-group-text">
-                  <i class='fa fa-envelope-o'></i>
-                </span>
-                    </div>
-                    <b-form-input id="email_personal"
-                                  type="text"
-                                  name="email_personal"
-                                  class="form-control"
-                                  v-model="$v.email_personal.$model"
-                                  :class="status($v.email_personal)">
-                    </b-form-input>
-                  </b-input-group>
-                </b-form-group>
-              </b-col>
-              <b-col cols="6">
-                <b-form-group label="Email Work"
-                              :label-cols="4">
-                  <b-input-group>
-                    <div class="input-group-prepend">
-                <span class="input-group-text">
-                  <i class='fa fa-envelope-o'></i>
-                </span>
-                    </div>
-                    <b-form-input id="email_work"
-                                  type="text"
-                                  name="email_work"
-                                  class="form-control"
-                                  v-model="$v.email_work.$model"
-                                  :class="status($v.email_work)">
-                    </b-form-input>
-                  </b-input-group>
-                </b-form-group>
-              </b-col>
-            </b-row>
-            <b-row class="form-group">
-              <b-col cols="6">
-                <b-form-group label="Address Line 1 *"
-                              label-for="address_line_1"
-                              :label-cols="4"
-                              description="Letters, spaces, numbers, dot, comma, slash, hyphen">
-                  <b-form-input id="address_line_1"
-                                v-model="$v.address_line_1.$model"
-                                type="text"
-                                :class="status($v.address_line_1)">
-                  </b-form-input>
-                </b-form-group>
-              </b-col>
-              <b-col cols="6">
+              <b-col cols="1"></b-col>
+              <b-col cols="5">
                 <b-form-group label="Address Line 2"
                               label-for="address_line_2"
-                              :label-cols="4"
+                              :label-cols="3"
                               description="Letters, spaces, numbers, dot, comma, slash, hyphen">
                   <b-form-input
                     id="address_line_2"
@@ -283,11 +283,25 @@
             </b-row>
 
             <b-row class="form-group">
-              <b-col cols="4">
+              <b-col cols="5">
+                <b-form-group label="Extension"
+                              :label-cols="3"
+                              description="Numbers"
+                              style="padding-left: 15px">
+                  <b-form-input id="phone_extension"
+                                type="text"
+                                name="phone_extension"
+                                class="form-control"
+                                v-model="$v.phone_extension.$model"
+                                :class="status($v.phone_extension)">
+                  </b-form-input>
+                </b-form-group>
+              </b-col>
+              <b-col cols="1"></b-col>
+              <b-col cols="5">
                 <b-form-group label="City *"
                               label-for="city"
                               :label-cols="3"
-                              style="padding-left: 15px"
                               description="Letters, space, hyphen">
                   <b-form-input id="city"
                                 v-model="$v.city.$model"
@@ -296,59 +310,54 @@
                   </b-form-input>
                 </b-form-group>
               </b-col>
-              <b-col cols="4">
-                <b-form-group label="State *"
-                              label-for="state"
-                              :label-cols="3"
-                              description="Select one">
-                  <b-form-select id="state"
-                                 v-model="$v.state.$model"
-                                 :plain="true"
-                                 :options=states
-                                 :class="status($v.state)">
-                  </b-form-select>
-                </b-form-group>
-              </b-col>
-              <b-col cols="4">
-                <b-form-group label="Postal Code *"
-                              label-for="zip"
-                              :label-cols="4"
-                              description="Numbers">
-                  <b-form-input id="zip"
-                                v-model="$v.zip.$model"
-                                type="text"
-                                :class="status($v.zip)">
-                  </b-form-input>
-                </b-form-group>
-              </b-col>
             </b-row>
 
             <b-row class="form-group">
-              <b-col cols="6">
-                <b-form-group label="Start Date"
-                              label-for="start_date"
-                              :label-cols="4"
+              <b-col cols="5">
+                <b-form-group label="Status *"
+                              label-for="status"
+                              :label-cols="3"
                               style="padding-left: 15px">
-                  <v-date-picker id="startDate"
-                                 v-model='$v.startDate.$model'
-                                 popover-visibility='hover'
-                                 :input-props='inputProps'
-                                 :formats='formats'>
-                  </v-date-picker>
+                  <b-form-select id="statusProfile"
+                                 v-model="$v.statusProfile.$model"
+                                 :plain="true"
+                                 :options=statuses
+                                 :class="status($v.statusProfile)"
+                                 value="Please select one">
+                  </b-form-select>
+
                 </b-form-group>
               </b-col>
-              <b-col cols="6">
-                <b-form-group label="Termination Date"
-                              label-for="termination_date"
-                              :label-cols="4">
-                  <v-date-picker id="terminationDate"
-                                 v-model='$v.terminationDate.$model'
-                                 popover-visibility='hover'
-                                 :input-props='inputProps'
-                                 :formats='formatsT'
-                                 :class="status($v.terminationDate)">
-                  </v-date-picker>
-                </b-form-group>
+              <b-col cols="1"></b-col>
+              <b-col cols="5">
+                <b-row>
+                  <b-col cols="6">
+                    <b-form-group label="State *"
+                                  label-for="state"
+                                  :label-cols="4"
+                                  description="Select one">
+                      <b-form-select id="state"
+                                     v-model="$v.state.$model"
+                                     :plain="true"
+                                     :options=states
+                                     :class="status($v.state)">
+                      </b-form-select>
+                    </b-form-group>
+                  </b-col>
+                  <b-col cols="1"></b-col>
+                  <b-col cols="5">
+                    <b-form-group label="Postal Code *"
+                                  label-for="zip"
+                                  :label-cols="6"
+                                  description="Numbers">
+                      <b-form-input id="zip"
+                                    v-model="$v.zip.$model"
+                                    type="text"
+                                    :class="status($v.zip)">
+                      </b-form-input>
+                    </b-form-group>
+                  </b-col>
+                </b-row>
               </b-col>
             </b-row>
 
@@ -381,6 +390,7 @@
     import {states} from './../../../../shared/states'
     import {validations} from './validation'
     import moment from "moment";
+    import mixin from "../../../../mixins/mixin";
 
     setupCalendar({
         firstDayOfWeek: 2
@@ -388,6 +398,7 @@
 
     export default {
         name: 'UserProfilesEdit',
+        mixins: [mixin],
         components: {
             MaskedInput,
             'v-date-picker': DatePicker
@@ -693,5 +704,9 @@
 
   .error:focus {
     outline-color: #F99;
+  }
+
+  label {
+    font-style: italic;
   }
 </style>

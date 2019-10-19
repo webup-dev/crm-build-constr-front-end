@@ -64,7 +64,7 @@ const OrganizationShow = () => import('@/views/wny/organization/show/Structure')
 
 // Views - User Profiles
 const UserProfiles = () => import('@/views/wny/user-profiles/index/UserProfiles')
-const UserProfilesEdit = () => import('@/views/wny/user-profiles/edit/UserProfileEdit')
+const UserProfilesEdit = () => import('@/views/wny/user-profiles/edit/UserProfileEdit_v2')
 const UserProfilesShow = () => import('@/views/wny/user-profiles/show/UserProfileShow')
 
 const Colors = () => import('@/views/theme/Colors')
