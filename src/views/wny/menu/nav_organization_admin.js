@@ -19,12 +19,7 @@ export default {
       }
     },
     {
-      name: 'User-Roles',
-      url: '/user-roles/index',
-      icon: 'fa fa-cog'
-    },
-    {
-      name: 'User Profiles',
+      name: 'Users',
       url: '/admin/user-profiles',
       icon: 'fa fa-users'
     }

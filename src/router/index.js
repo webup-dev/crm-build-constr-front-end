@@ -61,6 +61,7 @@ const Organization = () => import('@/views/wny/organization/index/Organization')
 const OrganizationCreate = () => import('@/views/wny/organization/create/OrganizationCreate')
 const OrganizationEdit = () => import('@/views/wny/organization/edit/OrganizationEdit')
 const OrganizationShow = () => import('@/views/wny/organization/show/Structure')
+const OrganizationShow2 = () => import('@/views/wny/organization/show/Structure2')
 
 // Views - User Profiles
 const UserProfiles = () => import('@/views/wny/user-profiles/index/UserProfiles')
@@ -410,6 +411,10 @@ export default new Router({
             {
               path: 'organization/show',
               component: OrganizationShow
+            },
+            {
+              path: 'organization/2/show',
+              component: OrganizationShow2
             },
             {
               path: 'user-profiles',

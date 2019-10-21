@@ -17,8 +17,8 @@
             return {
                 ds: {
                     'id': '1',
-                    'name': 'Steven Caamano',
-                    'title': 'Western New York Exteriors, LLC.',
+                    'name': 'First-Name Last-Name',
+                    'title': 'Spring Sheet Metal & Roofing Co.',
                     'children': [
                         {'id': '2', 'name': 'First-Name Last-Name', 'title': 'Administration'},
                         {'id': '3', 'name': 'First-Name Last-Name', 'title': 'Accounting'},
@@ -35,15 +35,7 @@
                         //     ]
                         // },
                         {'id': '5', 'name': 'First-Name Last-Name', 'title': 'Service'},
-                        {'id': '6', 'name': 'First-Name Last-Name', 'title': 'Production'},
-                        {
-                            'id': '7', 'name': 'Volodymyr Vadiasov', 'title': 'Web Support',
-                            'children': [
-                                {'id': '8', 'name': 'Volodymyr Vadiasov', 'title': 'Project Manager'},
-                                {'id': '9', 'name': 'Volodymyr Vadiasov', 'title': 'Back-end Development'},
-                                {'id': '10', 'name': 'Volodymyr Vadiasov', 'title': 'Front-end Development'}
-                            ]
-                        }
+                        {'id': '6', 'name': 'First-Name Last-Name', 'title': 'Production'}
                     ]
                 }
             }

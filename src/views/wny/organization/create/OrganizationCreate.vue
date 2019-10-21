@@ -86,11 +86,11 @@
 <script>
     const API_URL = process.env.VUE_APP_API_URL;
 
-    const alphaNumSpace = (value) => {
+    const alphaSpaceDotCommaHyphen = (value) => {
         if (typeof value === 'undefined' || value === null || value === '') {
             return true
         }
-        return /^[0-9a-zA-Z #]*$/.test(value)
+        return /^[0-9a-zA-Z #,.-]*$/.test(value)
     };
 
     const alphaSpace = (value) => {
@@ -120,7 +120,7 @@
             name: {
                 required,
                 minLength: minLength(3),
-                alphaNumSpace
+                alphaSpaceDotCommaHyphen
             },
             order: {
                 required,
@@ -138,7 +138,7 @@
                 let trick = this.optionsApi;
                 console.log(trick);
                 let optionsArr = [
-                    {value: 0, text: "Select Parent Organization"}
+                    {value: 0, text: "This is parent organization"}
                 ];
 
                 trick.forEach(function (item, index, array) {
@@ -206,7 +206,7 @@
                 let dataPost = {
                     name: this.name,
                     order: this.order,
-                    parent_id: this.parentId
+                    parent_id: null
                 };
 
                 console.log(dataPost);

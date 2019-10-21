@@ -19,6 +19,13 @@ export const alphaSpaceHyphen = (value) => {
   return /^[a-zA-Z #-]*$/.test(value)
 };
 
+export const alphaSpaceDotCommaHyphen = (value) => {
+  if (typeof value === 'undefined' || value === null || value === '') {
+    return true
+  }
+  return /^[a-zA-Z #.,-]*$/.test(value)
+};
+
 export const address = (value) => {
   if (typeof value === 'undefined' || value === null || value === '') {
     return true

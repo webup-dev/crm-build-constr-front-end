@@ -80,12 +80,12 @@ export default {
       icon: 'fa fa-paw'
     },
     {
-      name: 'Company',
+      name: 'Companies',
       url: '/admin/organization',
       icon: 'fa fa-building-o'
     },
     {
-      name: 'User Profiles',
+      name: 'Users',
       url: '/admin/user-profiles',
       icon: 'fa fa-users'
     },
