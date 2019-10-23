@@ -48,7 +48,7 @@
         },
         data: function () {
             return {
-                columns: ['id', 'name', 'parent_id', 'actions'],
+                columns: ['id', 'name', 'parent_id', 'order','actions'],
                 data: [],
                 message: '',
                 success: false,
@@ -57,6 +57,7 @@
                         id: 'Item ID',
                         name: 'Name',
                         parent_id: 'Parent',
+                        order: "Order",
                         actions: 'Actions'
                     },
                     sortable: ['id', 'name', 'parent_id'],
