@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.13.3] - 2019-10-23
+### Added
+- - Module Organizations. Item ordering is added.
+
 ## [0.13.2] - 2019-10-19
 ### Changed
 - Company structure. UserProfile Update Page is styled. Bugs fixed.
