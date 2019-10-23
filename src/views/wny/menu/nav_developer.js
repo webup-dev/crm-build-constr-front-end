@@ -86,8 +86,18 @@ export default {
     },
     {
       name: 'Users',
-      url: '/admin/user-profiles',
-      icon: 'fa fa-users'
+      icon: 'fa fa-users',
+      children: [
+        {
+          name: 'Users',
+          url: '/admin/user-profiles',
+          icon: 'fa fa-users'
+        },
+        {
+          name: 'Soft-deleted Users ',
+          url: '/admin/user-profiles/soft-deleted',
+          icon: 'fa fa-users'
+        }]
     },
     {
       title: true,

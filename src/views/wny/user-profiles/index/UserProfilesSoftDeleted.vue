@@ -4,9 +4,8 @@
       <flash-message></flash-message>
 
       <b-card-header>
-        <i class="icon-menu mr-1"></i>User Profiles Index
+        <i class="icon-menu mr-1"></i>Soft-Deleted Users
         <a href="#" class="badge badge-danger">Module User Profiles</a>
-        <a href="/#/admin/user-profiles/create" class="badge badge-warning" style="margin-left: 20px">Create User</a>
 
         <div class="card-header-actions">
           <a
@@ -21,9 +20,8 @@
 
         <v-client-table :columns="columns" :data="data" :options="options" :theme="theme" id="dataTable">
           <p slot="actions" slot-scope="props">
-            <a :href="'#/admin/user-profiles/' + props.row.id + '/edit'" class="icon-pencil action-icon"></a>
-            <a :href="'#/admin/user-profiles/' + props.row.id" class="icon-eye action-icon"></a>
-            <a class="icon-trash" v-on:click="deleteUser(props.row.id)" style="cursor: pointer"></a>
+            <a class="icon-action-undo action-icon" v-on:click="restoreUser(props.row.id)" style="cursor: pointer"></a>
+            <a class="icon-trash" v-on:click="permanentDeleteUser(props.row.id)" style="cursor: pointer"></a>
           </p>
 
           <!--          <div slot="child_row" slot-scope="props">-->
@@ -44,7 +42,7 @@
     Vue.use(ClientTable)
 
     export default {
-        name: 'UserProfiles',
+        name: 'UserProfilesSoftDeleted',
         components: {
             ClientTable,
             Event
@@ -85,7 +83,7 @@
             }
         },
         methods: {
-            deleteUser: function (roleId) {
+            permanentDeleteUser: function (roleId) {
                 let headers = {
                     headers: {
                         'Accept': 'application/json',
@@ -93,14 +91,14 @@
                     }
                 };
 
-                this.$http.delete(API_URL + '/user-profiles/' + roleId, headers)
+                this.$http.delete(API_URL + '/user-profiles/' + roleId + '/permanently', headers)
                     .then(request => this.userDeletingSuccessful(request))
                     .catch((request) => this.userDeletingFailed(request));
             },
             userDeletingSuccessful(req) {
                 this.errors = false;
                 this.error = false;
-                this.flash('The User is deleted.', 'success');
+                this.flash('The User is permanently deleted.', 'success');
 
                 this.downloadData();
             },
@@ -109,7 +107,32 @@
                 this.error = 'User Deleting failed! ' + req;
                 console.log(req);
             },
+            restoreUser: function (roleId) {
+                let headers = {
+                    headers: {
+                        'Accept': 'application/json',
+                        'Authorization': 'Bearer ' + localStorage.token
+                    }
+                };
 
+                this.$http.put(API_URL + '/user-profiles/' + roleId + '/restore', headers)
+                    .then(request => this.userRestoringSuccessful(request))
+                    .catch((request) => this.userRestoringFailed(request));
+
+            },
+            userRestoringSuccessful(req) {
+                this.errors = false;
+                this.error = false;
+                this.flash('The User is restored.', 'success');
+
+                this.downloadData();
+                // this.$router.replace(this.$route.query.redirect || '/admin/user-profiles')
+            },
+            userRestoringFailed(req) {
+                this.errors = false;
+                this.error = 'User Restoring failed! ' + req;
+                console.log(req);
+            },
             downloadData() {
                 let headers = {
                     headers: {
@@ -118,28 +141,33 @@
                     }
                 };
 
-                this.$http.get(API_URL + '/user-profiles', headers)
+                this.$http.get(API_URL + '/user-profiles/soft-deleted', headers)
                     .then(response => {
-                        this.data = this.formatDateOutput(response.data.data);
-                        this.message = response.data.message;
-                        this.success = response.data.success;
-                        console.log(this.message);
-                        console.log(this.success);
-                        console.log("data: " + this.data);
-                        console.log("start_date: " + this.data[1].start_date);
+                        console.log('downloadData:');
+                        console.log(response);
+                        if (response.status === 204) {
+                            console.log('204');
+                            this.data = [];
+                        } else {
+                            this.data = this.formatDateOutput(response.data.data);
+                            this.message = response.data.message;
+                            this.success = response.data.success;
+                        }
                     })
                     .catch(error => console.log(error));
             },
             formatDateOutput: function (obj) {
-                obj.forEach(function (item, index) {
-                    if (obj[index].start_date !== null) {
-                        obj[index].start_date = moment(obj[index].start_date).format("YYYY-MM-DD")
-                    }
+                if (obj) {
+                    obj.forEach(function (item, index) {
+                        if (obj[index].start_date && obj[index].start_date !== null) {
+                            obj[index].start_date = moment(obj[index].start_date).format("YYYY-MM-DD")
+                        }
 
-                    if (obj[index].termination_date !== null) {
-                        obj[index].termination_date = moment(obj[index].termination_date).format("YYYY-MM-DD")
-                    }
-                });
+                        if (obj[index].termination_date && obj[index].termination_date !== null) {
+                            obj[index].termination_date = moment(obj[index].termination_date).format("YYYY-MM-DD")
+                        }
+                    });
+                }
 
                 return obj;
             }

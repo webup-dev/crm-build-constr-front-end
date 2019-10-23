@@ -1,5 +1,5 @@
-import {required, minLength, email, alpha, maxLength, numeric} from 'vuelidate/lib/validators'
-import {alphaSpace, address, alphaSpaceHyphen} from './../../../../shared/validation-rules'
+import {required, minLength, email, numeric} from 'vuelidate/lib/validators'
+import {address, alphaSpaceHyphen} from '../../../shared/validation-rules'
 
 export const validations = {
   title: {

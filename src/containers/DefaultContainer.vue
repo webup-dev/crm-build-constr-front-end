@@ -74,9 +74,11 @@
       </div>
     </TheFooter>
   </div>
+
 </template>
 
 <script>
+
     import navSuperadmin from '../views/wny/menu/nav_superadmin'
     import navGuest from '../views/wny/menu/nav_guest'
     import navDeveloper from '../views/wny/menu/nav_developer'

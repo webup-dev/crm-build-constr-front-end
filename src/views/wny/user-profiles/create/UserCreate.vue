@@ -4,7 +4,7 @@
       <b-col md="8">
         <b-card>
           <div slot="header">
-            <strong>Edit User Profile</strong><small style="color: red" class="ml-1"> Asterisk * means required
+            <strong>Create User</strong><small style="color: red" class="ml-1"> Asterisk * means required
             parameter</small>
           </div>
           <b-row class="form-group" style="padding-left: 10px; padding-right: 10px; ">
@@ -22,21 +22,8 @@
                 {{ error }}
               </div>
               <b-row>
-                <b-col cols="5" >
+                <b-col cols="5">
                   <section style="border: 1px solid lightgrey; padding: 15px;">
-                    <b-row>
-                      <b-col cols="12">
-                        <b-form-group label="User ID"
-                                      label-for="user_id"
-                                      :label-cols="3">
-                          <b-form-input plaintext
-                                        id="user_id"
-                                        v-model="user_id"
-                                        type="text">
-                          </b-form-input>
-                        </b-form-group>
-                      </b-col>
-                    </b-row>
                     <b-row>
                       <b-col cols="12">
                         <b-form-group label="Title"
@@ -264,7 +251,7 @@
                     </b-row>
                     <b-row>
                       <b-col cols="12">
-                        <b-form-group label="Email Personal"
+                        <b-form-group label="Email Personal *"
                                       :label-cols="4"
                                       description="Email">
                           <b-input-group>
@@ -404,7 +391,7 @@
     })
 
     export default {
-        name: 'UserProfilesEdit',
+        name: 'UserCreate',
         mixins: [mixin],
         components: {
             MaskedInput,
@@ -415,8 +402,6 @@
                 optionsApi: [], // item list for select
                 errors: [],
                 error: false,
-                id: this.$route.params.id,
-                user_id: '',
                 first_name: '',
                 last_name: '',
                 title: '',
@@ -434,7 +419,6 @@
                 zip: '',
                 statusProfile: '',
                 startDate: '',
-                // start_date: '',
                 inputProps: {
                     class: 'input',
                 },
@@ -450,12 +434,10 @@
         computed: {
             startDate: function () {
                 let date = this.startDate;
-                console.log("start date: " + date);
                 return this.formatDate(date);
             },
             terminationDate: function () {
                 let date = this.terminationDate;
-                console.log("termination date: " + date);
                 return this.formatDate(date);
             },
             formats() {
@@ -468,19 +450,14 @@
                     input: this.inputFormat && this.inputFormat.split(','),
                 };
             },
-            // @todo phone number formatting
-            // @todo mail validating
             // create item list for select
             options: function () {
                 let trick = this.optionsApi;
-                console.log(trick);
                 let optionsArr = [
                     {value: 0, text: "Select Organization"}
                 ];
 
                 trick.forEach(function (item, index, array) {
-                    // console.log(item.id + " " + item.name)
-
                     let row = {
                         value: item.id,
                         text: item.name
@@ -488,23 +465,13 @@
 
                     optionsArr.push(row)
                 });
-                // console.log(optionsArr);
-
-                // console.log('departmentId:');
-                // console.log(trick.find(x => x.id === this.$route.params.id));
 
                 return optionsArr;
             },
             // create selected item from the list
             departmentId: function () {
                 let trick = this.optionsApi;
-                // console.log('departmentId:');
-                // console.log(trick);
-                // console.log(trick.find(x => x.id === this.$route.params.id));
-
-                let departmentId = trick.find(x => x.id === this.$route.params.id).department_id;
-
-                return departmentId
+                return trick.find(x => x.id === this.$route.params.id).department_id;
             }
         },
         watch: {
@@ -534,9 +501,7 @@
                         month = date_parts[2].slice(-2);
                         day = date_parts[3].slice(-2);
 
-                        let newDate = new Date(year, month - 1, day);
-
-                        return newDate
+                        return new Date(year, month - 1, day);
                     } else {
                         return date;
                     }
@@ -550,16 +515,15 @@
                     this.submitStatus = "Error";
                     this.errors.push('Field requirements not satisfied. See, please red fields.')
                 } else {
-                    this.update();
+                    this.create();
                     this.submitStatus = "Creating";
-                    console.log("submitStatus: " + this.submitStatus)
+
                     return true
                 }
 
-                console.log("submitStatus: " + this.submitStatus)
                 e.preventDefault();
             },
-            update() {
+            create() {
                 let headers = {
                     headers: {
                         'Accept': 'application/json',
@@ -568,7 +532,6 @@
                 };
 
                 let dataPost = {
-                    user_id: this.user_id,
                     title: this.title,
                     first_name: this.first_name,
                     last_name: this.last_name,
@@ -589,27 +552,23 @@
                     termination_date: this.terminationDate,
                 };
 
-                console.log("dataPost 0: " + dataPost.start_date);
                 dataPost = this.nullToEmpty(dataPost);
-                console.log("dataPost 1: " + dataPost.start_date);
                 dataPost = this.formatDateOutput(dataPost);
-                console.log("dataPost 2: " + dataPost.start_date);
 
-                this.$http.put('/user-profiles/' + this.$route.params.id, dataPost, headers)
-                    .then(request => this.userProfilesUpdatingSuccessful(request))
-                    .catch((request) => this.userProfilesUpdatingFailed(request));
+                this.$http.post('/user-profiles', dataPost, headers)
+                    .then(request => this.userProfilesCreatingSuccessful(request))
+                    .catch((request) => this.userProfilesCreatingFailed(request));
             },
-            userProfilesUpdatingSuccessful(req) {
+            userProfilesCreatingSuccessful(req) {
                 this.errors = false;
                 this.error = false;
-                this.flash('User Profile updated.', 'success');
+                this.flash('User Profile created.', 'success');
 
                 this.$router.replace(this.$route.query.redirect || '/admin/user-profiles')
             },
-            userProfilesUpdatingFailed(req) {
+            userProfilesCreatingFailed(req) {
                 this.errors = false;
-                this.error = 'User Profiles Updating failed! ' + req;
-                console.log(req);
+                this.error = 'User Profiles Creating failed! ' + req;
             },
             nullToEmpty(obj) {
                 for (let key in obj) {
@@ -647,38 +606,6 @@
             this.$http.get(API_URL + '/organizations', headers)
                 .then(response => (
                     this.optionsApi = response.data.data
-                ));
-
-        },
-        mounted() {
-            let headers = {
-                headers: {
-                    'Accept': 'application/json',
-                    'Authorization': 'Bearer ' + localStorage.token
-                }
-            };
-
-            this.$http.get(API_URL + '/user-profiles/' + this.$route.params.id, headers)
-                .then(response => (
-                    this.user_id = response.data.data.user_id,
-                        this.first_name = response.data.data.first_name,
-                        this.last_name = response.data.data.last_name,
-                        this.title = response.data.data.title,
-                        this.departmentId = response.data.data.department_id,
-                        this.phone_home = response.data.data.phone_home,
-                        this.phone_work = response.data.data.phone_work,
-                        this.phone_extension = response.data.data.phone_extension,
-                        this.phone_mob = response.data.data.phone_mob,
-                        this.email_personal = response.data.data.email_personal,
-                        this.email_work = response.data.data.email_work,
-                        this.address_line_1 = response.data.data.address_line_1,
-                        this.address_line_2 = response.data.data.address_line_2,
-                        this.city = response.data.data.city,
-                        this.state = response.data.data.state,
-                        this.zip = response.data.data.zip,
-                        this.statusProfile = response.data.data.status,
-                        this.startDate = this.formatDate(response.data.data.start_date),
-                        this.terminationDate = this.formatDate(response.data.data.termination_date)
                 ));
         }
     }

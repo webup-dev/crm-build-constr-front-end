@@ -388,7 +388,7 @@
     import MaskedInput from 'vue-text-mask'
     import {setupCalendar, DatePicker} from 'v-calendar'
     import {states} from './../../../../shared/states'
-    import {validations} from './validation'
+    import {validations} from '../validation'
     import moment from "moment";
     import mixin from "../../../../mixins/mixin";
 

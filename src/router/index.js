@@ -65,6 +65,8 @@ const OrganizationShow2 = () => import('@/views/wny/organization/show/Structure2
 
 // Views - User Profiles
 const UserProfiles = () => import('@/views/wny/user-profiles/index/UserProfiles')
+const UserProfilesSoftDeleted = () => import('@/views/wny/user-profiles/index/UserProfilesSoftDeleted')
+const UserProfilesCreate = () => import('@/views/wny/user-profiles/create/UserCreate')
 const UserProfilesEdit = () => import('@/views/wny/user-profiles/edit/UserProfileEdit_v2')
 const UserProfilesShow = () => import('@/views/wny/user-profiles/show/UserProfileShow')
 
@@ -419,6 +421,15 @@ export default new Router({
             {
               path: 'user-profiles',
               component: UserProfiles
+            },
+            ,
+            {
+              path: 'user-profiles/soft-deleted',
+              component: UserProfilesSoftDeleted
+            },
+            {
+              path: 'user-profiles/create',
+              component: UserProfilesCreate
             },
             {
               path: 'user-profiles/:id',

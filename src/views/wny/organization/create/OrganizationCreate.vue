@@ -136,14 +136,13 @@
         computed: {
             options: function () {
                 let trick = this.optionsApi;
-                console.log(trick);
                 let optionsArr = [
                     {value: 0, text: "This is parent organization"}
                 ];
 
-                trick.forEach(function (item, index, array) {
-                    console.log(item.id + " " + item.name)
+                trick = this.formatNames(trick);
 
+                trick.forEach(function (item, index, array) {
                     let row = {
                         value: item.id,
                         text: item.name
@@ -151,12 +150,76 @@
 
                     optionsArr.push(row)
                 });
-                console.log(optionsArr);
 
                 return optionsArr;
             }
         },
         methods: {
+            formatResponse(trick) {
+                for (let i = 0; i < trick.length; i++) {
+                    if (trick[i].parent_id === null) {
+                        trick[i].parent_id = 0;
+                    }
+                }
+
+                // Creating of arr
+                let arr = [trick.length - 1];
+                for (let k = 0; k < trick.length; k++) {
+                    let obj = {};
+                    obj.id = trick[k].id;
+                    obj.parent_id = trick[k].parent_id;
+                    obj.name = trick[k].name;
+                    obj.order = trick[k].order;
+                    arr.push(obj);
+                }
+
+                let hashArr = {};
+
+                for (let i = 0; i < arr.length; i++) {
+                    if (hashArr[arr[i].parent_id] === undefined) hashArr[arr[i].parent_id] = [];
+                    hashArr[arr[i].parent_id].push(arr[i]);
+                }
+
+                return  this.hierarchySort(hashArr, 0, []);
+            },
+            formatNames(trick) {
+                // change names dependently of level: ---
+                const prefix = '|---';
+                let currentPrefix = '';
+                let lastParent = 1;
+                for (let i = 0; i < trick.length; i++) {
+                    if (trick[i].parent_id === 0) {
+                        currentPrefix = '';
+                        lastParent = trick[i].id;
+                        currentPrefix = prefix;
+                    } else {
+                        if (trick[i].parent_id === lastParent) {
+                            trick[i].name = currentPrefix + " " + trick[i].name;
+                        } else {
+                            lastParent = trick[i - 1].id;
+                            currentPrefix += prefix;
+                            trick[i].name = currentPrefix + " " + trick[i].name;
+                        }
+                    }
+                }
+
+                return trick;
+            },
+            hierarchySortFunc(a, b) {
+                return a.order > b.order;
+            },
+
+            hierarchySort(hashArr, key, result) {
+
+                if (hashArr[key] === undefined) return;
+                let arr = hashArr[key].sort(this.hierarchySortFunc);
+                for (let i = 0; i < arr.length; i++) {
+                    result.push(arr[i]);
+                    this.hierarchySort(hashArr, arr[i].id, result);
+                }
+
+                return result;
+            },
             status(validation) {
                 return {
                     error: validation.$error,
@@ -206,7 +269,7 @@
                 let dataPost = {
                     name: this.name,
                     order: this.order,
-                    parent_id: null
+                    parent_id: this.parentId
                 };
 
                 console.log(dataPost);
@@ -238,7 +301,7 @@
             };
             this.$http.get(API_URL + '/organizations', headers)
                 .then(response => (
-                    this.optionsApi = response.data.data
+                    this.optionsApi = this.formatResponse(response.data.data)
                 ));
         }
     }
