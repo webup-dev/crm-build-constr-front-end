@@ -209,7 +209,11 @@
                 return trick;
             },
             hierarchySortFunc(a, b) {
-                return a.order > b.order;
+                if(a.order > b.order) {
+                    return 1;
+                } else {
+                    return -1
+                }
             },
 
             hierarchySort(hashArr, key, result) {

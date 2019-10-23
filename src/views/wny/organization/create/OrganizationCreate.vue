@@ -136,6 +136,7 @@
         computed: {
             options: function () {
                 let trick = this.optionsApi;
+                console.log(trick)
                 let optionsArr = [
                     {value: 0, text: "This is parent organization"}
                 ];
@@ -206,11 +207,14 @@
                 return trick;
             },
             hierarchySortFunc(a, b) {
-                return a.order > b.order;
+                if(a.order > b.order) {
+                    return 1;
+                } else {
+                    return -1
+                }
             },
 
             hierarchySort(hashArr, key, result) {
-
                 if (hashArr[key] === undefined) return;
                 let arr = hashArr[key].sort(this.hierarchySortFunc);
                 for (let i = 0; i < arr.length; i++) {
@@ -290,7 +294,7 @@
                 this.errors = false;
                 this.error = 'Organization Creating failed! ' + req;
                 console.log(req);
-            },
+            }
         },
         created() {
             let headers = {
