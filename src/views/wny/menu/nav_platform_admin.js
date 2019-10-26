@@ -39,7 +39,7 @@ export default {
       icon: 'fa fa-paw'
     },
     {
-      name: 'Companies',
+      name: 'Organizations',
       url: '/admin/organization',
       icon: 'fa fa-building-o'
     },

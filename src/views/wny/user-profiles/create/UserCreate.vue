@@ -29,7 +29,8 @@
                         <b-form-group label="Title"
                                       label-for="title"
                                       :label-cols="3"
-                                      description="Letters, space, hyphen">
+                                      description="Letters, space, hyphen"
+                                      style="font-weight: bold">
                           <b-form-input id="title"
                                         v-model="$v.title.$model"
                                         :class="status($v.title)"
@@ -43,7 +44,8 @@
                         <b-form-group label="First Name *"
                                       label-for="first_name"
                                       :label-cols="3"
-                                      description="Letters, space, hyphen">
+                                      description="Letters, space, hyphen"
+                                      style="font-weight: bold">
                           <b-form-input id="first_name"
                                         v-model="$v.first_name.$model"
                                         :class="status($v.first_name)"
@@ -57,7 +59,8 @@
                         <b-form-group label="Last Name *"
                                       label-for="last_name"
                                       :label-cols="3"
-                                      description="Letters, space, hyphen">
+                                      description="Letters, space, hyphen"
+                                      style="font-weight: bold">
                           <b-form-input id="last_name"
                                         v-model="$v.last_name.$model"
                                         :class="status($v.last_name)"
@@ -72,7 +75,8 @@
                       <b-col cols="12">
                         <b-form-group label="Cell Phone"
                                       description="ex. (999) 999-9999"
-                                      :label-cols="3">
+                                      :label-cols="3"
+                                      style="font-weight: bold">
                           <b-input-group>
                             <div class="input-group-prepend">
                 <span class="input-group-text">
@@ -97,7 +101,8 @@
                       <b-col cols="12">
                         <b-form-group label="Home Phone"
                                       description="ex. (999) 999-9999"
-                                      :label-cols="3">
+                                      :label-cols="3"
+                                      style="font-weight: bold">
                           <b-input-group>
                             <div class="input-group-prepend">
                 <span class="input-group-text">
@@ -122,7 +127,8 @@
                       <b-col cols="12">
                         <b-form-group label="Work Phone"
                                       description="ex. (999) 999-9999"
-                                      :label-cols="3">
+                                      :label-cols="3"
+                                      style="font-weight: bold">
                           <b-input-group>
                             <div class="input-group-prepend">
                 <span class="input-group-text">
@@ -147,7 +153,8 @@
                       <b-col cols="12">
                         <b-form-group label="Extension"
                                       :label-cols="3"
-                                      description="Numbers">
+                                      description="Numbers"
+                                      style="font-weight: bold">
                           <b-form-input id="phone_extension"
                                         type="text"
                                         name="phone_extension"
@@ -169,7 +176,8 @@
                       <b-col cols="12">
                         <b-form-group label="Start Date"
                                       label-for="start_date"
-                                      :label-cols="4">
+                                      :label-cols="4"
+                                      style="font-weight: bold">
                           <v-date-picker id="startDate"
                                          v-model='$v.startDate.$model'
                                          popover-visibility='hover'
@@ -183,7 +191,8 @@
                       <b-col cols="12">
                         <b-form-group label="Termination Date"
                                       label-for="termination_date"
-                                      :label-cols="4">
+                                      :label-cols="4"
+                                      style="font-weight: bold">
                           <v-date-picker id="terminationDate"
                                          v-model='$v.terminationDate.$model'
                                          popover-visibility='hover'
@@ -199,7 +208,8 @@
                         <b-form-group label="Department *"
                                       label-for="department_id"
                                       :label-cols="4"
-                                      description="Select one">
+                                      description="Select one"
+                                      style="font-weight: bold">
                           <b-form-select id="department_id"
                                          v-model="$v.departmentId.$model"
                                          :plain="true"
@@ -213,7 +223,8 @@
                       <b-col cols="12">
                         <b-form-group label="Status *"
                                       label-for="status"
-                                      :label-cols="4">
+                                      :label-cols="4"
+                                      style="font-weight: bold">
                           <b-form-select id="statusProfile"
                                          v-model="$v.statusProfile.$model"
                                          :plain="true"
@@ -231,7 +242,8 @@
                     <b-row>
                       <b-col cols="12">
                         <b-form-group label="Email Work"
-                                      :label-cols="4">
+                                      :label-cols="4"
+                                      style="font-weight: bold">
                           <b-input-group>
                             <div class="input-group-prepend">
                 <span class="input-group-text">
@@ -253,7 +265,8 @@
                       <b-col cols="12">
                         <b-form-group label="Email Personal *"
                                       :label-cols="4"
-                                      description="Email">
+                                      description="Email"
+                                      style="font-weight: bold">
                           <b-input-group>
                             <div class="input-group-prepend">
                 <span class="input-group-text">
@@ -276,7 +289,8 @@
                         <b-form-group label="Address Line 1 *"
                                       label-for="address_line_1"
                                       :label-cols="4"
-                                      description="Letters, spaces, numbers, dot, comma, slash, hyphen">
+                                      description="Letters, spaces, numbers, dot, comma, slash, hyphen"
+                                      style="font-weight: bold">
                           <b-form-input id="address_line_1"
                                         v-model="$v.address_line_1.$model"
                                         type="text"
@@ -290,7 +304,8 @@
                         <b-form-group label="Address Line 2"
                                       label-for="address_line_2"
                                       :label-cols="4"
-                                      description="Letters, spaces, numbers, dot, comma, slash, hyphen">
+                                      description="Letters, spaces, numbers, dot, comma, slash, hyphen"
+                                      style="font-weight: bold">
                           <b-form-input
                             id="address_line_2"
                             v-model="$v.address_line_2.$model"
@@ -305,7 +320,8 @@
                         <b-form-group label="City *"
                                       label-for="city"
                                       :label-cols="4"
-                                      description="Letters, space, hyphen">
+                                      description="Letters, space, hyphen"
+                                      style="font-weight: bold">
                           <b-form-input id="city"
                                         v-model="$v.city.$model"
                                         type="text"
@@ -321,7 +337,8 @@
                             <b-form-group label="State *"
                                           label-for="state"
                                           :label-cols="4"
-                                          description="Select one">
+                                          description="Select one"
+                                          style="font-weight: bold">
                               <b-form-select id="state"
                                              v-model="$v.state.$model"
                                              :plain="true"
@@ -335,7 +352,8 @@
                             <b-form-group label="Postal Code *"
                                           label-for="zip"
                                           :label-cols="6"
-                                          description="Numbers">
+                                          description="Numbers"
+                                          style="font-weight: bold">
                               <b-form-input id="zip"
                                             v-model="$v.zip.$model"
                                             type="text"

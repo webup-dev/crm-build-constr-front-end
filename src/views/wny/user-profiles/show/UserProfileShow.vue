@@ -6,225 +6,278 @@
           <div slot="header">
             <strong>User Profile</strong>
           </div>
-          <b-row class="form-group">
-            <b-col cols="6">
-              <b-form-group label="User ID:"
-                            label-for="user_id"
-                            :label-cols="4"
-                            style="padding-left: 15px">
-                <b-form-input plaintext
-                              id="user_id"
-                              v-model="user_id"
-                              type="text">
-                </b-form-input>
-              </b-form-group>
-            </b-col>
-            <b-col cols="6">
-              <b-form-group label="Title:"
-                            label-for="title"
-                            :label-cols="4">
-                <b-form-input plaintext
-                              id="title"
-                              v-model="title"
-                              type="text">
-                </b-form-input>
-              </b-form-group>
-            </b-col>
-          </b-row>
-          <b-row class="form-group">
-            <b-col cols="6">
-              <b-form-group label="First Name:"
-                            label-for="first_name"
-                            :label-cols="4"
-                            style="padding-left: 15px">
-                <b-form-input plaintext
-                              id="first_name"
-                              v-model="first_name"
-                              type="text">
-                </b-form-input>
-              </b-form-group>
-            </b-col>
-            <b-col cols="6">
-              <b-form-group label="Last Name:"
-                            label-for="last_name"
-                            :label-cols="4">
-                <b-form-input plaintext
-                              id="last_name"
-                              v-model="last_name"
-                              type="text">
-                </b-form-input>
-              </b-form-group>
-            </b-col>
-          </b-row>
+          <b-row>
+            <b-col cols="5">
+              <section style="border: 1px solid lightgrey; padding: 15px;">
+                <b-row>
+                  <b-col cols="12">
+                    <b-form-group label="User ID"
+                                  label-for="user_id"
+                                  :label-cols="5"
+                                  style="font-weight: bold">
+                      <b-form-input plaintext
+                                    id="user_id"
+                                    v-model="user_id"
+                                    type="text">
+                      </b-form-input>
+                    </b-form-group>
+                  </b-col>
+                </b-row>
+                <b-row>
+                  <b-col cols="12">
+                    <b-form-group label="Title"
+                                  label-for="title"
+                                  :label-cols="5"
+                                  style="font-weight: bold">
+                      <b-form-input plaintext
+                                    id="title"
+                                    v-model="title"
+                                    type="text">
+                      </b-form-input>
+                    </b-form-group>
+                  </b-col>
+                </b-row>
+                <b-row>
+                  <b-col cols="12">
+                    <b-form-group label="First Name *"
+                                  label-for="first_name"
+                                  :label-cols="5"
+                                  style="font-weight: bold">
+                      <b-form-input plaintext
+                                    id="first_name"
+                                    v-model="first_name"
+                                    type="text">
+                      </b-form-input>
+                    </b-form-group>
+                  </b-col>
+                </b-row>
+                <b-row>
+                  <b-col cols="12">
+                    <b-form-group label="Last Name *"
+                                  label-for="last_name"
+                                  :label-cols="5"
+                                  style="font-weight: bold">
+                      <b-form-input plaintext
+                                    id="last_name"
+                                    v-model="last_name"
+                                    type="text">
+                      </b-form-input>
+                    </b-form-group>
+                  </b-col>
+                </b-row>
+              </section>
+              <section style="border: 1px solid lightgrey; padding: 15px; margin-top: 20px;">
+                <b-row>
+                  <b-col cols="12">
+                    <b-form-group label="Cell Phone"
+                                  :label-cols="5"
+                                  style="font-weight: bold">
+                      <b-form-input plaintext
+                                    id="phone_mob"
+                                    v-model="phone_mob">
+                      </b-form-input>
+                    </b-form-group>
+                  </b-col>
+                </b-row>
+                <b-row>
+                  <b-col cols="12">
+                    <b-form-group label="Home Phone"
+                                  :label-cols="5"
+                                  style="font-weight: bold">
+                      <b-form-input plaintext
+                                    id="phone_home"
+                                    v-model="phone_home">
+                      </b-form-input>
+                    </b-form-group>
+                  </b-col>
+                </b-row>
+                <b-row>
+                  <b-col cols="12">
+                    <b-form-group label="Work Phone"
+                                  :label-cols="5"
+                                  style="font-weight: bold">
+                      <b-form-input plaintext
+                                    id="phone_work"
+                                    v-model="phone_work">
+                      </b-form-input>
+                    </b-form-group>
+                  </b-col>
+                </b-row>
+                <b-row>
+                  <b-col cols="12">
+                    <b-form-group label="Extension"
+                                  :label-cols="5"
+                                  style="font-weight: bold">
+                      <b-form-input plaintext
+                                    id="phone_extension"
+                                    v-model="phone_extension">
+                      </b-form-input>
+                    </b-form-group>
+                  </b-col>
+                </b-row>
+              </section>
 
-          <b-row class="form-group">
-            <b-col cols="6">
-              <b-form-group label="Department:"
-                            label-for="department_id"
-                            :label-cols="4"
-                            style="padding-left: 15px">
-                <b-form-input plaintext
-                              id="department_id"
-                              v-model="departmentName">
-                </b-form-input>
-              </b-form-group>
-            </b-col>
-            <b-col cols="6">
-              <b-form-group label="Status:"
-                            label-for="status"
-                            :label-cols="4">
-                <b-form-input plaintext
-                              id="statusProfile"
-                              v-model="statusProfile">
-                </b-form-input>
 
-              </b-form-group>
             </b-col>
-          </b-row>
+            <b-col cols="7">
+              <section style="border: 1px solid lightgrey; padding: 15px;">
+                <b-row>
+                  <b-col cols="12">
+                    <b-form-group label="Start Date"
+                                  label-for="start_date"
+                                  :label-cols="4"
+                                  style="font-weight: bold">
+                      <b-form-input plaintext
+                                    id="startDate"
+                                    v-model='startDate'>
+                      </b-form-input>
+                    </b-form-group>
+                  </b-col>
+                </b-row>
+                <b-row>
+                  <b-col cols="12">
+                    <b-form-group label="Termination Date"
+                                  label-for="termination_date"
+                                  :label-cols="4"
+                                  style="font-weight: bold">
+                      <b-form-input plaintext
+                                    id="terminationDate"
+                                    v-model='terminationDate'>
+                      </b-form-input>
+                    </b-form-group>
+                  </b-col>
+                </b-row>
+                <b-row>
+                  <b-col cols="12">
+                    <b-form-group label="Department *"
+                                  label-for="department_id"
+                                  :label-cols="4"
+                                  style="font-weight: bold">
+                      <b-form-input plaintext
+                                    id="department_id"
+                                    v-model="departmentName">
+                      </b-form-input>
+                    </b-form-group>
+                  </b-col>
+                </b-row>
+                <b-row>
+                  <b-col cols="12">
+                    <b-form-group label="Status *"
+                                  label-for="status"
+                                  :label-cols="4"
+                                  style="font-weight: bold">
+                      <b-form-input plaintext
+                                    id="statusProfile"
+                                    v-model="statusProfile">
+                      </b-form-input>
 
-          <b-row class="form-group">
-            <b-col cols="6">
-              <b-form-group label="Home Phone:"
-                            :label-cols="4"
-                            style="padding-left: 15px">
-                <b-form-input plaintext
-                              id="phone_home"
-                              v-model="phone_home">
-                </b-form-input>
-              </b-form-group>
-            </b-col>
-            <b-col cols="6">
-              <b-form-group label="Cell Phone:"
-                            :label-cols="4">
-                <b-form-input plaintext
-                              id="phone_mob"
-                              v-model="phone_mob">
-                </b-form-input>
-              </b-form-group>
-            </b-col>
-          </b-row>
+                    </b-form-group>
+                  </b-col>
+                </b-row>
+              </section>
 
-          <b-row class="form-group">
-            <b-col cols="6">
-              <b-form-group label="Work Phone:"
-                            :label-cols="4"
-                            style="padding-left: 15px">
-                <b-form-input plaintext
-                              id="phone_work"
-                              v-model="phone_work">
-                </b-form-input>
-              </b-form-group>
-            </b-col>
-            <b-col cols="6">
-              <b-form-group label="Extension:"
-                            :label-cols="4">
-                <b-form-input plaintext
-                              id="phone_extension"
-                              v-model="phone_extension">
-                </b-form-input>
-              </b-form-group>
-            </b-col>
-          </b-row>
-          <b-row class="form-group">
-            <b-col cols="6">
-              <b-form-group label="Email Personal:"
-                            :label-cols="4"
-                            style="padding-left: 15px">
-                <b-form-input plaintext
-                              id="email_personal"
-                              v-model="email_personal">
-                </b-form-input>
-              </b-form-group>
-            </b-col>
-            <b-col cols="6">
-              <b-form-group label="Email Work:"
-                            :label-cols="4">
-                <b-form-input plaintext
-                              id="email_work"
-                              v-model="email_work">
-                </b-form-input>
-              </b-form-group>
-            </b-col>
-          </b-row>
-          <b-row class="form-group">
-            <b-col cols="6">
-              <b-form-group label="Address Line 1:"
-                            :label-cols="4"
-                            style="padding-left: 15px">
-                <b-form-input plaintext
-                              id="address_line_1"
-                              v-model="address_line_1">
-                </b-form-input>
-              </b-form-group>
-            </b-col>
-            <b-col cols="6">
-              <b-form-group label="Address Line 2:"
-                            :label-cols="4">
-                <b-form-input plaintext
-                              id="address_line_2"
-                              v-model="address_line_2">
-                </b-form-input>
-              </b-form-group>
-            </b-col>
-          </b-row>
+              <section style="border: 1px solid lightgrey; padding: 15px; margin-top: 20px;">
+                <b-row>
+                  <b-col cols="12">
+                    <b-form-group label="Email Work"
+                                  :label-cols="4"
+                                  style="font-weight: bold">
+                      <b-form-input plaintext
+                                    id="email_work"
+                                    v-model="email_work">
+                      </b-form-input>
+                    </b-form-group>
+                  </b-col>
+                </b-row>
+                <b-row>
+                  <b-col cols="12">
+                    <b-form-group label="Email Personal"
+                                  :label-cols="4"
+                                  style="font-weight: bold">
+                      <b-form-input plaintext
+                                    id="email_personal"
+                                    v-model="email_personal">
+                      </b-form-input>
+                    </b-form-group>
+                  </b-col>
+                </b-row>
+                <b-row>
+                  <b-col cols="12">
+                    <b-form-group label="Address Line 1 *"
+                                  label-for="address_line_1"
+                                  :label-cols="4"
+                                  style="font-weight: bold">
+                      <b-form-input plaintext
+                                    id="address_line_1"
+                                    v-model="address_line_1"
+                                    type="text">
+                      </b-form-input>
+                    </b-form-group>
+                  </b-col>
+                </b-row>
+                <b-row>
+                  <b-col cols="12">
+                    <b-form-group label="Address Line 2"
+                                  label-for="address_line_2"
+                                  :label-cols="4"
+                                  style="font-weight: bold">
+                      <b-form-input plaintext
+                                    id="address_line_2"
+                                    v-model="address_line_2"
+                                    type="text">
+                      </b-form-input>
+                    </b-form-group>
+                  </b-col>
+                </b-row>
+                <b-row>
+                  <b-col cols="12">
+                    <b-form-group label="City *"
+                                  label-for="city"
+                                  :label-cols="4"
+                                  style="font-weight: bold">
+                      <b-form-input plaintext
+                                    id="city"
+                                    v-model="city"
+                                    type="text">
+                      </b-form-input>
+                    </b-form-group>
+                  </b-col>
+                </b-row>
+                <b-row>
+                  <b-col cols="12">
+                    <b-row>
+                      <b-col cols="6">
+                        <b-form-group label="State *"
+                                      label-for="state"
+                                      :label-cols="4"
+                                      style="font-weight: bold">
+                          <b-form-select plaintext
+                                         id="state"
+                                         v-model="state"
+                                         :plain="true"
+                                         :options=states>
+                          </b-form-select>
+                        </b-form-group>
+                      </b-col>
+                      <!--                        <b-col cols="1"></b-col>-->
+                      <b-col cols="6">
+                        <b-form-group label="Postal Code *"
+                                      label-for="zip"
+                                      :label-cols="7"
+                                      style="font-weight: bold">
+                          <b-form-input plaintext
+                                        id="zip"
+                                        v-model="zip"
+                                        type="text">
+                          </b-form-input>
+                        </b-form-group>
+                      </b-col>
+                    </b-row>
+                  </b-col>
+                </b-row>
+              </section>
 
-          <b-row class="form-group">
-            <b-col cols="4">
-              <b-form-group label="City:"
-                            label-for="city"
-                            :label-cols="5"
-                            style="padding-left: 15px">
-                <b-form-input plaintext
-                              id="city"
-                              v-model="city"
-                              type="text">
-                </b-form-input>
-              </b-form-group>
-            </b-col>
-            <b-col cols="4">
-              <b-form-group label="State:"
-                            label-for="state"
-                            :label-cols="5">
-                <b-form-input plaintext
-                              id="state"
-                              v-model="state">
-                </b-form-input>
-              </b-form-group>
-            </b-col>
-            <b-col cols="4">
-              <b-form-group label="Postal Code:"
-                            label-for="zip"
-                            :label-cols="5">
-                <b-form-input plaintext
-                              id="zip"
-                              v-model="zip"
-                              type="text">
-                </b-form-input>
-              </b-form-group>
-            </b-col>
-          </b-row>
 
-          <b-row class="form-group">
-            <b-col cols="6">
-              <b-form-group label="Start Date"
-                            label-for="start_date"
-                            :label-cols="4"
-                            style="padding-left: 15px">
-                <b-form-input plaintext
-                              id="startDate"
-                              v-model='startDate'>
-                </b-form-input>
-              </b-form-group>
-            </b-col>
-            <b-col cols="6">
-              <b-form-group label="Termination Date:"
-                            label-for="termination_date"
-                            :label-cols="4">
-                <b-form-input plaintext
-                              id="terminationDate"
-                              v-model='terminationDate'>
-                </b-form-input>
-              </b-form-group>
             </b-col>
           </b-row>
 
