@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.14.0] - 2019-10-27
+### Added
+- Module UserProfiles. 
+
 ## [0.13.3] - 2019-10-23
 ### Added
 - Module Organizations. Item ordering is added.
