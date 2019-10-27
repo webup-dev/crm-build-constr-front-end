@@ -403,6 +403,7 @@
     import {validations} from '../validation'
     import moment from "moment";
     import mixin from "../../../../mixins/mixin";
+    import orderedDepartments from "../../../../mixins/orderedDepartments";
 
     setupCalendar({
         firstDayOfWeek: 2
@@ -410,7 +411,7 @@
 
     export default {
         name: 'UserCreate',
-        mixins: [mixin],
+        mixins: [mixin, orderedDepartments],
         components: {
             MaskedInput,
             'v-date-picker': DatePicker
@@ -467,29 +468,6 @@
                 return {
                     input: this.inputFormat && this.inputFormat.split(','),
                 };
-            },
-            // create item list for select
-            options: function () {
-                let trick = this.optionsApi;
-                let optionsArr = [
-                    {value: 0, text: "Select Organization"}
-                ];
-
-                trick.forEach(function (item, index, array) {
-                    let row = {
-                        value: item.id,
-                        text: item.name
-                    };
-
-                    optionsArr.push(row)
-                });
-
-                return optionsArr;
-            },
-            // create selected item from the list
-            departmentId: function () {
-                let trick = this.optionsApi;
-                return trick.find(x => x.id === this.$route.params.id).department_id;
             }
         },
         watch: {
@@ -623,7 +601,7 @@
             };
             this.$http.get(API_URL + '/organizations', headers)
                 .then(response => (
-                    this.optionsApi = response.data.data
+                    this.optionsApi = this.formatResponse(response.data.data)
                 ));
         }
     }

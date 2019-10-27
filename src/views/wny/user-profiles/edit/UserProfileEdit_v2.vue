@@ -417,6 +417,7 @@
     import {validations} from '../validation'
     import moment from "moment";
     import mixin from "../../../../mixins/mixin";
+    import ordDeps from "../../../../mixins/orderedDepartments";
 
     setupCalendar({
         firstDayOfWeek: 2
@@ -424,7 +425,7 @@
 
     export default {
         name: 'UserProfilesEdit',
-        mixins: [mixin],
+        mixins: [mixin, ordDeps],
         components: {
             MaskedInput,
             'v-date-picker': DatePicker
@@ -489,31 +490,6 @@
             },
             // @todo phone number formatting
             // @todo mail validating
-            // create item list for select
-            options: function () {
-                let trick = this.optionsApi;
-                console.log(trick);
-                let optionsArr = [
-                    {value: 0, text: "Select Organization"}
-                ];
-
-                trick.forEach(function (item, index, array) {
-                    // console.log(item.id + " " + item.name)
-
-                    let row = {
-                        value: item.id,
-                        text: item.name
-                    };
-
-                    optionsArr.push(row)
-                });
-                // console.log(optionsArr);
-
-                // console.log('departmentId:');
-                // console.log(trick.find(x => x.id === this.$route.params.id));
-
-                return optionsArr;
-            },
             // create selected item from the list
             departmentId: function () {
                 let trick = this.optionsApi;
@@ -665,7 +641,7 @@
             };
             this.$http.get(API_URL + '/organizations', headers)
                 .then(response => (
-                    this.optionsApi = response.data.data
+                    this.optionsApi = this.formatResponse(response.data.data)
                 ));
 
         },
