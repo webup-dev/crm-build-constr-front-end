@@ -22,6 +22,11 @@ export default {
       name: 'Users',
       url: '/admin/user-profiles',
       icon: 'fa fa-users'
+    },
+    {
+      name: 'Customers',
+      url: '/admin/customers',
+      icon: 'fa fa-users'
     }
   ]
 }

@@ -45,8 +45,35 @@ export default {
     },
     {
       name: 'Users',
-      url: '/admin/user-profiles',
-      icon: 'fa fa-users'
+      url: '/users',
+      icon: 'fa fa-users',
+      children: [
+        {
+          name: 'Users',
+          url: '/admin/user-profiles',
+          icon: 'fa fa-users'
+        },
+        {
+          name: 'Soft-deleted Users ',
+          url: '/admin/user-profiles/soft-deleted',
+          icon: 'fa fa-users'
+        }]
+    },
+    {
+      name: 'Customers',
+      url: '/customers',
+      icon: 'fa fa-users',
+      children: [
+        {
+          name: 'Customers',
+          url: '/admin/customers',
+          icon: 'fa fa-users'
+        },
+        {
+          name: 'Soft-deleted Customers ',
+          url: '/admin/customers/soft-deleted',
+          icon: 'fa fa-users'
+        }]
     }
   ]
 }

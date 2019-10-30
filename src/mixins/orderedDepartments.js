@@ -67,6 +67,25 @@ export default {
       }
     
       return result;
+    },
+    getParents(trick) {
+      // Creating of arr
+      let arr = [];
+      
+      for (let i = 0; i < trick.length; i++) {
+        if (trick[i].parent_id === null) {
+          let obj = {};
+          obj.id = trick[i].id;
+          obj.parent_id = trick[i].parent_id;
+          obj.name = trick[i].name;
+          obj.order = trick[i].order;
+          arr.push(obj);
+        }
+      }
+      console.log("parents:");
+      console.log(arr);
+      
+      return arr
     }
   },
   computed: {
@@ -94,6 +113,23 @@ export default {
       // console.log('departmentId:');
       // console.log(trick.find(x => x.id === this.$route.params.id));
     
+      return optionsArr;
+    },
+    parents: function () {
+      let trick = this.optionsApi;
+      let optionsArr = [];
+    
+      trick.forEach(function (item, index, array) {
+        // console.log(item.id + " " + item.name)
+      
+        let row = {
+          value: item.id,
+          text: item.name
+        };
+      
+        optionsArr.push(row)
+      });
+      
       return optionsArr;
     }
   }

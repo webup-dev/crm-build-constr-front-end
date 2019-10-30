@@ -31,7 +31,7 @@
   Vue.use(ClientTable)
 
   export default {
-    name: 'Books',
+    name: 'BooksStatic',
     components: {
       ClientTable,
       Event

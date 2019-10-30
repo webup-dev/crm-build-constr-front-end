@@ -70,6 +70,13 @@ const UserProfilesCreate = () => import('@/views/wny/user-profiles/create/UserCr
 const UserProfilesEdit = () => import('@/views/wny/user-profiles/edit/UserProfileEdit_v2')
 const UserProfilesShow = () => import('@/views/wny/user-profiles/show/UserProfileShow')
 
+// SFC Customers
+const Customers = () => import('@/views/wny/customers/index/Customers')
+const CustomersSoftDeleted = () => import('@/views/wny/customers/index/CustomersSoftDeleted')
+const CustomersCreate = () => import('@/views/wny/customers/create/CustomersCreate')
+const CustomersEdit = () => import('@/views/wny/customers/edit/CustomersEdit')
+const CustomersShow = () => import('@/views/wny/customers/show/CustomersShow')
+
 const Colors = () => import('@/views/theme/Colors')
 const Typography = () => import('@/views/theme/Typography')
 
@@ -422,7 +429,6 @@ export default new Router({
               path: 'user-profiles',
               component: UserProfiles
             },
-            ,
             {
               path: 'user-profiles/soft-deleted',
               component: UserProfilesSoftDeleted
@@ -438,6 +444,26 @@ export default new Router({
             {
               path: 'user-profiles/:id/edit',
               component: UserProfilesEdit
+            },
+            {
+              path: 'customers',
+              component: Customers
+            },
+            {
+              path: 'customers/soft-deleted',
+              component: CustomersSoftDeleted
+            },
+            {
+              path: 'customers/create',
+              component: CustomersCreate
+            },
+            {
+              path: 'customers/:id',
+              component: CustomersShow
+            },
+            {
+              path: 'customers/:id/edit',
+              component: CustomersEdit
             }
           ]
         },

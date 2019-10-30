@@ -8,8 +8,10 @@
         <a href="#" class="badge badge-danger">Module Company</a>
         <a v-bind:href="'/#/admin/organization/create'" class="badge badge-warning" style="margin-left: 20px">Create
           Organizational Item</a>
-        <a v-bind:href="'/#/admin/organization/show'" class="badge badge-info" style="margin-left: 20px">Show WNY Structure</a>
-        <a v-bind:href="'/#/admin/organization/2/show'" class="badge badge-info" style="margin-left: 20px">Show Spring Structure</a>
+<!--        <a v-bind:href="'/#/admin/organization/show'" class="badge badge-info" style="margin-left: 20px">Show WNY-->
+<!--          Structure</a>-->
+<!--        <a v-bind:href="'/#/admin/organization/2/show'" class="badge badge-info" style="margin-left: 20px">Show Spring-->
+<!--          Structure</a>-->
 
         <div class="card-header-actions">
           <a
@@ -23,6 +25,9 @@
       <b-card-body>
 
         <v-client-table :columns="columns" :data="data" :options="options" :theme="theme" id="dataTable">
+          <p slot="superName" slot-scope="props">
+            {{props.row.name}} <br>
+            <span style="color: red;">{{props.row.subname}}</span></p>
           <p slot="actions" slot-scope="props">
             <a :href="'#/admin/organization/' + props.row.id + '/edit'" class="icon-pencil action-icon"></a>
             <a class="icon-trash" v-on:click="deleteItem(props.row.id)" style="cursor: pointer"></a>
@@ -36,6 +41,7 @@
 <script>
     import Vue from 'vue'
     import {ClientTable, Event} from 'vue-tables-2'
+    import _ from 'lodash'
 
     const API_URL = process.env.VUE_APP_API_URL;
     Vue.use(ClientTable);
@@ -48,14 +54,14 @@
         },
         data: function () {
             return {
-                columns: ['id', 'name', 'parent_id', 'order','actions'],
+                columns: ['id', 'superName', 'parent_id', 'order', 'actions'],
                 data: [],
                 message: '',
                 success: false,
                 options: {
                     headings: {
                         id: 'Item ID',
-                        name: 'Name',
+                        superName: 'Name',
                         parent_id: 'Parent',
                         order: "Order",
                         actions: 'Actions'
@@ -108,13 +114,41 @@
 
                 this.$http.get(API_URL + '/organizations', headers)
                     .then(response => {
-                        this.data = response.data.data;
+                        this.data = this.formatColumnName(response.data.data);
                         this.message = response.data.message;
                         this.success = response.data.success;
                     })
                     .catch(error => console.log(error));
 
                 console.log(this.data);
+            },
+            formatColumnName(source) {
+                // cycle over data
+                // we add the new field "subname" in each object
+                // subname adds all parents names
+                console.log("formatColumnName. source:");
+                console.log(source);
+                source.forEach(function (item, index, array) {
+                    item.subname = '';
+                    let tempItem = _.clone(item);
+                    console.log(tempItem);
+                    let parent_id = item.parent_id;
+                    while (tempItem.parent_id !== null) {
+                        // find item with id = parent_id
+                        let itemParent = source.find(x => x.id === parent_id);
+                        item.subname = itemParent.name + ':' + item.subname;
+
+                        tempItem = _.clone(itemParent);
+                        parent_id = tempItem.parent_id;
+                    }
+
+                    if (item.subname !== '') {
+                        item.subname += item.name;
+                    }
+                });
+                console.log(source);
+
+                return source
             }
         },
         mounted() {

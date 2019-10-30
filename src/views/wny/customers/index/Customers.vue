@@ -4,12 +4,9 @@
       <flash-message></flash-message>
 
       <b-card-header>
-        <i class="icon-menu mr-1"></i>Organizational Structure
-        <a href="#" class="badge badge-danger">Module Company</a>
-        <a v-bind:href="'/#/admin/organization/create'" class="badge badge-warning" style="margin-left: 20px">Create
-          Organizational Item</a>
-        <a v-bind:href="'/#/admin/organization/show'" class="badge badge-info" style="margin-left: 20px">Show WNY Structure</a>
-        <a v-bind:href="'/#/admin/organization/2/show'" class="badge badge-info" style="margin-left: 20px">Show Spring Structure</a>
+        <i class="icon-menu mr-1"></i>Customer Index
+        <a href="#" class="badge badge-danger">Module Customers</a>
+        <a href="/#/admin/customers/create" class="badge badge-warning" style="margin-left: 20px">Create Customer</a>
 
         <div class="card-header-actions">
           <a
@@ -24,9 +21,13 @@
 
         <v-client-table :columns="columns" :data="data" :options="options" :theme="theme" id="dataTable">
           <p slot="actions" slot-scope="props">
-            <a :href="'#/admin/organization/' + props.row.id + '/edit'" class="icon-pencil action-icon"></a>
-            <a class="icon-trash" v-on:click="deleteItem(props.row.id)" style="cursor: pointer"></a>
+            <a :href="'#/admin/customers/' + props.row.id + '/edit'" class="icon-pencil action-icon"></a>
+            <a class="icon-trash" v-on:click="deleteCustomer(props.row.id)" style="cursor: pointer"></a>
           </p>
+
+          <!--          <div slot="child_row" slot-scope="props">-->
+          <!--            The link to {{props.row.name}} is <a :href="props.row.uri">{{props.row.uri}}</a>-->
+          <!--          </div>-->
         </v-client-table>
       </b-card-body>
     </b-card>
@@ -35,33 +36,41 @@
 
 <script>
     import Vue from 'vue'
+    // import BCard from 'bootstrap-vue/es/components'
     import {ClientTable, Event} from 'vue-tables-2'
+    import moment from "moment";
+    import axios from "../../../../backend/vue-axios/axios";
 
     const API_URL = process.env.VUE_APP_API_URL;
-    Vue.use(ClientTable);
+    Vue.use(ClientTable)
+    // Vue.use(BCard)
 
     export default {
-        name: 'Methods',
+        name: 'Customers',
         components: {
             ClientTable,
             Event
         },
         data: function () {
             return {
-                columns: ['id', 'name', 'parent_id', 'order','actions'],
+                columns: ['id', 'user_id', 'name', 'type', 'organization.name', 'note', 'created_at', 'updated_at', 'actions'],
                 data: [],
                 message: '',
                 success: false,
                 options: {
                     headings: {
-                        id: 'Item ID',
+                        id: 'ID',
+                        user_id: 'User ID',
                         name: 'Name',
-                        parent_id: 'Parent',
-                        order: "Order",
+                        type: 'Type',
+                        'organization.name': 'Organization',
+                        note: 'Note',
+                        created_at: 'Created',
+                        updated_at: 'Updated',
                         actions: 'Actions'
                     },
-                    sortable: ['id', 'name', 'parent_id'],
-                    filterable: ['id', 'name', 'parent_id'],
+                    sortable: ['user_id', 'name', 'type', 'organization.name', 'created_date', 'updated_date'],
+                    filterable: ['user_id', 'name', 'type', 'organization.name', 'created_date', 'updated_date', 'note'],
                     sortIcon: {base: 'fa', up: 'fa-sort-asc', down: 'fa-sort-desc', is: 'fa-sort'},
                     pagination: {
                         chunk: 5,
@@ -75,7 +84,7 @@
             }
         },
         methods: {
-            deleteItem: function (orgId) {
+            deleteCustomer: function (customerId) {
                 let headers = {
                     headers: {
                         'Accept': 'application/json',
@@ -83,21 +92,23 @@
                     }
                 };
 
-                this.$http.delete(API_URL + '/organizations/' + orgId, headers)
-                    .then(request => this.itemDeletingSuccessful(request))
-                    .catch((request) => this.itemDeletingFailed(request));
+                axios.delete(API_URL + '/customers/' + customerId, headers)
+                    .then(request => this.customerDeletingSuccessful(request))
+                    .catch((request) => this.customerDeletingFailed(request));
             },
-            itemDeletingSuccessful(req) {
+            customerDeletingSuccessful(req) {
                 this.errors = false;
                 this.error = false;
-                this.flash('The Item is deleted.', 'success');
+                this.flash('The Customer is deleted.', 'success');
 
                 this.downloadData();
             },
-            itemDeletingFailed(req) {
+            customerDeletingFailed(req) {
                 this.errors = false;
-                this.error = 'Item Deleting failed! ' + req;
+                this.error = 'Customer Deleting failed! ' + req;
+                console.log(req);
             },
+
             downloadData() {
                 let headers = {
                     headers: {
@@ -106,20 +117,21 @@
                     }
                 };
 
-                this.$http.get(API_URL + '/organizations', headers)
+                axios.get(API_URL + '/customers', headers)
                     .then(response => {
                         this.data = response.data.data;
                         this.message = response.data.message;
                         this.success = response.data.success;
+                        console.log(this.message);
+                        console.log(this.success);
+                        console.log("data: " + this.data);
+                        console.log("start_date: " + this.data[1].start_date);
                     })
                     .catch(error => console.log(error));
-
-                console.log(this.data);
             }
         },
         mounted() {
             this.downloadData();
-
         }
     };
 </script>

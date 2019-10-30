@@ -18,6 +18,7 @@ require('vue-flash-message/dist/vue-flash-message.min.css');
 // cssVars()
 
 Vue.use(BootstrapVue)
+// Vue.use(VueResource)
 Vue.use(VueFlashMessage)
 Vue.use(Vuelidate)
 Vue.use(VCalendar)

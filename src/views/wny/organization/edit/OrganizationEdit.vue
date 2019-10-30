@@ -96,7 +96,7 @@
     import ordDeps from "../../../../mixins/orderedDepartments";
 
     export default {
-        name: 'OrganizationCreate',
+        name: 'OrganizationEdit',
         mixins: [ordDeps],
         data() {
             return {
@@ -179,13 +179,13 @@
                 }
 
                 if (!this.errors.length) {
-                    this.create();
+                    this.update();
                     return true;
                 }
 
                 e.preventDefault();
             },
-            create() {
+            update() {
                 let headers = {
                     headers: {
                         'Accept': 'application/json',

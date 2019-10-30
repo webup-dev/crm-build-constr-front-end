@@ -18,6 +18,10 @@
 |                 |422   |The given data was invalid  | testUpdateDataIsInvalid                |
 |                 |453   |Permission is absent        | testUpdatePermissionIsAbsent           |
 |-----------------|------|----------------------------|----------------------------------------|
+|show             |200   |Correct getting             | testShow                               |
+|                 |422   |The given data was invalid  | testShowDataIsInvalid                  |
+|                 |453   |Permission is absent        | testShowPermissionIsAbsent             |
+|-----------------|------|----------------------------|----------------------------------------|
 |destroy          |200   |Correct destroy             | testDestroy                            |
 |                 |422   |Incorrect Entity            | testDestroyIncorrectId                 |
 |                 |453   |Permission is absent        | testDestroyPermissionIsAbsent          |

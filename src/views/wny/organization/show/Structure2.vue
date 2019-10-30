@@ -20,19 +20,14 @@
                     'name': 'First-Name Last-Name',
                     'title': 'Spring Sheet Metal & Roofing Co.',
                     'children': [
-                        {'id': '2', 'name': 'First-Name Last-Name', 'title': 'Administration'},
+                        {'id': '2', 'name': 'First-Name Last-Name', 'title': 'Administration',
+                            'children': [
+                                { 'id': '7', 'name': 'First-Name Last-Name', 'title': 'Administrative Assistant' }
+                            ]},
                         {'id': '3', 'name': 'First-Name Last-Name', 'title': 'Accounting'},
                         {'id': '4', 'name': 'First-Name Last-Name', 'title': 'Sales'},
                         // { 'id': '3', 'name': 'First-Name Last-Name', 'title': 'Sales',
-                        //     'children': [
-                        //         { 'id': '4', 'name': 'Tie Hua', 'title': 'senior engineer' },
-                        //         { 'id': '5', 'name': 'Hei Hei', 'title': 'senior engineer',
-                        //             'children': [
-                        //                 { 'id': '6', 'name': 'Pang Pang', 'title': 'engineer' },
-                        //                 { 'id': '7', 'name': 'Xiang Xiang', 'title': 'UE engineer' }
-                        //             ]
-                        //         }
-                        //     ]
+
                         // },
                         {'id': '5', 'name': 'First-Name Last-Name', 'title': 'Service'},
                         {'id': '6', 'name': 'First-Name Last-Name', 'title': 'Production'}
