@@ -8,7 +8,7 @@ describe('BooksStatic', () => {
   })
 })
 
-describe('Table Header', () => {
+describe('snapshot - Table Header', () => {
   const wrapper = shallowMount(BooksStatic)
   
   it('shows correct table header', () => {
