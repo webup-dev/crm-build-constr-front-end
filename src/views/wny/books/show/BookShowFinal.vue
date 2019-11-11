@@ -112,6 +112,8 @@
 </template>
 
 <script>
+    import axios from "../../../../backend/vue-axios/axios";
+
     const API_URL = process.env.VUE_APP_API_URL;
     // console.log(localStorage.token);
     // console.log($route.params.id);
@@ -132,7 +134,7 @@
             }
         },
         mounted() {
-            this.$http.get(API_URL + '/book/' + this.$route.params.id)
+            axios.get(API_URL + '/book/' + this.$route.params.id)
                 .then(response => (
                     this.title = response.data.data.title,
                         this.author_name = response.data.data.author_name,
