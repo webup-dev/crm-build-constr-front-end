@@ -36,13 +36,18 @@
             </b-form-group>
 
             <div slot="footer">
-              <b-button
-                type="submit"
-                size="sm"
-                variant="primary">
-                <i class="fa fa-dot-circle-o"></i> Submit
+              <b-button type="submit"
+                        size="sm"
+                        variant="primary">
+                <i class="fa fa-dot-circle-o"></i> Save
               </b-button>
-              <b-button type="reset" size="sm" variant="danger" href="#/controllers/index"><i class="fa fa-ban"></i> Reset</b-button>
+              <b-button type="reset"
+                        size="sm"
+                        variant="danger"
+                        href="#/controllers/index">
+                <i class="fa fa-ban"></i>
+                Cancel
+              </b-button>
             </div>
           </b-form>
         </b-card>
@@ -54,7 +59,7 @@
 <script>
     const API_URL = process.env.VUE_APP_API_URL;
 
-    import { required, alpha, minLength } from 'vuelidate/lib/validators'
+    import {required, alpha, minLength} from 'vuelidate/lib/validators'
 
     export default {
         name: 'RoleCreate',
@@ -66,11 +71,11 @@
             }
         },
         validations: {
-          name: {
-              required,
-              alpha,
-              minLength: minLength(5)
-          }
+            name: {
+                required,
+                alpha,
+                minLength: minLength(5)
+            }
         },
         methods: {
             status(validation) {

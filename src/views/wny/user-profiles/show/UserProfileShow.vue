@@ -251,12 +251,12 @@
                                       label-for="state"
                                       :label-cols="4"
                                       style="font-weight: bold">
-                          <b-form-select plaintext
+                          <b-form-input plaintext
                                          id="state"
                                          v-model="state"
                                          :plain="true"
                                          :options=states>
-                          </b-form-select>
+                          </b-form-input>
                         </b-form-group>
                       </b-col>
                       <!--                        <b-col cols="1"></b-col>-->
@@ -286,14 +286,14 @@
                       size="sm"
                       variant="danger"
                       v-bind:href="'#/admin/user-profiles/' + this.$route.params.id + '/edit'">
-              <i class="fa fa-pencil"></i> Update
+              <i class="fa fa-pencil"></i> Edit
             </b-button>
             <b-button type="reset"
                       size="sm"
                       variant="primary"
                       href="#/admin/user-profiles">
               <i class="fa fa-ban"></i>
-              Reset
+              Cancel
             </b-button>
           </div>
         </b-card>
@@ -392,6 +392,12 @@
                     return '(' + match[1] + ') ' + match[2] + '-' + match[3]
                 }
                 return null
+            },
+            formatState: function (state) {
+                let states = this.states;
+                let obj = states.find(x => x.value === state)
+
+                return obj.text
             }
         },
         created() {
@@ -433,7 +439,7 @@
                         this.address_line_1 = response.data.data.address_line_1,
                         this.address_line_2 = response.data.data.address_line_2,
                         this.city = response.data.data.city,
-                        this.state = response.data.data.state,
+                        this.state = this.formatState(response.data.data.state),
                         this.zip = response.data.data.zip,
                         this.statusProfile = response.data.data.status,
                         this.startDate = this.formatDate(response.data.data.start_date),

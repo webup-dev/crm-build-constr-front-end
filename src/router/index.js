@@ -76,6 +76,7 @@ const CustomersSoftDeleted = () => import('@/views/wny/customers/index/Customers
 const CustomersCreate = () => import('@/views/wny/customers/create/CustomersCreate')
 const CustomersEdit = () => import('@/views/wny/customers/edit/CustomersEdit')
 const CustomersShow = () => import('@/views/wny/customers/show/CustomersShow')
+const AccountEdit = () => import('@/views/wny/customers/edit/AccountEdit')
 
 const Colors = () => import('@/views/theme/Colors')
 const Typography = () => import('@/views/theme/Typography')
@@ -467,6 +468,23 @@ export default new Router({
             }
           ]
         },
+        {
+          path: 'customer',
+          redirect: '/customer/account',
+          name: 'Account',
+          component: {
+            render(c) {
+              return c('router-view')
+            }
+          },
+          children: [
+            {
+              path: 'account',
+              component: AccountEdit
+            }
+          ]
+        },
+        
         {
           path: 'theme',
           redirect: '/theme/colors',

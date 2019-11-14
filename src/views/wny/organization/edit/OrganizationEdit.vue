@@ -65,14 +65,16 @@
             </b-form-group>
 
             <div slot="footer">
-              <b-button
-                type="submit"
-                size="sm"
-                variant="primary">
-                <i class="fa fa-dot-circle-o"></i> Submit
+              <b-button type="submit"
+                        size="sm"
+                        variant="primary">
+                <i class="fa fa-dot-circle-o"></i> Save
               </b-button>
-              <b-button type="reset" size="sm" variant="danger" v-bind:href="'#/admin/organization'"><i
-                class="fa fa-ban"></i> Reset
+              <b-button type="reset"
+                        size="sm"
+                        variant="danger"
+                        v-bind:href="'#/admin/organization'"><i
+                class="fa fa-ban"></i> Cancel
               </b-button>
             </div>
           </b-form>
@@ -241,8 +243,8 @@
             this.$http.get(API_URL + '/organizations/' + this.$route.params.id, headers)
                 .then(response => (
                     this.name = response.data.data.name,
-                    this.order = response.data.data.order,
-                    this.parentId = response.data.data.parent_id
+                        this.order = response.data.data.order,
+                        this.parentId = response.data.data.parent_id
                 ));
         }
 

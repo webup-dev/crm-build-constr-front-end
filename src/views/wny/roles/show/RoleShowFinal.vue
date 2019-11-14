@@ -62,20 +62,19 @@
             </b-form-group>
 
             <div slot="footer">
-              <b-button
-                type="submit"
-                size="sm"
-                variant="primary"
-                v-bind:href="'#/roles/' + id + '/edit'">
-                <i class="fa fa-dot-circle-o"></i> Edit
+              <b-button type="submit"
+                        size="sm"
+                        variant="primary"
+                        v-bind:href="'#/roles/' + id + '/edit'">
+                <i class="fa fa-dot-circle-o"></i>
+                Edit
               </b-button>
-              <b-button
-                type="reset"
-                size="sm"
-                variant="danger"
-                href="#/roles/index">
+              <b-button type="reset"
+                        size="sm"
+                        variant="danger"
+                        href="#/roles/index">
                 <i class="fa fa-ban"></i>
-                Reset
+                Cancel
               </b-button>
             </div>
           </b-form>

@@ -127,8 +127,9 @@
 
             meSuccessful(req) {
                 const name = req.data.name;
+                const id = req.data.id;
 
-                this.userStoreConfig(name);
+                this.userStoreConfig(name, id);
 
                 console.log("Me: " + store.state.user.name);
                 this.error = false;

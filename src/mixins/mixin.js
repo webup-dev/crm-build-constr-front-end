@@ -32,6 +32,9 @@ export default {
         case 'organization-sales-manager':
           store.state.role.isOrganizationSalesManager = true;
           break;
+        case 'customer-individual':
+          store.state.role.isCustomer = true;
+          break;
         default:
           store.state.role.isGuest = true;
           break;
@@ -49,8 +52,9 @@ export default {
       store.state.role.isOrganizationSalesManager = false;
       store.state.role.isGuest = false
     },
-    userStoreConfig(name) {
+    userStoreConfig(name, id) {
       store.state.user.name = name;
+      store.state.user.id = id;
     },
     userRoleStoreConfig(role) {
       store.state.user.role = role;

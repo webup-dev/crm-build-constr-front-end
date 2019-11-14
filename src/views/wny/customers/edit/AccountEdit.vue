@@ -89,6 +89,7 @@
 </template>
 
 <script>
+    console.log('AccountEdit');
     const API_URL = process.env.VUE_APP_API_URL;
 
     import store from "../../../../store";
@@ -97,7 +98,7 @@
     import axios from "../../../../backend/vue-axios/axios";
 
     export default {
-        name: 'CustomersCreate',
+        name: 'AccountEdit',
         mixins: [orgDeps],
         data() {
             return {
@@ -201,7 +202,7 @@
                     'Authorization': 'Bearer ' + localStorage.token
                 }
             };
-            this.$http.get(API_URL + '/customers/' + this.$route.params.id, headers)
+            axios.get(API_URL + '/customers/' + 1, headers)
                 .then(response => (
                     this.user_id = response.data.data.user_id,
                         this.name = response.data.data.name,

@@ -15,11 +15,13 @@ export default new Vuex.Store({
       isOrganizationAdmin: false,
       isOrganizationGeneralManager: false,
       isOrganizationSalesManager: false,
+      isCustomer: false,
       isGuest: false
     },
     user: {
       name: '',
-      role: ''
+      role: '',
+      id: ''
     }
   },
 

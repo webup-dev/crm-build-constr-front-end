@@ -58,14 +58,18 @@
             </b-form-group>
 
             <div slot="footer">
-              <b-button
-                type="submit"
-                size="sm"
-                variant="primary">
-                <i class="fa fa-dot-circle-o"></i> Submit
+              <b-button type="submit"
+                        size="sm"
+                        variant="primary">
+                <i class="fa fa-dot-circle-o"></i>
+                Save
               </b-button>
-              <b-button type="reset" size="sm" variant="danger" href="#/roles/index"><i class="fa fa-ban"></i>
-                Reset
+              <b-button type="reset"
+                        size="sm"
+                        variant="danger"
+                        href="#/roles/index">
+                <i class="fa fa-ban"></i>
+                Cancel
               </b-button>
             </div>
           </b-form>
@@ -128,7 +132,7 @@
                 this.error = false;
                 this.flash('The Role is updated.', 'success');
 
-                this.$router.replace(this.$route.query.redirect || '/roles/' + this.$route.params.id )
+                this.$router.replace(this.$route.query.redirect || '/roles/' + this.$route.params.id)
             },
 
             roleUpdatingFailed(req) {
@@ -148,7 +152,7 @@
             this.$http.get(API_URL + '/roles/' + this.$route.params.id, headers)
                 .then(response => (
                     this.roleName = response.data.data.name,
-                    this.description = response.data.data.description
+                        this.description = response.data.data.description
                 ))
         }
     }

@@ -46,6 +46,7 @@
                     :navItems="navOrganizationSuperadmin"></SidebarNav>
         <SidebarNav v-if="store.state.role.isOrganizationAdmin === true" :navItems="navOrganizationAdmin"></SidebarNav>
         <SidebarNav v-if="store.state.role.isGuest === true" :navItems="navGuest"></SidebarNav>
+        <SidebarNav v-if="store.state.role.isCustomer === true" :navItems="navCustomer"></SidebarNav>
         <!--            <user-view v-if="userType === 'user'"></user-view>&ndash;&gt;-->
         <!--        <guest-view v-if="userType === 'guest'"></guest-view>-->
         <SidebarFooter/>
@@ -86,6 +87,7 @@
     import navPlatformAdmin from '../views/wny/menu/nav_platform_admin'
     import navOrganizationSuperadmin from '../views/wny/menu/nav_organization_superadmin'
     import navOrganizationAdmin from '../views/wny/menu/nav_organization_admin'
+    import navCustomer from '../views/wny/menu/nav_customer'
     import {
         Header as AppHeader,
         SidebarToggler,
@@ -141,6 +143,7 @@
                 navPlatformAdmin: navPlatformAdmin.items,
                 navOrganizationSuperadmin: navOrganizationSuperadmin.items,
                 navOrganizationAdmin: navOrganizationAdmin.items,
+                navCustomer: navCustomer.items,
                 store: store
             }
         },

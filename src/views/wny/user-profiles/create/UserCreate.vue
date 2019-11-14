@@ -375,14 +375,14 @@
                 <b-button type="submit"
                           size="sm"
                           variant="primary">
-                  <i class="fa fa-dot-circle-o"></i> Submit
+                  <i class="fa fa-dot-circle-o"></i> Save
                 </b-button>
                 <b-button type="reset"
                           size="sm"
                           variant="danger"
                           href="#/admin/user-profiles">
                   <i class="fa fa-ban"></i>
-                  Reset
+                  Cancel
                 </b-button>
               </div>
 

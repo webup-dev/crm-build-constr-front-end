@@ -88,20 +88,18 @@
               </b-form-input>
             </b-form-group>
             <div slot="footer">
-              <b-button
-                type="submit"
-                size="sm"
-                variant="primary"
-                v-bind:href="'#/demo/books/' + id + '/edit'">
+              <b-button type="submit"
+                        size="sm"
+                        variant="primary"
+                        v-bind:href="'#/demo/books/' + id + '/edit'">
                 <i class="fa fa-dot-circle-o"></i> Edit
               </b-button>
-              <b-button
-                type="reset"
-                size="sm"
-                variant="danger"
-                href="#/demo/books-final">
+              <b-button type="reset"
+                        size="sm"
+                        variant="danger"
+                        href="#/demo/books-final">
                 <i class="fa fa-ban"></i>
-                Reset
+                Cancel
               </b-button>
             </div>
           </b-form>
@@ -135,12 +133,12 @@
         },
         mounted() {
             axios.get(API_URL + '/book/' + this.$route.params.id)
-                .then(response => (
-                    this.title = response.data.data.title,
-                        this.author_name = response.data.data.author_name,
-                        this.pages_count = response.data.data.pages_count,
-                        this.user_id = response.data.data.user_name
-                ))
+                 .then(response => (
+                     this.title = response.data.data.title,
+                         this.author_name = response.data.data.author_name,
+                         this.pages_count = response.data.data.pages_count,
+                         this.user_id = response.data.data.user_name
+                 ))
         }
     }
 </script>

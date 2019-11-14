@@ -70,10 +70,10 @@
                 type="submit"
                 size="sm"
                 variant="primary">
-                <i class="fa fa-dot-circle-o"></i> Submit
+                <i class="fa fa-dot-circle-o"></i> Save
               </b-button>
               <b-button type="reset" size="sm" variant="danger" v-bind:href="'#/admin/organization'"><i
-                class="fa fa-ban"></i> Reset
+                class="fa fa-ban"></i> Cancel
               </b-button>
             </div>
           </b-form>

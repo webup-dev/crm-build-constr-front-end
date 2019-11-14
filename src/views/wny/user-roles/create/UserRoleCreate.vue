@@ -53,17 +53,24 @@
               label-for="role_ids"
               :label-cols="3"
             >
-              <multiselect v-model="multi" :options="options" :multiple="true" label="name" track-by="name"></multiselect>
+              <multiselect v-model="multi" :options="options" :multiple="true" label="name"
+                           track-by="name"></multiselect>
             </b-form-group>
 
             <div slot="footer">
-              <b-button
-                type="submit"
-                size="sm"
-                variant="primary">
-                <i class="fa fa-dot-circle-o"></i> Submit
+              <b-button type="submit"
+                        size="sm"
+                        variant="primary">
+                <i class="fa fa-dot-circle-o"></i>
+                Save
               </b-button>
-              <b-button type="reset" size="sm" variant="danger" href="#/user-roles/index"><i class="fa fa-ban"></i> Reset</b-button>
+              <b-button type="reset"
+                        size="sm"
+                        variant="danger"
+                        href="#/user-roles/index">
+                <i class="fa fa-ban"></i>
+                Cancel
+              </b-button>
             </div>
           </b-form>
         </b-card>

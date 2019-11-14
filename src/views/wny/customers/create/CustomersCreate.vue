@@ -109,14 +109,16 @@
             </b-form-group>
 
             <div slot="footer">
-              <b-button
-                type="submit"
-                size="sm"
-                variant="primary">
-                <i class="fa fa-dot-circle-o"></i> Submit
+              <b-button type="submit"
+                        size="sm"
+                        variant="primary">
+                <i class="fa fa-dot-circle-o"></i> Save
               </b-button>
-              <b-button type="reset" size="sm" variant="danger" v-bind:href="'#/admin/customers'"><i
-                class="fa fa-ban"></i> Reset
+              <b-button type="reset"
+                        size="sm"
+                        variant="danger"
+                        v-bind:href="'#/admin/customers'"><i
+                class="fa fa-ban"></i> Cancel
               </b-button>
             </div>
           </b-form>
@@ -212,8 +214,8 @@
 
                 console.log(dataPost);
                 axios.post('/customers', dataPost, headers)
-                    .then(request => this.organizationsCreatingSuccessful(request))
-                    .catch((request) => this.organizationsCreatingFailed(request));
+                     .then(request => this.organizationsCreatingSuccessful(request))
+                     .catch((request) => this.organizationsCreatingFailed(request));
             },
 
             organizationsCreatingSuccessful(req) {
@@ -238,9 +240,9 @@
                 }
             };
             axios.get(API_URL + '/organizations', headers)
-                .then(response => (
-                    this.optionsApi = this.getParents(response.data.data)
-                ));
+                 .then(response => (
+                     this.optionsApi = this.getParents(response.data.data)
+                 ));
         }
     }
 </script>

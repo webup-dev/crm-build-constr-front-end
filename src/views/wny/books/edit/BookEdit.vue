@@ -83,14 +83,17 @@
               </b-form-input>
             </b-form-group>
             <div slot="footer">
-              <b-button
-                type="submit"
-                size="sm"
-                variant="primary">
-                <i class="fa fa-dot-circle-o"></i> Submit
+              <b-button type="submit"
+                        size="sm"
+                        variant="primary">
+                <i class="fa fa-dot-circle-o"></i> Save
               </b-button>
-              <b-button type="reset" size="sm" variant="danger" href="#/demo/books-final"><i class="fa fa-ban"></i>
-                Reset
+              <b-button type="reset"
+                        size="sm"
+                        variant="danger"
+                        href="#/demo/books-final">
+                <i class="fa fa-ban"></i>
+                Cancel
               </b-button>
             </div>
           </b-form>
@@ -164,7 +167,7 @@
                 this.error = false;
                 this.flash('The Book updated.', 'success');
 
-                this.$router.replace(this.$route.query.redirect || '/demo/books/' + this.$route.params.id )
+                this.$router.replace(this.$route.query.redirect || '/demo/books/' + this.$route.params.id)
             },
 
             bookUpdatingFailed(req) {
@@ -177,9 +180,9 @@
             this.$http.get(API_URL + '/book/' + this.$route.params.id)
                 .then(response => (
                     this.title = response.data.data.title,
-                    this.author_name = response.data.data.author_name,
-                    this.pages_count = response.data.data.pages_count,
-                    this.user_id = response.data.data.user_name
+                        this.author_name = response.data.data.author_name,
+                        this.pages_count = response.data.data.pages_count,
+                        this.user_id = response.data.data.user_name
                 ))
         }
     }
