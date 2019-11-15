@@ -3,6 +3,14 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.16.0] - 2019-11-15
+### Changed
+- Organizations structure (Platform is "owner" of all organizations).
+- Roles.
+- Soft-deleted menu.
+### Added
+- Dashboard for developer. 
+
 ## [0.15.0] - 2019-10-31
 ### Added
 - Module Customers. 
