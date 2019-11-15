@@ -72,26 +72,18 @@
         },
         methods: {
             login() {
-                console.log("Login. Before start.");
-                // console.log("store.state.role.isSuperadmin: " + store.state.role.isSuperadmin);
-                // console.log("store.state.role.isAdmin: " + store.state.role.isAdmin);
                 this.$http.post('/auth/login', {email: this.email, password: this.password})
                     .then(request => this.loginSuccessful(request))
                     .catch(() => this.loginFailed());
-                // console.log(this.email);
-                // console.log(this.password)
             },
 
             loginSuccessful(req) {
-                console.log("Login. Success.");
                 if (!req.data.token) {
-                    console.log("Login. Success. Token is absent. Token: " + req.data.token);
                     this.loginFailedFromLoginSuccessful(req);
                     return
                 }
 
                 localStorage.token = req.data.token;
-                console.log("Login. Success. Token in the Storage: " + localStorage.token);
                 this.error = false;
 
                 this.mainRole();
@@ -102,16 +94,12 @@
 
             loginFailedFromLoginSuccessful(req) {
                 this.error = 'Login was successful but failed!';
-                console.log(req);
                 delete localStorage.token;
-                console.log("FailedFromLoginSuccessful. Token was deleted. Token: " + localStorage.token);
             },
 
             loginFailed(req) {
                 this.error = 'Login failed!';
-                console.log(req);
                 delete localStorage.token;
-                console.log("loginFailed. Token was deleted. Token: " + localStorage.token);
             },
 
             me() {
@@ -124,38 +112,37 @@
                 this.$http.get('/auth/me', headers)
                     .then(request => this.meSuccessful(request))
                     .catch(() => this.meFailed());
-
-                axios.get(API_URL + '/soft-deleted-items', headers)
-                     .then(request => this.softDeletedSuccessful(request))
-                     .catch(() => this.meFailed());
-                return;
             },
 
             meSuccessful(req) {
+                console.log("req");
+                console.log(req);
                 const name = req.data.name;
-                const id = req.id;
+                const id = req.data.id;
 
                 this.userStoreConfig(name, id);
 
-                console.log("Me: " + store.state.user.name);
                 this.error = false;
 
-                this.$router.replace(this.$route.query.redirect || '/dashboard')
+                this.redirecting();
             },
 
-            softDeletedSuccessful(req) {
-                const data = req.data.data;
-                this.softDeletedConfig(data);
-                console.log("Store");
-                console.log(store.state.softDeleted);
+            redirecting() {
+                let role = store.state.user.role;
+
+                switch (role) {
+                    case 'developer':
+                        this.$router.replace(this.$route.query.redirect || '/dashboard-developer');
+                        break;
+                    default:
+                        this.$router.replace(this.$route.query.redirect || '/dashboard');
+                        break;
+                }
             },
 
             meFailed(req) {
                 this.error = 'Main role getting is failed!';
-                console.log("Main role getting is failed. Request: " + req);
                 delete localStorage.token;
-                console.log("loginFailed. Token was deleted. Token: " + localStorage.token);
-                console.log("Main role getting is failed. Token: " + localStorage.token);
             }
         }
     }

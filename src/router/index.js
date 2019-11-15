@@ -6,6 +6,7 @@ const DefaultContainer = () => import('@/containers/DefaultContainer')
 
 // Views
 const Dashboard = () => import('@/views/Dashboard')
+const DashboardDeveloper = () => import('@/views/wny/dashboard/Developer')
 
 // Views - Books
 const BooksStatic = () => import('@/views/wny/books/index/BooksStatic')
@@ -172,6 +173,11 @@ export default new Router({
           path: 'dashboard',
           name: 'Dashboard',
           component: Dashboard
+        },
+        {
+          path: 'dashboard-developer',
+          name: 'DashboardDeveloper',
+          component: DashboardDeveloper
         },
         {
           path: 'demo',

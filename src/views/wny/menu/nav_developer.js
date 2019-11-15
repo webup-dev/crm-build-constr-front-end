@@ -4,11 +4,10 @@ export default {
   items: [
     {
       name: 'Dashboard',
-      url: '/dashboard',
+      url: '/dashboard-developer',
       icon: 'icon-speedometer',
       badge: {
-        variant: 'primary',
-        text: 'NEW'
+        variant: 'primary'
       }
     },
     {
@@ -114,12 +113,12 @@ export default {
       icon: 'fa fa-users',
       children: [
         {
-          name: 'Customers (' + store.state.softDeleted[1].count + ')',
+          name: 'Customers',
           url: '/admin/customers/soft-deleted',
           icon: 'fa fa-users'
         },
         {
-          name: 'Users (' + store.state.softDeleted[0].count + ')',
+          name: 'Users',
           url: '/admin/user-profiles/soft-deleted',
           icon: 'fa fa-users'
         }]
