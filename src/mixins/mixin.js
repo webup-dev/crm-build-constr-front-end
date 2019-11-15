@@ -100,6 +100,9 @@ export default {
     mainRoleSuccessfulFailed(req) {
       this.flash('You do not have any role.', 'error');
       this.roleStoreConfig('guest');
-    }
+    },
+    softDeletedConfig(data) {
+      store.state.softDeleted = data;
+    },
   }
 };

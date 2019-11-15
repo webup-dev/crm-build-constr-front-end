@@ -56,6 +56,9 @@
 <script>
     import store from "../../../store";
     import mixin from "../../../mixins/mixin";
+    import axios from "../../../backend/vue-axios/axios";
+
+    const API_URL = process.env.VUE_APP_API_URL;
 
     export default {
         name: 'Login',
@@ -122,12 +125,15 @@
                     .then(request => this.meSuccessful(request))
                     .catch(() => this.meFailed());
 
+                axios.get(API_URL + '/soft-deleted-items', headers)
+                     .then(request => this.softDeletedSuccessful(request))
+                     .catch(() => this.meFailed());
                 return;
             },
 
             meSuccessful(req) {
                 const name = req.data.name;
-                const id = req.data.id;
+                const id = req.id;
 
                 this.userStoreConfig(name, id);
 
@@ -135,6 +141,13 @@
                 this.error = false;
 
                 this.$router.replace(this.$route.query.redirect || '/dashboard')
+            },
+
+            softDeletedSuccessful(req) {
+                const data = req.data.data;
+                this.softDeletedConfig(data);
+                console.log("Store");
+                console.log(store.state.softDeleted);
             },
 
             meFailed(req) {

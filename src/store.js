@@ -22,6 +22,14 @@ export default new Vuex.Store({
       name: '',
       role: '',
       id: ''
+    },
+    softDeleted: {
+      0: {
+        count: ''
+      },
+      1: {
+        count: ''
+      }
     }
   },
 

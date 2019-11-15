@@ -1,3 +1,5 @@
+import store from "../../../store";
+
 export default {
   items: [
     {
@@ -93,11 +95,6 @@ export default {
           name: 'Users',
           url: '/admin/user-profiles',
           icon: 'fa fa-users'
-        },
-        {
-          name: 'Soft-deleted Users ',
-          url: '/admin/user-profiles/soft-deleted',
-          icon: 'fa fa-users'
         }]
     },
     {
@@ -109,10 +106,21 @@ export default {
           name: 'Customers',
           url: '/admin/customers',
           icon: 'fa fa-users'
+        }]
+    },
+    {
+      name: 'Soft Deleted',
+      url: '/soft-deleted',
+      icon: 'fa fa-users',
+      children: [
+        {
+          name: 'Customers (' + store.state.softDeleted[1].count + ')',
+          url: '/admin/customers/soft-deleted',
+          icon: 'fa fa-users'
         },
         {
-          name: 'Soft-deleted Customers ',
-          url: '/admin/customers/soft-deleted',
+          name: 'Users (' + store.state.softDeleted[0].count + ')',
+          url: '/admin/user-profiles/soft-deleted',
           icon: 'fa fa-users'
         }]
     },
