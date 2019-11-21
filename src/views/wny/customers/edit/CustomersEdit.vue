@@ -17,22 +17,23 @@
             <div class="alert alert-danger" v-if="error">
               {{ error }}
             </div>
-            <b-form-group label="Customer Name"
+            <b-form-group description="Accepts alphabet, space, hyphen only"
+                          label="Customer Name"
                           label-for="name"
-                          :label-cols="3">
-              <b-form-input plaintext
-                            id="name"
+                          :label-cols="3"
+                          class="label-bold">
+              <b-form-input id="name"
                             v-model="$v.name.$model"
                             :class="status($v.name)"
                             type="text">
-
               </b-form-input>
             </b-form-group>
 
             <b-form-group description="Select type, please"
                           label="Customer Type *"
                           label-for="customerType"
-                          :label-cols="3">
+                          :label-cols="3"
+                          class="label-bold">
               <b-form-select id="customerType"
                              v-model="$v.customerType.$model"
                              :plain="true"
@@ -42,23 +43,11 @@
               </b-form-select>
             </b-form-group>
 
-            <b-form-group label="Note"
-                          label-for="note"
-                          :label-cols="3">
-              <b-form-input id="note"
-                            v-model="$v.note.$model"
-                            :class="status($v.note)"
-                            type="text"
-                            placeholder="Note">
-
-              </b-form-input>
-            </b-form-group>
-
-
             <b-form-group description="Select organization, please"
                           label="Organization *"
                           label-for="department_id"
-                          :label-cols="3">
+                          :label-cols="3"
+                          class="label-bold">
               <b-form-select id="department_id"
                              v-model="$v.departmentId.$model"
                              :plain="true"
@@ -66,6 +55,70 @@
                              :class="status($v.departmentId)"
                              value="Please select">
               </b-form-select>
+            </b-form-group>
+
+            <b-form-group description="Accepts alphabet, digits, space, hyphen, dot, comma, # only"
+                          label="Mailing Address Line 1"
+                          label-for="line_1"
+                          :label-cols="3"
+                          class="label-bold">
+              <b-form-input id="line_1"
+                            v-model="$v.line_1.$model"
+                            :class="status($v.line_1)"
+                            type="text"
+                            placeholder="Mailing Address Line 1">
+              </b-form-input>
+            </b-form-group>
+
+            <b-form-group description="Accepts alphabet, digits, space, hyphen, dot, comma, # only"
+                          label="Mailing Address Line 2"
+                          label-for="line_2"
+                          :label-cols="3"
+                          class="label-bold">
+              <b-form-input id="line_2"
+                            v-model="$v.line_2.$model"
+                            :class="status($v.line_2)"
+                            type="text"
+                            placeholder="Mailing Address Line 2">
+              </b-form-input>
+            </b-form-group>
+
+            <b-form-group description="Accepts alphabet, space, hyphen only"
+                          label="Mailing City"
+                          label-for="city"
+                          :label-cols="3"
+                          class="label-bold">
+              <b-form-input id="city"
+                            v-model="$v.city.$model"
+                            :class="status($v.city)"
+                            type="text"
+                            placeholder="Mailing City">
+              </b-form-input>
+            </b-form-group>
+
+            <b-form-group description="Select, please state"
+                          label="State *"
+                          label-for="state"
+                          :label-cols="3"
+                          class="label-bold">
+              <b-form-select id="state"
+                             v-model="$v.state.$model"
+                             :plain="true"
+                             :options=states
+                             :class="status($v.state)">
+              </b-form-select>
+            </b-form-group>
+
+            <b-form-group description="Accepts digits"
+                          label="Postal Code *"
+                          label-for="zip"
+                          :label-cols="3"
+                          class="label-bold">
+              <b-form-input id="zip"
+                            v-model="$v.zip.$model"
+                            type="text"
+                            :class="status($v.zip)">
+              </b-form-input>
             </b-form-group>
 
             <div slot="footer">
@@ -94,20 +147,25 @@
     import store from "../../../../store";
     import orgDeps from "../../../../mixins/orderedDepartments";
     import {validations} from '../validationEdit'
+    import {states} from './../../../../shared/states';
     import axios from "../../../../backend/vue-axios/axios";
 
     export default {
-        name: 'CustomersCreate',
+        name: 'CustomersEdit',
         mixins: [orgDeps],
         data() {
             return {
-                user_id: '',
                 name: '',
-                note: '',
                 customerType: '',
                 customerTypes: ['individual', 'organization'],
                 departmentId: 'Please select an option',
+                line_1: '',
+                line_2: '',
+                city: '',
+                state: '',
+                zip: '',
                 optionsApi: [],
+                states: states,
                 errors: [],
                 error: false
             }
@@ -144,14 +202,16 @@
                 };
 
                 let dataPost = {
-                    user_id: this.user_id,
                     name: this.name,
+                    organization_id: this.departmentId,
                     type: this.customerType,
-                    note: this.note,
-                    organization_id: this.departmentId
+                    line_1: this.line_1,
+                    line_2: this.line_2,
+                    city: this.city,
+                    state: this.state,
+                    zip: this.zip
                 };
 
-                console.log(dataPost);
                 axios.put('/customers/' + this.$route.params.id, dataPost, headers)
                      .then(request => this.organizationsUpdatingSuccessful(request))
                      .catch((request) => this.organizationsUpdatingFailed(request));
@@ -168,19 +228,7 @@
             organizationsUpdatingFailed(req) {
                 this.errors = false;
                 this.error = 'Customer Updating is failed! ' + req;
-                console.log(req);
-            },
-
-            getFirstName(name) {
-                let arr = name.split(" ");
-                return arr[0];
-            },
-
-            getLastName(name) {
-                let arr = name.split(" ");
-                return arr[1];
             }
-
         },
         created() {
             let headers = {
@@ -203,11 +251,14 @@
             };
             this.$http.get(API_URL + '/customers/' + this.$route.params.id, headers)
                 .then(response => (
-                    this.user_id = response.data.data.user_id,
-                        this.name = response.data.data.name,
-                        this.note = response.data.data.note,
+                    this.name = response.data.data.name,
                         this.customerType = response.data.data.type,
-                        this.departmentId = response.data.data.organization_id
+                        this.departmentId = response.data.data.organization_id,
+                        this.line_1 = response.data.data.line_1,
+                        this.line_2 = response.data.data.line_2,
+                        this.city = response.data.data.city,
+                        this.state = response.data.data.state,
+                        this.zip = response.data.data.zip
                 ));
         }
     }
@@ -240,5 +291,9 @@
 
   .error:focus {
     outline-color: #F99;
+  }
+
+  .label-bold {
+    font-weight: bold
   }
 </style>

@@ -32,3 +32,10 @@ export const address = (value) => {
   }
   return /^[0-9a-zA-Z /,.#-]*$/.test(value)
 };
+
+export const city = (value) => {
+  if (typeof value === 'undefined' || value === null || value === '') {
+    return true
+  }
+  return /^[a-zA-Z -]*$/.test(value)
+};

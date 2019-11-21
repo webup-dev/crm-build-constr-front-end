@@ -1,5 +1,3 @@
-import store from "../../../store";
-
 export default {
   items: [
     {
@@ -98,14 +96,8 @@ export default {
     },
     {
       name: 'Customers',
-      url: '/customers',
-      icon: 'fa fa-users',
-      children: [
-        {
-          name: 'Customers',
-          url: '/admin/customers',
-          icon: 'fa fa-users'
-        }]
+      url: '/admin/customers',
+      icon: 'fa fa-users'
     },
     {
       name: 'Soft Deleted',

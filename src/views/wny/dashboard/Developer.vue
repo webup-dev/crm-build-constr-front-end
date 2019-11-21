@@ -17,7 +17,7 @@
             </div>
             <div>
               <a href="#/admin/user-profiles/soft-deleted"><p>Users
-                <b-badge>{{ usersSoftDeleted }}</b-badge>
+                <b-badge>{{ usersSoftDeleted  + ' ' + this.$store.state.user.name}}</b-badge>
               </p></a>
               <a href="#/admin/customers/soft-deleted"><p>Customers
                 <b-badge>{{ customersSoftDeleted }}</b-badge>

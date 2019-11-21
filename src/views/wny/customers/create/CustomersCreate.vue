@@ -18,27 +18,15 @@
               {{ error }}
             </div>
             <b-form-group description="Accepts alphabet, space, hyphen only"
-                          label="Customer First Name *"
-                          label-for="firstName"
-                          :label-cols="3">
-              <b-form-input id="firstName"
-                            v-model="$v.firstName.$model"
-                            :class="status($v.firstName)"
+                          label="Customer Name *"
+                          label-for="name"
+                          :label-cols="3"
+                          class="label-bold">
+              <b-form-input id="name"
+                            v-model="$v.name.$model"
+                            :class="status($v.name)"
                             type="text"
-                            placeholder="Enter, please Customer First Name">
-
-              </b-form-input>
-            </b-form-group>
-
-            <b-form-group description="Accepts alphabet, space, hyphen only"
-                          label="Customer Last Name *"
-                          label-for="lastName"
-                          :label-cols="3">
-              <b-form-input id="lastName"
-                            v-model="$v.lastName.$model"
-                            :class="status($v.lastName)"
-                            type="text"
-                            placeholder="Enter, please Customer Last Name">
+                            placeholder="Enter, please Customer Name">
 
               </b-form-input>
             </b-form-group>
@@ -46,7 +34,8 @@
             <b-form-group description="Select type, please"
                           label="Customer Type *"
                           label-for="customerType"
-                          :label-cols="3">
+                          :label-cols="3"
+                          class="label-bold">
               <b-form-select id="customerType"
                              v-model="$v.customerType.$model"
                              :plain="true"
@@ -56,23 +45,11 @@
               </b-form-select>
             </b-form-group>
 
-            <b-form-group label="Note"
-                          label-for="note"
-                          :label-cols="3">
-              <b-form-input id="note"
-                            v-model="$v.note.$model"
-                            :class="status($v.note)"
-                            type="text"
-                            placeholder="Note">
-
-              </b-form-input>
-            </b-form-group>
-
-
             <b-form-group description="Select organization, please"
                           label="Organization *"
                           label-for="department_id"
-                          :label-cols="3">
+                          :label-cols="3"
+                          class="label-bold">
               <b-form-select id="department_id"
                              v-model="$v.departmentId.$model"
                              :plain="true"
@@ -82,29 +59,68 @@
               </b-form-select>
             </b-form-group>
 
-            <b-form-group description="Enter email, please"
-                          label="Email *"
-                          label-for="email"
-                          :label-cols="3">
-              <b-form-input id="note"
-                            v-model="$v.email.$model"
-                            :class="status($v.email)"
+            <b-form-group description="Accepts alphabet, digits, space, hyphen, dot, comma, # only"
+                          label="Mailing Address Line 1"
+                          label-for="line_1"
+                          :label-cols="3"
+                          class="label-bold">
+              <b-form-input id="line_1"
+                            v-model="$v.line_1.$model"
+                            :class="status($v.line_1)"
                             type="text"
-                            placeholder="Email">
+                            placeholder="Mailing Address Line 1">
 
               </b-form-input>
             </b-form-group>
 
-            <b-form-group description="Enter password, please"
-                          label="Password *"
-                          label-for="password"
-                          :label-cols="3">
-              <b-form-input id="note"
-                            v-model="$v.password.$model"
-                            :class="status($v.password)"
+            <b-form-group description="Accepts alphabet, digits, space, hyphen, dot, comma, # only"
+                          label="Mailing Address Line 2"
+                          label-for="line_2"
+                          :label-cols="3"
+                          class="label-bold">
+              <b-form-input id="line_2"
+                            v-model="$v.line_2.$model"
+                            :class="status($v.line_2)"
                             type="text"
-                            placeholder="Password">
+                            placeholder="Mailing Address Line 2">
+              </b-form-input>
+            </b-form-group>
 
+            <b-form-group description="Accepts alphabet, space, hyphen only"
+                          label="Mailing City"
+                          label-for="city"
+                          :label-cols="3"
+                          class="label-bold">
+              <b-form-input id="city"
+                            v-model="$v.city.$model"
+                            :class="status($v.city)"
+                            type="text"
+                            placeholder="Mailing City">
+              </b-form-input>
+            </b-form-group>
+
+            <b-form-group description="Select, please state"
+                          label="State *"
+                          label-for="state"
+                          :label-cols="3"
+                          class="label-bold">
+              <b-form-select id="state"
+                             v-model="$v.state.$model"
+                             :plain="true"
+                             :options=states
+                             :class="status($v.state)">
+              </b-form-select>
+            </b-form-group>
+
+            <b-form-group description="Accepts digits"
+                          label="Postal Code *"
+                          label-for="zip"
+                          :label-cols="3"
+                          class="label-bold">
+              <b-form-input id="zip"
+                            v-model="$v.zip.$model"
+                            type="text"
+                            :class="status($v.zip)">
               </b-form-input>
             </b-form-group>
 
@@ -134,6 +150,7 @@
     import store from "../../../../store";
     import orgDeps from "../../../../mixins/orderedDepartments";
     import {validations} from '../validation'
+    import {states} from './../../../../shared/states';
     import axios from "../../../../backend/vue-axios/axios";
 
     export default {
@@ -141,15 +158,17 @@
         mixins: [orgDeps],
         data() {
             return {
-                firstName: '',
-                lastName: '',
-                note: '',
+                name: '',
                 customerType: '',
                 customerTypes: ['individual', 'organization'],
                 departmentId: 'Please select an option',
-                email: '',
-                password: '',
+                line_1: '',
+                line_2: '',
+                city: '',
+                state: '',
+                zip: '',
                 optionsApi: [],
+                states: states,
                 errors: [],
                 error: false
             }
@@ -163,23 +182,6 @@
                 }
             },
             checkForm: function (e) {
-                // validation
-                // this.errors = [];
-                //
-                // if (!this.name) {
-                //     this.errors.push('Name is required.');
-                // }
-                //
-                // if (!this.order) {
-                //     this.errors.push('Order is required.');
-                // }
-                //
-                // if (!this.errors.length && !this.error.length) {
-                //     this.create();
-                //     return true;
-                // }
-
-                console.log("Submit Create.");
                 this.$v.$touch();
                 if (this.$v.$invalid) {
                     this.submitStatus = "Error";
@@ -187,11 +189,9 @@
                 } else {
                     this.create();
                     this.submitStatus = "Creating";
-                    console.log("submitStatus: " + this.submitStatus)
                     return true
                 }
 
-                console.log("submitStatus: " + this.submitStatus)
                 e.preventDefault();
             },
             create() {
@@ -203,13 +203,14 @@
                 };
 
                 let dataPost = {
-                    first_name: this.firstName,
-                    last_name: this.lastName,
-                    type: this.customerType,
-                    note: this.note,
+                    name: this.name,
                     organization_id: this.departmentId,
-                    email: this.email,
-                    password: this.password
+                    type: this.customerType,
+                    line_1: this.line_1,
+                    line_2: this.line_2,
+                    city: this.city,
+                    state: this.state,
+                    zip: this.zip
                 };
 
                 console.log(dataPost);
@@ -274,5 +275,9 @@
 
   .error:focus {
     outline-color: #F99;
+  }
+
+  .label-bold {
+    font-weight: bold
   }
 </style>

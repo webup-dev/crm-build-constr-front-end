@@ -13,7 +13,6 @@
             href="https://github.com/vadis2/helper/blob/master/vuejs/admin-template/coreUI/components/05-table-final.md"
             rel="noopener noreferrer" target="_blank"
             className="card-header-action" class="btn btn-ghost-default">
-            <small className="text-muted">docs</small>
           </a>
         </div>
       </b-card-header>
@@ -53,24 +52,22 @@
         },
         data: function () {
             return {
-                columns: ['id', 'user_id', 'name', 'type', 'organization.name', 'note', 'created_at', 'updated_at', 'actions'],
+                columns: ['id', 'name', 'type', 'organization.name', 'created_at', 'updated_at', 'actions'],
                 data: [],
                 message: '',
                 success: false,
                 options: {
                     headings: {
                         id: 'ID',
-                        user_id: 'User ID',
                         name: 'Name',
                         type: 'Type',
                         'organization.name': 'Organization',
-                        note: 'Note',
                         created_at: 'Created',
                         updated_at: 'Updated',
                         actions: 'Actions'
                     },
-                    sortable: ['user_id', 'name', 'type', 'organization.name', 'created_date', 'updated_date'],
-                    filterable: ['user_id', 'name', 'type', 'organization.name', 'created_date', 'updated_date', 'note'],
+                    sortable: ['name', 'type', 'organization.name', 'created_date', 'updated_date'],
+                    filterable: ['name', 'type', 'organization.name', 'created_date', 'updated_date'],
                     sortIcon: {base: 'fa', up: 'fa-sort-asc', down: 'fa-sort-desc', is: 'fa-sort'},
                     pagination: {
                         chunk: 5,
@@ -106,7 +103,6 @@
             customerDeletingFailed(req) {
                 this.errors = false;
                 this.error = 'Customer Deleting failed! ' + req;
-                console.log(req);
             },
 
             downloadData() {

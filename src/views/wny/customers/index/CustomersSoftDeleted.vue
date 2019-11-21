@@ -52,25 +52,23 @@
         },
         data: function () {
             return {
-                columns: ['id', 'user_id', 'name', 'type', 'organization.name', 'note', 'deleted_at', 'created_at', 'updated_at', 'actions'],
+                columns: ['id', 'name', 'type', 'organization.name', 'deleted_at', 'created_at', 'updated_at', 'actions'],
                 data: [],
                 message: '',
                 success: false,
                 options: {
                     headings: {
                         id: 'ID',
-                        user_id: 'User ID',
                         name: 'Name',
                         type: 'Type',
                         'organization.name': 'Organization',
-                        note: 'Note',
                         deleted_at: 'Deleted',
                         created_at: 'Created',
                         updated_at: 'Updated',
                         actions: 'Actions'
                     },
-                    sortable: ['user_id', 'name', 'type', 'organization.name', 'deleted_at', 'created_date', 'updated_date'],
-                    filterable: ['user_id', 'name', 'type', 'organization.name', 'deleted_at', 'created_date', 'updated_date', 'note'],
+                    sortable: ['name', 'type', 'organization.name', 'deleted_at', 'created_date', 'updated_date'],
+                    filterable: ['name', 'type', 'organization.name', 'deleted_at', 'created_date', 'updated_date', 'note'],
                     sortIcon: {base: 'fa', up: 'fa-sort-asc', down: 'fa-sort-desc', is: 'fa-sort'},
                     pagination: {
                         chunk: 5,
@@ -106,7 +104,6 @@
             customerDeletingFailed(req) {
                 this.errors = false;
                 this.error = 'Customer deleting permanently failed! ' + req;
-                console.log(req);
             },
 
             restoreCustomer: function (customerId) {
@@ -147,7 +144,6 @@
                 axios.get(API_URL + '/customers/soft-deleted', headers)
                      .then(response => {
                          if (response.status === 204) {
-                             console.log('204');
                              this.data = [];
                          } else {
                              this.data = response.data.data;
