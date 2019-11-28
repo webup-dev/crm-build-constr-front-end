@@ -6,17 +6,11 @@
       <b-card-header>
         <i class="icon-menu mr-1"></i>Customer Index
         <a href="#" class="badge badge-danger">Module Customers</a>
-        <a href="/#/admin/customers/create" class="badge badge-warning" style="margin-left: 20px">Create Customer</a>
 
-        <div class="card-header-actions">
-          <a
-            href="https://github.com/vadis2/helper/blob/master/vuejs/admin-template/coreUI/components/05-table-final.md"
-            rel="noopener noreferrer" target="_blank"
-            className="card-header-action" class="btn btn-ghost-default">
-          </a>
-        </div>
+        <div class="card-header-actions"></div>
       </b-card-header>
       <b-card-body>
+        <a href="/#/admin/customers/create" class="btn btn-warning" style="float: right">Create Customer</a>
 
         <v-client-table :columns="columns" :data="data" :options="options" :theme="theme" id="dataTable">
           <p slot="actions" slot-scope="props">

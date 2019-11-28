@@ -7,6 +7,7 @@ const DefaultContainer = () => import('@/containers/DefaultContainer')
 // Views
 const Dashboard = () => import('@/views/Dashboard')
 const DashboardDeveloper = () => import('@/views/wny/dashboard/Developer')
+const DashboardOrganizationSuperadmin = () => import('@/views/wny/dashboard/OrganizationSuperadmin')
 
 // Views - Books
 const BooksStatic = () => import('@/views/wny/books/index/BooksStatic')
@@ -59,6 +60,7 @@ const Activities = () => import('@/views/wny/activities/index/Activities')
 
 // Views - Organizations
 const Organization = () => import('@/views/wny/organization/index/Organization')
+const OrganizationsSoftDeleted = () => import('@/views/wny/organization/index/OrganizationsSoftDeleted')
 const OrganizationCreate = () => import('@/views/wny/organization/create/OrganizationCreate')
 const OrganizationEdit = () => import('@/views/wny/organization/edit/OrganizationEdit')
 const OrganizationShow = () => import('@/views/wny/organization/show/Structure')
@@ -178,6 +180,21 @@ export default new Router({
           path: 'dashboard-developer',
           name: 'DashboardDeveloper',
           component: DashboardDeveloper
+        },
+        {
+          path: 'dashboard-platform-superadmin',
+          name: 'DashboardPlatformSuperadmin',
+          component: DashboardDeveloper
+        },
+        {
+          path: 'dashboard-platform-admin',
+          name: 'DashboardPlatformAdmin',
+          component: DashboardDeveloper
+        },
+        {
+          path: 'dashboard-organization-superadmin',
+          name: 'DashboardOrganizationSuperadmin',
+          component: DashboardOrganizationSuperadmin
         },
         {
           path: 'demo',
@@ -414,6 +431,11 @@ export default new Router({
               path: 'organization',
               name: 'Organization Structure',
               component: Organization
+            },
+            {
+              path: 'organizations/soft-deleted',
+              name: 'Soft Deleted Organization',
+              component: OrganizationsSoftDeleted
             },
             {
               path: 'organization/create',

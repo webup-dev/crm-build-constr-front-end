@@ -85,35 +85,13 @@ export default {
     },
     {
       name: 'Users',
-      url: '/users',
-      icon: 'fa fa-users',
-      children: [
-        {
-          name: 'Users',
-          url: '/admin/user-profiles',
-          icon: 'fa fa-users'
-        }]
+      url: '/admin/user-profiles',
+      icon: 'fa fa-users'
     },
     {
       name: 'Customers',
       url: '/admin/customers',
       icon: 'fa fa-users'
-    },
-    {
-      name: 'Soft Deleted',
-      url: '/soft-deleted',
-      icon: 'fa fa-users',
-      children: [
-        {
-          name: 'Customers',
-          url: '/admin/customers/soft-deleted',
-          icon: 'fa fa-users'
-        },
-        {
-          name: 'Users',
-          url: '/admin/user-profiles/soft-deleted',
-          icon: 'fa fa-users'
-        }]
     },
     {
       title: true,

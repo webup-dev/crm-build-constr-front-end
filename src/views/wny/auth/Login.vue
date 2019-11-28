@@ -134,6 +134,15 @@
                     case 'developer':
                         this.$router.replace(this.$route.query.redirect || '/dashboard-developer');
                         break;
+                    case 'platform-superadmin':
+                        this.$router.replace(this.$route.query.redirect || '/dashboard-platform-superadmin');
+                        break;
+                    case 'platform-admin':
+                        this.$router.replace(this.$route.query.redirect || '/dashboard-platform-admin');
+                        break;
+                    case 'organization-superadmin':
+                        this.$router.replace(this.$route.query.redirect || '/dashboard-organization-superadmin');
+                        break;
                     default:
                         this.$router.replace(this.$route.query.redirect || '/dashboard');
                         break;

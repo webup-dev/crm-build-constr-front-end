@@ -9,18 +9,17 @@
             footer-tag="footer">
             <div slot="header">
               <i class="fa fa-align-justify"></i><strong> Soft-Deleted</strong>
-              <div class="card-header-actions">
-                <!--                <a href="https://bootstrap-vue.js.org/docs/components/badge" class="card-header-action" rel="noreferrer noopener" target="_blank">-->
-                <!--                  <small class="text-muted">docs</small>-->
-                <!--                </a>-->
-              </div>
+              <div class="card-header-actions"></div>
             </div>
             <div>
               <a href="#/admin/user-profiles/soft-deleted"><p>Users
-                <b-badge>{{ usersSoftDeleted  + ' ' + this.$store.state.user.name}}</b-badge>
+                <b-badge>{{ usersSoftDeleted }}</b-badge>
               </p></a>
               <a href="#/admin/customers/soft-deleted"><p>Customers
                 <b-badge>{{ customersSoftDeleted }}</b-badge>
+              </p></a>
+              <a href="#/admin/organizations/soft-deleted"><p>Organizations
+                <b-badge>{{ organizationsSoftDeleted }}</b-badge>
               </p></a>
             </div>
           </b-card>
@@ -40,7 +39,8 @@
         data: function() {
             return {
                 customersSoftDeleted: '',
-                usersSoftDeleted: ''
+                usersSoftDeleted: '',
+                organizationsSoftDeleted: ''
             }
         },
 
@@ -55,7 +55,8 @@
             this.$http.get(API_URL + '/soft-deleted-items', headers)
                 .then(response => (
                     this.usersSoftDeleted = response.data.data[0].count,
-                    this.customersSoftDeleted = response.data.data[1].count
+                    this.customersSoftDeleted = response.data.data[1].count,
+                    this.organizationsSoftDeleted = response.data.data[2].count
                 ));
         }
     }

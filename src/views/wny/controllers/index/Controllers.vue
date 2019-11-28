@@ -6,19 +6,12 @@
       <b-card-header>
         <i class="icon-menu mr-1"></i>Controllers Index
         <a href="#" class="badge badge-danger">Module Controllers</a>
-        <a href="/#/controllers/create" class="badge badge-warning" style="margin-left: 20px">Create Controller</a>
 
-        <div class="card-header-actions">
-          <a
-            href="https://github.com/vadis2/helper/blob/master/vuejs/admin-template/coreUI/components/05-table-final.md"
-            rel="noopener noreferrer" target="_blank"
-            className="card-header-action" class="btn btn-ghost-default">
-            <small className="text-muted">docs</small>
-          </a>
-        </div>
+        <div class="card-header-actions"></div>
       </b-card-header>
       <b-card-body>
-
+        <a href="/#/controllers/create" class="btn btn-warning" style="float: right">Create Controller</a>
+        
         <v-client-table :columns="columns" :data="data" :options="options" :theme="theme" id="dataTable">
           <p slot="actions" slot-scope="props">
             <a :href="'#/controllers/' + props.row.id + '/edit'" class="icon-pencil action-icon"></a>

@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.17.0] - 2019-11-21
+### Changed
+- Module "Customers".
+
 ## [0.16.0] - 2019-11-15
 ### Changed
 - Organizations structure (Platform is "owner" of all organizations).

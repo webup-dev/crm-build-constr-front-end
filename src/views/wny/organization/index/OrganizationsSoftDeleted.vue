@@ -4,8 +4,8 @@
       <flash-message></flash-message>
 
       <b-card-header>
-        <i class="icon-menu mr-1"></i>Organizational Structure
-        <a href="#" class="badge badge-danger">Module Company</a>
+        <i class="icon-menu mr-1"></i>Soft Deleted Organizations
+        <a href="#" class="badge badge-danger">Module Organizations</a>
 
         <!--        <a v-bind:href="'/#/admin/organization/show'" class="badge badge-info" style="margin-left: 20px">Show WNY-->
         <!--          Structure</a>-->
@@ -15,15 +15,14 @@
         <div class="card-header-actions"></div>
       </b-card-header>
       <b-card-body>
-        <a v-bind:href="'/#/admin/organization/create'" class="btn btn-warning" style="float: right">Create
-          Organizational Item</a>
         <v-client-table :columns="columns" :data="data" :options="options" :theme="theme" id="dataTable">
           <p slot="superName" slot-scope="props">
             {{props.row.name}} <br>
-            <span style="color: red;">{{props.row.subname}}</span></p>
+            <span style="color: red;">{{props.row.subline}}</span></p>
           <p slot="actions" slot-scope="props">
-            <a :href="'#/admin/organization/' + props.row.id + '/edit'" class="icon-pencil action-icon"></a>
-            <a class="icon-trash" v-on:click="deleteItem(props.row.id)" style="cursor: pointer"></a>
+            <a class="icon-action-undo action-icon" v-on:click="restoreOrganization(props.row.id)"
+               style="cursor: pointer"></a>
+            <a class="icon-trash" v-on:click="permanentDeleteOrganization(props.row.id)" style="cursor: pointer"></a>
           </p>
         </v-client-table>
       </b-card-body>
@@ -40,7 +39,7 @@
     Vue.use(ClientTable);
 
     export default {
-        name: 'Methods',
+        name: 'OrganizationsSoftDeleted',
         components: {
             ClientTable,
             Event
@@ -74,7 +73,7 @@
             }
         },
         methods: {
-            deleteItem: function (orgId) {
+            restoreOrganization: function (organizationId) {
                 let headers = {
                     headers: {
                         'Accept': 'application/json',
@@ -82,20 +81,46 @@
                     }
                 };
 
-                this.$http.delete(API_URL + '/organizations/' + orgId, headers)
-                    .then(request => this.itemDeletingSuccessful(request))
-                    .catch((request) => this.itemDeletingFailed(request));
+                this.$http.put(API_URL + '/organizations/' + organizationId + '/restore', headers)
+                    .then(request => this.organizationRestoringSuccessful(request))
+                    .catch((request) => this.organizationRestoringFailed(request));
+
             },
-            itemDeletingSuccessful(req) {
+            organizationRestoringSuccessful(req) {
                 this.errors = false;
                 this.error = false;
-                this.flash('The Item is deleted.', 'success');
+                this.flash('The Organization is restored.', 'success');
+
+                this.downloadData();
+                // this.$router.replace(this.$route.query.redirect || '/admin/user-profiles')
+            },
+
+            organizationRestoringFailed(req) {
+                this.errors = false;
+                this.flash(req.response.data.message + " Status code: " + req.response.data.code, 'error');
+            },
+            permanentDeleteOrganization: function (organizationId) {
+                let headers = {
+                    headers: {
+                        'Accept': 'application/json',
+                        'Authorization': 'Bearer ' + localStorage.token
+                    }
+                };
+
+                this.$http.delete(API_URL + '/organizations/' + organizationId + '/permanently', headers)
+                    .then(request => this.organizationDeletingSuccessful(request))
+                    .catch((request) => this.organizationDeletingFailed(request));
+            },
+            organizationDeletingSuccessful(req) {
+                this.errors = false;
+                this.error = false;
+                this.flash('The Organization is deleted permanently.', 'success');
 
                 this.downloadData();
             },
-            itemDeletingFailed(req) {
+            organizationDeletingFailed(req) {
                 this.errors = false;
-                this.error = 'Item Deleting failed! ' + req;
+                this.flash(req.response.data.message + " Status code: " + req.response.data.code, 'error');
             },
             downloadData() {
                 let headers = {
@@ -105,11 +130,16 @@
                     }
                 };
 
-                this.$http.get(API_URL + '/organizations', headers)
+                this.$http.get(API_URL + '/organizations/soft-deleted', headers)
                     .then(response => {
-                        this.data = this.formatColumnName(response.data.data);
-                        this.message = response.data.message;
-                        this.success = response.data.success;
+                        if (response.status === 204) {
+                            console.log('204');
+                            this.data = [];
+                        } else {
+                            this.data = response.data.data;
+                            this.message = response.data.message;
+                            this.success = response.data.success;
+                        }
                     })
                     .catch(error => console.log(error));
 
@@ -158,7 +188,6 @@
         },
         mounted() {
             this.downloadData();
-
         }
     };
 </script>

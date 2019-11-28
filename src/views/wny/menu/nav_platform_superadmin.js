@@ -2,12 +2,8 @@ export default {
   items: [
     {
       name: 'Dashboard',
-      url: '/dashboard',
-      icon: 'icon-speedometer',
-      badge: {
-        variant: 'primary',
-        text: 'NEW'
-      }
+      url: '/dashboard-platform-superadmin',
+      icon: 'icon-speedometer'
     },
     {
       title: true,
@@ -23,11 +19,11 @@ export default {
       url: '/roles/index',
       icon: 'fa fa-cog'
     },
-    {
-      name: 'Controllers',
-      url: '/controllers/index',
-      icon: 'fa fa-cog'
-    },
+    // {
+    //   name: 'Controllers',
+    //   url: '/controllers/index',
+    //   icon: 'fa fa-cog'
+    // },
     {
       name: 'User-Roles',
       url: '/user-roles/index',
@@ -45,35 +41,13 @@ export default {
     },
     {
       name: 'Users',
-      url: '/users',
+      url: '/admin/user-profiles',
       icon: 'fa fa-users',
-      children: [
-        {
-          name: 'Users',
-          url: '/admin/user-profiles',
-          icon: 'fa fa-users'
-        },
-        {
-          name: 'Soft-deleted Users ',
-          url: '/admin/user-profiles/soft-deleted',
-          icon: 'fa fa-users'
-        }]
     },
     {
       name: 'Customers',
-      url: '/customers',
-      icon: 'fa fa-users',
-      children: [
-        {
-          name: 'Customers',
-          url: '/admin/customers',
-          icon: 'fa fa-users'
-        },
-        {
-          name: 'Soft-deleted Customers ',
-          url: '/admin/customers/soft-deleted',
-          icon: 'fa fa-users'
-        }]
+      url: '/admin/customers',
+      icon: 'fa fa-users'
     }
   ]
 }
