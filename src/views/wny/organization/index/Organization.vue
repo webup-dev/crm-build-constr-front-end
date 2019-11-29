@@ -95,7 +95,7 @@
             },
             itemDeletingFailed(req) {
                 this.errors = false;
-                this.error = 'Item Deleting failed! ' + req;
+                this.flash(req.response.data.message + " Status code: " + req.response.data.code, 'error');
             },
             downloadData() {
                 let headers = {
