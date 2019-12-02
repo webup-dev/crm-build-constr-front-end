@@ -84,6 +84,7 @@
                 }
 
                 localStorage.token = req.data.token;
+                console.log("token: " . req.data.token)
                 this.error = false;
 
                 this.mainRole();

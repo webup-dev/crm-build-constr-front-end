@@ -72,7 +72,7 @@
                     }
                 };
 
-                axios.post('/auth/logout', [], headers)
+                this.$http.post('/auth/logout', [], headers)
                     .then(request => this.logoutSuccessful(request))
                     .catch(request => this.logoutFailed(request));
             },
