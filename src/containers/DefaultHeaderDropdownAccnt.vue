@@ -48,6 +48,7 @@
     import {HeaderDropdown as AppHeaderDropdown} from '@coreui/vue'
     import store from "../store";
     import mixin from "../mixins/mixin";
+    import axios from "../backend/vue-axios/axios";
 
     export default {
         name: 'DefaultHeaderDropdownAccnt',
@@ -70,7 +71,7 @@
                         'Authorization': 'Bearer ' + localStorage.token
                     }
                 };
-                this.$http.post('/auth/logout', [], headers)
+                axios.post('/auth/logout', [], headers)
                     .then(request => this.logoutSuccessful(request))
                     .catch(() => this.logoutFailed());
             },
