@@ -74,7 +74,7 @@
 
                 axios.post('/auth/logout', [], headers)
                     .then(request => this.logoutSuccessful(request))
-                    .catch(() => this.logoutFailed());
+                    .catch(request => this.logoutFailed(request));
             },
             logoutSuccessful(req) {
                 // console.log(req);
