@@ -122,163 +122,163 @@
 </template>
 
 <script>
-    const API_URL = process.env.VUE_APP_API_URL;
+  const API_URL = process.env.VUE_APP_API_URL;
 
-    import store from "../../../../store";
-    import orgDeps from "../../../../mixins/orderedDepartments";
-    import {validations} from '../validationEdit'
-    import {states} from './../../../../shared/states';
-    import axios from "../../../../backend/vue-axios/axios";
+  import store from "../../../../store";
+  import orgDeps from "../../../../mixins/orderedDepartments";
+  import {validations} from '../validationEdit'
+  import {states} from './../../../../shared/states';
+  import axios from "../../../../backend/vue-axios/axios";
 
-    export default {
-        name: 'CustomersEdit',
-        mixins: [orgDeps],
-        data() {
-            return {
-                name: '',
-                customerType: '',
-                customerTypes: ['Individual(s)', 'Business'],
-                departmentId: 'Please select an option',
-                line_1: '',
-                line_2: '',
-                state: '',
-                zip: '',
-                optionsApi: [],
-                states: states,
-                errors: [],
-                error: false
-            }
-        },
-        validations: validations,
-        methods: {
-            status(validation) {
-                return {
-                    error: validation.$error,
-                    dirty: validation.$dirty
-                }
-            },
-          checkForm: function (e) {
-            // validation
-            this.errors = [];
-
-            // name
-            if (!this.$v.name.required) {
-              this.errors.push('Customer Account Name is required.');
-            }
-
-            if (!this.$v.name.minLength) {
-              this.errors.push('Customer Account Name must have at least ' + this.$v.name.$params.minLength.min + ' letters.');
-            }
-
-            if (!this.$v.name.alphaSpaceHyphen) {
-              this.errors.push('Customer Account Name accepts alphabet, space, hyphen only.');
-            }
-
-            // customerType
-            if (!this.$v.customerType.required) {
-              this.errors.push('Customer Type is required.');
-            }
-
-            // departmentId
-            if (!this.$v.departmentId.numeric) {
-              this.errors.push('Organization is required.');
-            }
-
-            // line_1
-            if (!this.$v.line_1.address) {
-              this.errors.push('Mailing Address Line 1 accepts alphabet, digits, space, hyphen, dot, comma, # only.');
-            }
-
-            // line_2
-            if (!this.$v.line_2.address) {
-              this.errors.push('Mailing Address Line 2 accepts alphabet, digits, space, hyphen, dot, comma, # only.');
-            }
-
-            // zip
-            if (this.zip) {
-              if (!this.$v.zip.numeric) {
-                this.errors.push('Postal Code accepts digits only.');
-              }
-
-              if (!this.$v.zip.maxLength) {
-                this.errors.push('Postal Code must have not more than ' + this.$v.zip.$params.maxLength.max + ' digits.');
-              }
-            }
-
-            if (!this.errors.length) {
-              this.create();
-              return true;
-            }
-
-            e.preventDefault();
-          },
-            update() {
-                let headers = {
-                    headers: {
-                        'Accept': 'application/json',
-                        'Authorization': 'Bearer ' + localStorage.token
-                    }
-                };
-
-                let dataPost = {
-                    name: this.name,
-                    organization_id: this.departmentId,
-                    type: this.customerType,
-                    line_1: this.line_1,
-                    line_2: this.line_2,
-                    state: this.state,
-                    zip: this.zip
-                };
-
-                axios.put('/customers/' + this.$route.params.id, dataPost, headers)
-                     .then(request => this.organizationsUpdatingSuccessful(request))
-                     .catch((request) => this.organizationsUpdatingFailed(request));
-            },
-
-            organizationsUpdatingSuccessful(req) {
-                this.errors = false;
-                this.error = false;
-                this.flash('Customer is updated.', 'success');
-
-                this.$router.replace(this.$route.query.redirect || '/admin/customers')
-            },
-
-            organizationsUpdatingFailed(req) {
-                this.errors = false;
-                this.error = 'Customer Updating is failed! ' + req;
-            }
-        },
-        created() {
-            let headers = {
-                headers: {
-                    'Accept': 'application/json',
-                    'Authorization': 'Bearer ' + localStorage.token
-                }
-            };
-            axios.get(API_URL + '/organizations', headers)
-                 .then(response => (
-                     this.optionsApi = this.getParents(response.data.data)
-                 ));
-        },
-        mounted() {
-            let headers = {
-                headers: {
-                    'Accept': 'application/json',
-                    'Authorization': 'Bearer ' + localStorage.token
-                }
-            };
-            this.$http.get(API_URL + '/customers/' + this.$route.params.id, headers)
-                .then(response => (
-                    this.name = response.data.data.name,
-                        this.customerType = response.data.data.type,
-                        this.departmentId = response.data.data.organization_id,
-                        this.line_1 = response.data.data.line_1,
-                        this.line_2 = response.data.data.line_2,
-                        this.state = response.data.data.state,
-                        this.zip = response.data.data.zip
-                ));
+  export default {
+    name: 'CustomersEdit',
+    mixins: [orgDeps],
+    data() {
+      return {
+        name: '',
+        customerType: '',
+        customerTypes: ['Individual(s)', 'Business'],
+        departmentId: 'Please select an option',
+        line_1: '',
+        line_2: '',
+        state: '',
+        zip: '',
+        optionsApi: [],
+        states: states,
+        errors: [],
+        error: false
+      }
+    },
+    validations: validations,
+    methods: {
+      status(validation) {
+        return {
+          error: validation.$error,
+          dirty: validation.$dirty
         }
+      },
+      checkForm: function (e) {
+        // validation
+        this.errors = [];
+
+        // name
+        if (!this.$v.name.required) {
+          this.errors.push('Customer Account Name is required.');
+        }
+
+        if (!this.$v.name.minLength) {
+          this.errors.push('Customer Account Name must have at least ' + this.$v.name.$params.minLength.min + ' letters.');
+        }
+
+        if (!this.$v.name.alphaSpaceHyphen) {
+          this.errors.push('Customer Account Name accepts alphabet, space, hyphen only.');
+        }
+
+        // customerType
+        if (!this.$v.customerType.required) {
+          this.errors.push('Customer Type is required.');
+        }
+
+        // departmentId
+        if (!this.$v.departmentId.numeric) {
+          this.errors.push('Organization is required.');
+        }
+
+        // line_1
+        if (!this.$v.line_1.address) {
+          this.errors.push('Mailing Address Line 1 accepts alphabet, digits, space, hyphen, dot, comma, # only.');
+        }
+
+        // line_2
+        if (!this.$v.line_2.address) {
+          this.errors.push('Mailing Address Line 2 accepts alphabet, digits, space, hyphen, dot, comma, # only.');
+        }
+
+        // zip
+        if (this.zip) {
+          if (!this.$v.zip.numeric) {
+            this.errors.push('Postal Code accepts digits only.');
+          }
+
+          if (!this.$v.zip.maxLength) {
+            this.errors.push('Postal Code must have not more than ' + this.$v.zip.$params.maxLength.max + ' digits.');
+          }
+        }
+
+        if (!this.errors.length) {
+          this.update();
+          return true;
+        }
+
+        e.preventDefault();
+      },
+      update() {
+        let headers = {
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.token
+          }
+        };
+
+        let dataPost = {
+          name: this.name,
+          organization_id: this.departmentId,
+          type: this.customerType,
+          line_1: this.line_1,
+          line_2: this.line_2,
+          state: this.state,
+          zip: this.zip
+        };
+
+        axios.put('/customers/' + this.$route.params.id, dataPost, headers)
+             .then(request => this.organizationsUpdatingSuccessful(request))
+             .catch((request) => this.organizationsUpdatingFailed(request));
+      },
+
+      organizationsUpdatingSuccessful(req) {
+        this.errors = false;
+        this.error = false;
+        this.flash('Customer is updated.', 'success');
+
+        this.$router.replace(this.$route.query.redirect || '/admin/customers')
+      },
+
+      organizationsUpdatingFailed(req) {
+        this.errors = false;
+        this.error = 'Customer Updating is failed! ' + req;
+      }
+    },
+    created() {
+      let headers = {
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.token
+        }
+      };
+      axios.get(API_URL + '/organizations', headers)
+           .then(response => (
+             this.optionsApi = this.getParents(response.data.data)
+           ));
+    },
+    mounted() {
+      let headers = {
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.token
+        }
+      };
+      this.$http.get(API_URL + '/customers/' + this.$route.params.id, headers)
+          .then(response => (
+            this.name = response.data.data.name,
+              this.customerType = response.data.data.type,
+              this.departmentId = response.data.data.organization_id,
+              this.line_1 = response.data.data.line_1,
+              this.line_2 = response.data.data.line_2,
+              this.state = response.data.data.state,
+              this.zip = response.data.data.zip
+          ));
     }
+  }
 </script>
 
 <style scoped>
