@@ -64,7 +64,7 @@
         },
         methods: {
             logout() {
-                // console.log("Start Logout. Token: " + localStorage.token)
+                console.log("Start Logout. Token: " + localStorage.token)
                 let headers = {
                     headers: {
                         'Accept': 'application/json',
@@ -85,7 +85,7 @@
                 this.$router.replace('/auth/sign-in');
             },
             logoutFailed() {
-                // console.log(req);
+                console.log(req);
                 this.error = true;
                 this.message = 'Login failed!';
                 // console.log("Logout Failed. Token: " + localStorage);
