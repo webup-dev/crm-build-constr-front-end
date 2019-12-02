@@ -71,6 +71,7 @@
                         'Authorization': 'Bearer ' + localStorage.token
                     }
                 };
+
                 axios.post('/auth/logout', [], headers)
                     .then(request => this.logoutSuccessful(request))
                     .catch(() => this.logoutFailed());
@@ -84,7 +85,7 @@
                 console.log("Logout!");
                 this.$router.replace('/auth/sign-in');
             },
-            logoutFailed() {
+            logoutFailed(req) {
                 console.log(req);
                 this.error = true;
                 this.message = 'Login failed!';
