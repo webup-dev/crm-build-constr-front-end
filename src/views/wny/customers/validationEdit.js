@@ -20,11 +20,8 @@ export const validations = {
   line_2: {
     address
   },
-  city: {
-    city
-  },
   state: {
-  
+
   },
   zip: {
     numeric,

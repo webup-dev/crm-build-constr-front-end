@@ -53,7 +53,7 @@
                 options: {
                     headings: {
                         id: 'ID',
-                        name: 'Name',
+                        name: 'Account Name',
                         type: 'Type',
                         'organization.name': 'Organization',
                         created_at: 'Created',

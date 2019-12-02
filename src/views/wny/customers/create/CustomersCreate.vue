@@ -17,10 +17,9 @@
             <div class="alert alert-danger" v-if="error">
               {{ error }}
             </div>
-            <b-form-group description="Accepts alphabet, space, hyphen only"
-                          label="Customer Name *"
+            <b-form-group label="Customer Account Name *"
                           label-for="name"
-                          :label-cols="3"
+                          :label-cols="4"
                           class="label-bold">
               <b-form-input id="name"
                             v-model="$v.name.$model"
@@ -31,10 +30,9 @@
               </b-form-input>
             </b-form-group>
 
-            <b-form-group description="Select type, please"
-                          label="Customer Type *"
+            <b-form-group label="Customer Type *"
                           label-for="customerType"
-                          :label-cols="3"
+                          :label-cols="4"
                           class="label-bold">
               <b-form-select id="customerType"
                              v-model="$v.customerType.$model"
@@ -45,12 +43,11 @@
               </b-form-select>
             </b-form-group>
 
-            <b-form-group description="Select organization, please"
-                          label="Organization *"
-                          label-for="department_id"
-                          :label-cols="3"
+            <b-form-group label="Organization *"
+                          label-for="departmentId"
+                          :label-cols="4"
                           class="label-bold">
-              <b-form-select id="department_id"
+              <b-form-select id="departmentId"
                              v-model="$v.departmentId.$model"
                              :plain="true"
                              :options=parents
@@ -59,10 +56,9 @@
               </b-form-select>
             </b-form-group>
 
-            <b-form-group description="Accepts alphabet, digits, space, hyphen, dot, comma, # only"
-                          label="Mailing Address Line 1"
+            <b-form-group label="Mailing Address Line 1"
                           label-for="line_1"
-                          :label-cols="3"
+                          :label-cols="4"
                           class="label-bold">
               <b-form-input id="line_1"
                             v-model="$v.line_1.$model"
@@ -73,10 +69,9 @@
               </b-form-input>
             </b-form-group>
 
-            <b-form-group description="Accepts alphabet, digits, space, hyphen, dot, comma, # only"
-                          label="Mailing Address Line 2"
+            <b-form-group label="Mailing Address Line 2"
                           label-for="line_2"
-                          :label-cols="3"
+                          :label-cols="4"
                           class="label-bold">
               <b-form-input id="line_2"
                             v-model="$v.line_2.$model"
@@ -86,23 +81,9 @@
               </b-form-input>
             </b-form-group>
 
-            <b-form-group description="Accepts alphabet, space, hyphen only"
-                          label="Mailing City"
-                          label-for="city"
-                          :label-cols="3"
-                          class="label-bold">
-              <b-form-input id="city"
-                            v-model="$v.city.$model"
-                            :class="status($v.city)"
-                            type="text"
-                            placeholder="Mailing City">
-              </b-form-input>
-            </b-form-group>
-
-            <b-form-group description="Select, please state"
-                          label="State *"
+            <b-form-group label="State"
                           label-for="state"
-                          :label-cols="3"
+                          :label-cols="4"
                           class="label-bold">
               <b-form-select id="state"
                              v-model="$v.state.$model"
@@ -112,10 +93,9 @@
               </b-form-select>
             </b-form-group>
 
-            <b-form-group description="Accepts digits"
-                          label="Postal Code *"
+            <b-form-group label="Postal Code"
                           label-for="zip"
-                          :label-cols="3"
+                          :label-cols="4"
                           class="label-bold">
               <b-form-input id="zip"
                             v-model="$v.zip.$model"
@@ -133,8 +113,7 @@
               <b-button type="reset"
                         size="sm"
                         variant="danger"
-                        v-bind:href="'#/admin/customers'"><i
-                class="fa fa-ban"></i> Cancel
+                        v-bind:href="'#/admin/customers'"><i class="fa fa-ban"></i> Cancel
               </b-button>
             </div>
           </b-form>
@@ -145,107 +124,160 @@
 </template>
 
 <script>
-    const API_URL = process.env.VUE_APP_API_URL;
+  const API_URL = process.env.VUE_APP_API_URL;
 
-    import store from "../../../../store";
-    import orgDeps from "../../../../mixins/orderedDepartments";
-    import {validations} from '../validation'
-    import {states} from './../../../../shared/states';
-    import axios from "../../../../backend/vue-axios/axios";
+  import store from "../../../../store";
+  import orgDeps from "../../../../mixins/orderedDepartments";
+  import {validations} from '../validation'
+  import {states} from './../../../../shared/states';
+  import axios from "../../../../backend/vue-axios/axios";
 
-    export default {
-        name: 'CustomersCreate',
-        mixins: [orgDeps],
-        data() {
-            return {
-                name: '',
-                customerType: '',
-                customerTypes: ['individual', 'organization'],
-                departmentId: 'Please select an option',
-                line_1: '',
-                line_2: '',
-                city: '',
-                state: '',
-                zip: '',
-                optionsApi: [],
-                states: states,
-                errors: [],
-                error: false
-            }
-        },
-        validations: validations,
-        methods: {
-            status(validation) {
-                return {
-                    error: validation.$error,
-                    dirty: validation.$dirty
-                }
-            },
-            checkForm: function (e) {
-                this.$v.$touch();
-                if (this.$v.$invalid) {
-                    this.submitStatus = "Error";
-                    this.errors.push('Field requirements not satisfied. See, please red fields.')
-                } else {
-                    this.create();
-                    this.submitStatus = "Creating";
-                    return true
-                }
-
-                e.preventDefault();
-            },
-            create() {
-                let headers = {
-                    headers: {
-                        'Accept': 'application/json',
-                        'Authorization': 'Bearer ' + localStorage.token
-                    }
-                };
-
-                let dataPost = {
-                    name: this.name,
-                    organization_id: this.departmentId,
-                    type: this.customerType,
-                    line_1: this.line_1,
-                    line_2: this.line_2,
-                    city: this.city,
-                    state: this.state,
-                    zip: this.zip
-                };
-
-                console.log(dataPost);
-                axios.post('/customers', dataPost, headers)
-                     .then(request => this.organizationsCreatingSuccessful(request))
-                     .catch((request) => this.organizationsCreatingFailed(request));
-            },
-
-            organizationsCreatingSuccessful(req) {
-                this.errors = false;
-                this.error = false;
-                this.flash('New Customer is created.', 'success');
-
-                this.$router.replace(this.$route.query.redirect || '/admin/customers')
-            },
-
-            organizationsCreatingFailed(req) {
-                this.errors = false;
-                this.error = 'Customer Creating failed! ' + req;
-                console.log(req);
-            }
-        },
-        created() {
-            let headers = {
-                headers: {
-                    'Accept': 'application/json',
-                    'Authorization': 'Bearer ' + localStorage.token
-                }
-            };
-            axios.get(API_URL + '/organizations', headers)
-                 .then(response => (
-                     this.optionsApi = this.getParents(response.data.data)
-                 ));
+  export default {
+    name: 'CustomersCreate',
+    mixins: [orgDeps],
+    data() {
+      return {
+        name: '',
+        customerType: '',
+        customerTypes: ['Individual(s)', 'Business'],
+        departmentId: 'Please select an option',
+        line_1: '',
+        line_2: '',
+        state: '',
+        zip: '',
+        optionsApi: [],
+        states: states,
+        errors: [],
+        error: false
+      }
+    },
+    validations: validations,
+    methods: {
+      status(validation) {
+        return {
+          error: validation.$error,
+          dirty: validation.$dirty
         }
+      },
+      // checkForm: function (e) {
+      //     this.$v.$touch();
+      //     if (this.$v.$invalid) {
+      //         this.submitStatus = "Error";
+      //         this.errors.push('Field requirements not satisfied. See, please red fields.')
+      //     } else {
+      //         this.create();
+      //         this.submitStatus = "Creating";
+      //         return true
+      //     }
+      //
+      //     e.preventDefault();
+      // },
+      checkForm: function (e) {
+        // validation
+        this.errors = [];
+
+        // name
+        if (!this.$v.name.required) {
+          this.errors.push('Customer Account Name is required.');
+        }
+
+        if (!this.$v.name.minLength) {
+          this.errors.push('Customer Account Name must have at least ' + this.$v.name.$params.minLength.min + ' letters.');
+        }
+
+        if (!this.$v.name.alphaSpaceHyphen) {
+          this.errors.push('Customer Account Name accepts alphabet, space, hyphen only.');
+        }
+
+        // customerType
+        if (!this.$v.customerType.required) {
+          this.errors.push('Customer Type is required.');
+        }
+
+        // departmentId
+        if (!this.$v.departmentId.numeric) {
+          this.errors.push('Organization is required.');
+        }
+
+        // line_1
+        if (!this.$v.line_1.address) {
+          this.errors.push('Mailing Address Line 1 accepts alphabet, digits, space, hyphen, dot, comma, # only.');
+        }
+
+        // line_2
+        if (!this.$v.line_2.address) {
+          this.errors.push('Mailing Address Line 2 accepts alphabet, digits, space, hyphen, dot, comma, # only.');
+        }
+
+        // zip
+        if (this.zip) {
+          if (!this.$v.zip.numeric) {
+            this.errors.push('Postal Code accepts digits only.');
+          }
+
+          if (!this.$v.zip.maxLength) {
+            this.errors.push('Postal Code must have not more than ' + this.$v.zip.$params.maxLength.max + ' digits.');
+          }
+        }
+
+        if (!this.errors.length) {
+          this.create();
+          return true;
+        }
+
+        e.preventDefault();
+      },
+      create() {
+        let headers = {
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.token
+          }
+        };
+
+        let dataPost = {
+          name: this.name,
+          organization_id: this.departmentId,
+          type: this.customerType,
+          line_1: this.line_1,
+          line_2: this.line_2,
+          state: this.state,
+          zip: this.zip
+        };
+
+        console.log(dataPost);
+        axios.post('/customers', dataPost, headers)
+             .then(request => this.organizationsCreatingSuccessful(request))
+             .catch((request) => this.organizationsCreatingFailed(request));
+      },
+
+      organizationsCreatingSuccessful(req) {
+        this.errors = false;
+        this.error = false;
+        this.flash('New Customer is created.', 'success');
+
+        this.$router.replace(this.$route.query.redirect || '/admin/customers')
+      },
+
+      organizationsCreatingFailed(req) {
+        this.errors = false;
+        this.error = 'Customer Creating failed! ' + req;
+        console.log(req);
+      }
+    },
+    created() {
+      let headers = {
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.token
+        }
+      };
+      axios.get(API_URL + '/organizations', headers)
+           .then(response => (
+             this.optionsApi = this.getParents(response.data.data)
+           ));
     }
+  }
 </script>
 
 <style scoped>

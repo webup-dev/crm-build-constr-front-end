@@ -8,6 +8,8 @@ const DefaultContainer = () => import('@/containers/DefaultContainer')
 const Dashboard = () => import('@/views/Dashboard')
 const DashboardDeveloper = () => import('@/views/wny/dashboard/Developer')
 const DashboardOrganizationSuperadmin = () => import('@/views/wny/dashboard/OrganizationSuperadmin')
+const DashboardOrganizationAdmin = () => import('@/views/wny/dashboard/OrganizationAdmin')
+const DashboardCustomer = () => import('@/views/wny/dashboard/Customer')
 
 // Views - Books
 const BooksStatic = () => import('@/views/wny/books/index/BooksStatic')
@@ -195,6 +197,16 @@ export default new Router({
           path: 'dashboard-organization-superadmin',
           name: 'DashboardOrganizationSuperadmin',
           component: DashboardOrganizationSuperadmin
+        },
+        {
+          path: 'dashboard-organization-admin',
+          name: 'DashboardOrganizationAdmin',
+          component: DashboardOrganizationAdmin
+        },
+        {
+          path: 'dashboard-customer',
+          name: 'DashboardCustomer',
+          component: DashboardCustomer
         },
         {
           path: 'demo',
@@ -512,7 +524,7 @@ export default new Router({
             }
           ]
         },
-        
+
         {
           path: 'theme',
           redirect: '/theme/colors',

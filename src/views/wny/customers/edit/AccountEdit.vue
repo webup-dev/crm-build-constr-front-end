@@ -17,9 +17,9 @@
             <div class="alert alert-danger" v-if="error">
               {{ error }}
             </div>
-            <b-form-group label="Customer Name"
+            <b-form-group label="Customer Account Name"
                           label-for="name"
-                          :label-cols="3">
+                          :label-cols="4">
               <b-form-input plaintext
                             id="name"
                             v-model="$v.name.$model"
@@ -32,7 +32,7 @@
             <b-form-group description="Select type, please"
                           label="Customer Type *"
                           label-for="customerType"
-                          :label-cols="3">
+                          :label-cols="4">
               <b-form-select id="customerType"
                              v-model="$v.customerType.$model"
                              :plain="true"
@@ -44,7 +44,7 @@
 
             <b-form-group label="Note"
                           label-for="note"
-                          :label-cols="3">
+                          :label-cols="4">
               <b-form-input id="note"
                             v-model="$v.note.$model"
                             :class="status($v.note)"
@@ -58,7 +58,7 @@
             <b-form-group description="Select organization, please"
                           label="Organization *"
                           label-for="department_id"
-                          :label-cols="3">
+                          :label-cols="4">
               <b-form-select id="department_id"
                              v-model="$v.departmentId.$model"
                              :plain="true"
@@ -106,7 +106,7 @@
                 name: '',
                 note: '',
                 customerType: '',
-                customerTypes: ['individual', 'organization'],
+                customerTypes: ['Individual(s)', 'Business'],
                 departmentId: 'Please select an option',
                 optionsApi: [],
                 errors: [],

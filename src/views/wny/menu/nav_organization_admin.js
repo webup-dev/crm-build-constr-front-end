@@ -2,7 +2,7 @@ export default {
   items: [
     {
       name: 'Dashboard',
-      url: '/dashboard',
+      url: '/dashboard-organization-admin',
       icon: 'icon-speedometer',
       badge: {
         variant: 'primary',
@@ -17,6 +17,11 @@ export default {
         element: '',
         attributes: {}
       }
+    },
+    {
+      name: 'Organizations',
+      url: '/admin/organization',
+      icon: 'fa fa-building-o'
     },
     {
       name: 'Users',

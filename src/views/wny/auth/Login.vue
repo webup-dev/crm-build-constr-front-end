@@ -143,6 +143,12 @@
                     case 'organization-superadmin':
                         this.$router.replace(this.$route.query.redirect || '/dashboard-organization-superadmin');
                         break;
+                    case 'customer-individual':
+                        this.$router.replace(this.$route.query.redirect || '/dashboard-customer');
+                        break;
+                    case 'customer-organization':
+                        this.$router.replace(this.$route.query.redirect || '/dashboard-customer');
+                        break;
                     default:
                         this.$router.replace(this.$route.query.redirect || '/dashboard');
                         break;
