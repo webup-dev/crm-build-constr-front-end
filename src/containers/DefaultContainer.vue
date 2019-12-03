@@ -3,8 +3,8 @@
     <AppHeader fixed>
       <SidebarToggler class="d-lg-none" display="md" mobile/>
       <b-link class="navbar-brand" to="#">
-        <img class="navbar-brand-full" src="img/brand/logo-wny-755.png" width="25" height="25" alt="WNY logo">
-        <img class="navbar-brand-minimized" src="img/brand/logo-wny-755.png" width="30" height="30" alt="WNY logo">
+        <img class="navbar-brand-full" src="../../public/img/brand/logo-wny-755.png" width="25" height="25" alt="WNY logo"/>
+        <img class="navbar-brand-minimized" src="../../public/img/brand/logo-wny-755.png" width="30" height="30" alt="WNY logo"/>
       </b-link>
       <SidebarToggler class="d-md-down-none" :defaultOpen=true display="lg"/>
       <b-navbar-nav class="d-md-down-none">
@@ -39,11 +39,9 @@
 
         <SidebarNav v-if="store.state.role.isSuperadmin === true" :navItems="navSuperadmin"></SidebarNav>
         <SidebarNav v-if="store.state.role.isDeveloper === true" :navItems="navDeveloper"></SidebarNav>
-        <SidebarNav v-if="store.state.role.isPlatformSuperadmin === true"
-                    :navItems="navPlatformSuperadmin"></SidebarNav>
+        <SidebarNav v-if="store.state.role.isPlatformSuperadmin === true" :navItems="navPlatformSuperadmin"></SidebarNav>
         <SidebarNav v-if="store.state.role.isPlatformAdmin === true" :navItems="navPlatformAdmin"></SidebarNav>
-        <SidebarNav v-if="store.state.role.isOrganizationSuperadmin === true"
-                    :navItems="navOrganizationSuperadmin"></SidebarNav>
+        <SidebarNav v-if="store.state.role.isOrganizationSuperadmin === true" :navItems="navOrganizationSuperadmin"></SidebarNav>
         <SidebarNav v-if="store.state.role.isOrganizationAdmin === true" :navItems="navOrganizationAdmin"></SidebarNav>
         <SidebarNav v-if="store.state.role.isGuest === true" :navItems="navGuest"></SidebarNav>
         <SidebarNav v-if="store.state.role.isCustomer === true" :navItems="navCustomer"></SidebarNav>
@@ -148,7 +146,7 @@
             }
         },
         created() {
-            console.log("defaultContainer. isSuperadmin: " + store.state.role.isSuperadmin)
+            console.log("defaultContainer. isSuperadmin: " + store.state.role.isSuperadmin);
             let headers = {
                 headers: {
                     'Accept': 'application/json',

@@ -17,15 +17,15 @@ require('vue-flash-message/dist/vue-flash-message.min.css');
 // todo
 // cssVars()
 
-Vue.use(BootstrapVue)
+Vue.use(BootstrapVue);
 // Vue.use(VueResource)
-Vue.use(VueFlashMessage)
-Vue.use(Vuelidate)
-Vue.use(VCalendar)
+Vue.use(VueFlashMessage);
+Vue.use(Vuelidate);
+Vue.use(VCalendar);
 
 const token = localStorage.token;
 if (token) {
-  Vue.prototype.$http.defaults.headers.common['Authorization'] = 'Bearer ' + token
+  Vue.prototype.$http.defaults.headers.common['Authorization'] = 'Bearer ' + token;
   Vue.prototype.$http.defaults.headers.common['Accept'] = 'application/json'
 }
 
@@ -39,4 +39,4 @@ new Vue({
   components: {
     App
   }
-})
+});

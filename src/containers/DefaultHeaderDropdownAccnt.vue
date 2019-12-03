@@ -1,17 +1,14 @@
 <template>
   <AppHeaderDropdown right no-caret>
     <template slot="header">
-      <img
-        src="img/avatars/6.jpg"
-        class="img-avatar"
-        alt="admin@bootstrapmaster.com"/>
+      <img src="../../public/img/avatars/6.jpg" class="img-avatar" alt="admin@bootstrapmaster.com"/>
     </template>
     \
     <template slot="dropdown">
       <b-dropdown-header tag="div" class="text-center"><strong>Account</strong></b-dropdown-header>
-<!--      <b-dropdown-item><i class="fa fa-bell-o"/> Name-->
-<!--        <b-badge variant="info">{{ store.state.role.isSuperadmin }}</b-badge>-->
-<!--      </b-dropdown-item>-->
+      <!--      <b-dropdown-item><i class="fa fa-bell-o"/> Name-->
+      <!--        <b-badge variant="info">{{ store.state.role.isSuperadmin }}</b-badge>-->
+      <!--      </b-dropdown-item>-->
       <b-dropdown-item><i class="fa fa-bell-o"/> Updates
         <b-badge variant="info">{{ itemsCount }}</b-badge>
       </b-dropdown-item>
@@ -24,9 +21,7 @@
       <b-dropdown-item><i class="fa fa-comments"/> Comments
         <b-badge variant="warning">{{ itemsCount }}</b-badge>
       </b-dropdown-item>
-      <b-dropdown-header
-        tag="div"
-        class="text-center">
+      <b-dropdown-header tag="div" class="text-center">
         <strong>Settings</strong>
       </b-dropdown-header>
       <b-dropdown-item><i class="fa fa-user"/> Profile</b-dropdown-item>
@@ -45,53 +40,53 @@
 </template>
 
 <script>
-    import {HeaderDropdown as AppHeaderDropdown} from '@coreui/vue'
-    import store from "../store";
-    import mixin from "../mixins/mixin";
-    import axios from "../backend/vue-axios/axios";
+  import {HeaderDropdown as AppHeaderDropdown} from '@coreui/vue'
+  import store from "../store";
+  import mixin from "../mixins/mixin";
+  import axios from "../backend/vue-axios/axios";
 
-    export default {
-        name: 'DefaultHeaderDropdownAccnt',
-        mixins: [mixin],
-        components: {
-            AppHeaderDropdown
-        },
-        data: () => {
-            return {
-                itemsCount: 42,
-                error: false
-            }
-        },
-        methods: {
-            logout() {
-                console.log("Start Logout. Token: " + localStorage.token)
-                let headers = {
-                    headers: {
-                        'Accept': 'application/json',
-                        'Authorization': 'Bearer ' + localStorage.token
-                    }
-                };
+  export default {
+    name: 'DefaultHeaderDropdownAccnt',
+    mixins: [mixin],
+    components: {
+      AppHeaderDropdown
+    },
+    data: () => {
+      return {
+        itemsCount: 42,
+        error: false
+      }
+    },
+    methods: {
+      logout() {
+        console.log("Start Logout. Token: " + localStorage.token);
+        let headers = {
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.token
+          }
+        };
 
-                this.$http.post('/auth/logout', [], headers)
-                    .then(request => this.logoutSuccessful(request))
-                    .catch(request => this.logoutFailed(request));
-            },
-            logoutSuccessful(req) {
-                // console.log(req);
-                delete localStorage.token;
-                this.allToFalse();
-                this.userStoreConfig("");
-                this.error = false;
-                console.log("Logout!");
-                this.$router.replace('/auth/sign-in');
-            },
-            logoutFailed(req) {
-                console.log(req);
-                this.error = true;
-                this.message = 'Login failed!';
-                // console.log("Logout Failed. Token: " + localStorage);
-                // console.log("store.state.user: " + store.state.user);
-            }
-        }
+        this.$http.post('/auth/logout', [], headers)
+            .then(request => this.logoutSuccessful(request))
+            .catch(request => this.logoutFailed(request));
+      },
+      logoutSuccessful(req) {
+        // console.log(req);
+        delete localStorage.token;
+        this.allToFalse();
+        this.userStoreConfig("");
+        this.error = false;
+        console.log("Logout!");
+        this.$router.replace('/auth/sign-in');
+      },
+      logoutFailed(req) {
+        console.log(req);
+        this.error = true;
+        this.message = 'Login failed!';
+        // console.log("Logout Failed. Token: " + localStorage);
+        // console.log("store.state.user: " + store.state.user);
+      }
     }
+  }
 </script>

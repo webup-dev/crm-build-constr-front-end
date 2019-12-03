@@ -54,112 +54,121 @@
 </template>
 
 <script>
-    import store from "../../../store";
-    import mixin from "../../../mixins/mixin";
-    import axios from "../../../backend/vue-axios/axios";
+  import store from "../../../store";
+  import mixin from "../../../mixins/mixin";
+  import axios from "../../../backend/vue-axios/axios";
 
-    const API_URL = process.env.VUE_APP_API_URL;
+  const API_URL = process.env.VUE_APP_API_URL;
 
-    export default {
-        name: 'Login',
-        mixins: [mixin],
-        data() {
-            return {
-                email: '',
-                password: '',
-                error: false
-            }
-        },
-        methods: {
-            login() {
-                this.$http.post('/auth/login', {email: this.email, password: this.password})
-                    .then(request => this.loginSuccessful(request))
-                    .catch(() => this.loginFailed());
-            },
+  export default {
+    name: 'Login',
+    mixins: [mixin],
+    data() {
+      return {
+        email: '',
+        password: '',
+        error: false
+      }
+    },
+    methods: {
+      login() {
+        console.log("Login.vue");
+        this.$http.post('/auth/login', {email: this.email, password: this.password})
+            .then(request => this.loginSuccessful(request))
+            .catch(request => this.loginFailed(request));
+      },
 
-            loginSuccessful(req) {
-                if (!req.data.token) {
-                    this.loginFailedFromLoginSuccessful(req);
-                    return
-                }
+      loginSuccessful(req) {
+        console.log("loginSuccessful");
 
-                localStorage.token = req.data.token;
-                console.log("token: " . req.data.token)
-                this.error = false;
-
-                this.mainRole();
-                this.me();
-
-                this.$router.replace(this.$route.query.redirect || '/dashboard')
-            },
-
-            loginFailedFromLoginSuccessful(req) {
-                this.error = 'Login was successful but failed!';
-                delete localStorage.token;
-            },
-
-            loginFailed(req) {
-                this.error = 'Login failed!';
-                delete localStorage.token;
-            },
-
-            me() {
-                let headers = {
-                    headers: {
-                        'Accept': 'application/json',
-                        'Authorization': 'Bearer ' + localStorage.token
-                    }
-                };
-                this.$http.get('/auth/me', headers)
-                    .then(request => this.meSuccessful(request))
-                    .catch(() => this.meFailed());
-            },
-
-            meSuccessful(req) {
-                console.log("req");
-                console.log(req);
-                const name = req.data.name;
-                const id = req.data.id;
-
-                this.userStoreConfig(name, id);
-
-                this.error = false;
-
-                this.redirecting();
-            },
-
-            redirecting() {
-                let role = store.state.user.role;
-
-                switch (role) {
-                    case 'developer':
-                        this.$router.replace(this.$route.query.redirect || '/dashboard-developer');
-                        break;
-                    case 'platform-superadmin':
-                        this.$router.replace(this.$route.query.redirect || '/dashboard-platform-superadmin');
-                        break;
-                    case 'platform-admin':
-                        this.$router.replace(this.$route.query.redirect || '/dashboard-platform-admin');
-                        break;
-                    case 'organization-superadmin':
-                        this.$router.replace(this.$route.query.redirect || '/dashboard-organization-superadmin');
-                        break;
-                    case 'customer-individual':
-                        this.$router.replace(this.$route.query.redirect || '/dashboard-customer');
-                        break;
-                    case 'customer-organization':
-                        this.$router.replace(this.$route.query.redirect || '/dashboard-customer');
-                        break;
-                    default:
-                        this.$router.replace(this.$route.query.redirect || '/dashboard');
-                        break;
-                }
-            },
-
-            meFailed(req) {
-                this.error = 'Main role getting is failed!';
-                delete localStorage.token;
-            }
+        if (!req.data.token) {
+          console.log("token ia absent")
+          this.loginFailedFromLoginSuccessful(req);
+          return
         }
+        console.log("loginSuccessful-2");
+
+        console.log("token: " + req.data.token);
+        localStorage.token = req.data.token;
+        this.error = false;
+
+        this.mainRole();
+        this.me();
+
+        this.$router.replace(this.$route.query.redirect || '/dashboard')
+      },
+
+      loginFailedFromLoginSuccessful(req) {
+        this.error = 'Login was successful but failed!';
+        delete localStorage.token;
+      },
+
+      loginFailed(req) {
+        console.log("loginFailed");
+        this.error = 'Login failed!';
+        delete localStorage.token;
+      },
+
+      me() {
+        let headers = {
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.token
+          }
+        };
+        this.$http.get('/auth/me', headers)
+            .then(request => this.meSuccessful(request))
+            .catch(() => this.meFailed());
+      },
+
+      meSuccessful(req) {
+        console.log("req");
+        console.log(req);
+        const name = req.data.name;
+        const id = req.data.id;
+
+        this.userStoreConfig(name, id);
+
+        this.error = false;
+
+        this.redirecting();
+      },
+
+      redirecting() {
+        let role = store.state.user.role;
+        console.log("role: " + role);
+        console.log("store: " + store.state);
+
+        switch (role) {
+          case 'developer':
+            console.log("redirecting. case: developer");
+            this.$router.replace(this.$route.query.redirect || '/dashboard-developer');
+            break;
+          case 'platform-superadmin':
+            this.$router.replace(this.$route.query.redirect || '/dashboard-platform-superadmin');
+            break;
+          case 'platform-admin':
+            this.$router.replace(this.$route.query.redirect || '/dashboard-platform-admin');
+            break;
+          case 'organization-superadmin':
+            this.$router.replace(this.$route.query.redirect || '/dashboard-organization-superadmin');
+            break;
+          case 'customer-individual':
+            this.$router.replace(this.$route.query.redirect || '/dashboard-customer');
+            break;
+          case 'customer-organization':
+            this.$router.replace(this.$route.query.redirect || '/dashboard-customer');
+            break;
+          default:
+            this.$router.replace(this.$route.query.redirect || '/dashboard');
+            break;
+        }
+      },
+
+      meFailed(req) {
+        this.error = 'Main role getting is failed!';
+        delete localStorage.token;
+      }
     }
+  }
 </script>
