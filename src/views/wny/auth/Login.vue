@@ -87,12 +87,14 @@
           return
         }
         console.log("loginSuccessful-2");
+        // console.log("token: " + req.data.token);
 
-        console.log("token: " + req.data.token);
         localStorage.token = req.data.token;
         this.error = false;
-
         this.mainRole();
+
+        console.log("loginSuccessful-3. Role");
+        console.log(store.state.user.role);
         this.me();
 
         this.$router.replace(this.$route.query.redirect || '/dashboard')
@@ -122,9 +124,8 @@
       },
 
       meSuccessful(req) {
-        console.log("req");
-        console.log(req);
         const name = req.data.name;
+        console.log("name: " + name);
         const id = req.data.id;
 
         this.userStoreConfig(name, id);
@@ -137,11 +138,9 @@
       redirecting() {
         let role = store.state.user.role;
         console.log("role: " + role);
-        console.log("store: " + store.state);
 
         switch (role) {
           case 'developer':
-            console.log("redirecting. case: developer");
             this.$router.replace(this.$route.query.redirect || '/dashboard-developer');
             break;
           case 'platform-superadmin':

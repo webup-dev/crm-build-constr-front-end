@@ -35,6 +35,9 @@ export default {
         case 'customer-individual':
           store.state.role.isCustomer = true;
           break;
+        case 'customer-organization':
+          store.state.role.isCustomer = true;
+          break;
         default:
           store.state.role.isGuest = true;
           break;
@@ -69,18 +72,19 @@ export default {
       this.$http.get('/rules/main-role', headers)
           .then(request => this.mainRoleSuccessful(request))
           .catch(() => this.mainRoleFailed());
-      
+
     },
     mainRoleSuccessful(req) {
       const mainRole = req.data.data.name;
+      console.log("mainRole: " + mainRole);
       if (Array.isArray(mainRole) && !mainRole.length) {
         this.mainRoleSuccessfulFailed(req);
         return
       }
-      
+
       this.roleStoreConfig(mainRole);
       this.userRoleStoreConfig(mainRole);
-      
+
       this.error = false;
     },
     mainRoleFailed(req) {
