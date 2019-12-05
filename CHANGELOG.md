@@ -2,6 +2,8 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+### Changed
+- Customer. Create, Edit. Add "&" in the available signs in the field Customer Account Name.
 
 ## [0.17.0] - 2019-11-21
 ### Changed

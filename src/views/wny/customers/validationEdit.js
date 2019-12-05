@@ -1,11 +1,11 @@
 import {required, minLength, maxLength, email, numeric} from 'vuelidate/lib/validators'
-import {alphaSpaceHyphen, address, city} from '../../../shared/validation-rules'
+import {alphaSpaceHyphenAnd, address, city} from '../../../shared/validation-rules'
 
 export const validations = {
   name: {
     required,
     minLength: minLength(3),
-    alphaSpaceHyphen
+    alphaSpaceHyphenAnd
   },
   departmentId: {
     required,

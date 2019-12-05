@@ -185,8 +185,8 @@
           this.errors.push('Customer Account Name must have at least ' + this.$v.name.$params.minLength.min + ' letters.');
         }
 
-        if (!this.$v.name.alphaSpaceHyphen) {
-          this.errors.push('Customer Account Name accepts alphabet, space, hyphen only.');
+        if (!this.$v.name.alphaSpaceHyphenAnd) {
+          this.errors.push('Customer Account Name accepts alphabet, space, hyphen, & only.');
         }
 
         // customerType
