@@ -56,7 +56,20 @@
               </b-form-select>
             </b-form-group>
 
-            <b-form-group label="Mailing Address Line 1"
+            <b-form-group label="City *"
+                          label-for="city"
+                          :label-cols="4"
+                          class="label-bold">
+              <b-form-input id="city"
+                            v-model="$v.city.$model"
+                            :class="status($v.city)"
+                            type="text"
+                            placeholder="City">
+
+              </b-form-input>
+            </b-form-group>
+
+            <b-form-group label="Mailing Address Line 1 *"
                           label-for="line_1"
                           :label-cols="4"
                           class="label-bold">
@@ -141,6 +154,7 @@
         customerType: '',
         customerTypes: ['Individual(s)', 'Business'],
         departmentId: 'Please select an option',
+        city: '',
         line_1: '',
         line_2: '',
         state: '',
@@ -199,7 +213,20 @@
           this.errors.push('Organization is required.');
         }
 
+        // city
+        if (!this.$v.city.required) {
+          this.errors.push('City is required.');
+        }
+
+        if (!this.$v.city.city) {
+          this.errors.push('City accepts alphabet, space, hyphen only.');
+        }
+
         // line_1
+        if (!this.$v.line_1.required) {
+          this.errors.push('Line 1 is required.');
+        }
+
         if (!this.$v.line_1.address) {
           this.errors.push('Mailing Address Line 1 accepts alphabet, digits, space, hyphen, dot, comma, # only.');
         }
@@ -240,6 +267,7 @@
           organization_id: this.departmentId,
           type: this.customerType,
           line_1: this.line_1,
+          city: this.city,
           line_2: this.line_2,
           state: this.state,
           zip: this.zip

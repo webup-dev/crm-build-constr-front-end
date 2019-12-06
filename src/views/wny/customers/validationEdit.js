@@ -14,7 +14,12 @@ export const validations = {
   customerType: {
     required
   },
+  city: {
+    required,
+    city
+  },
   line_1: {
+    required,
     address
   },
   line_2: {
