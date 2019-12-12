@@ -24,8 +24,7 @@
               <b-form-input id="name"
                             v-model="$v.name.$model"
                             :class="status($v.name)"
-                            type="text"
-                            placeholder="Enter, please Customer Name">
+                            type="text">
 
               </b-form-input>
             </b-form-group>
@@ -63,8 +62,7 @@
               <b-form-input id="city"
                             v-model="$v.city.$model"
                             :class="status($v.city)"
-                            type="text"
-                            placeholder="City">
+                            type="text">
 
               </b-form-input>
             </b-form-group>
@@ -76,8 +74,7 @@
               <b-form-input id="line_1"
                             v-model="$v.line_1.$model"
                             :class="status($v.line_1)"
-                            type="text"
-                            placeholder="Mailing Address Line 1">
+                            type="text">
 
               </b-form-input>
             </b-form-group>
@@ -89,8 +86,7 @@
               <b-form-input id="line_2"
                             v-model="$v.line_2.$model"
                             :class="status($v.line_2)"
-                            type="text"
-                            placeholder="Mailing Address Line 2">
+                            type="text">
               </b-form-input>
             </b-form-group>
 

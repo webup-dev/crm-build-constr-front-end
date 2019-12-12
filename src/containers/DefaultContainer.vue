@@ -165,6 +165,7 @@
             meSuccessful(req) {
                 this.errors = false;
                 this.error = false;
+                this.userStoreConfig(req.data.name, req.data.id)
                 this.mainRole();
             },
             meFailed(req) {

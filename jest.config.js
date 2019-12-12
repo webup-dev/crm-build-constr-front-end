@@ -22,7 +22,7 @@ module.exports = {
   ],
   verbose: true,
   testURL: "http://localhost/",
-  collectCoverage: true,
+  collectCoverage: false,
   collectCoverageFrom: [
       "src/**/*.{js,vue}",
       "!**/node_modules/**"

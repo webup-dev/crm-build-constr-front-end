@@ -118,14 +118,19 @@
     "moduleNameMapper": {
       "^@/(.*)$": "<rootDir>/src/$1"
     },
-    "collectCoverage": true,
+    "collectCoverage": false,
     "collectCoverageFrom": [
-      "**/*.{js,vue}",
-      "!**/node_modules/**"
+      "!**/*.{js,vue}",
+      "!**/node_modules/**",
+      "!dist/*"
     ],
     "coverageReporters": [
       "html",
       "text-summary"
+    ],
+    "coveragePathIgnorePatterns": [
+      "<rootDir>/node_modules/",
+      "<rootDir>/dist/"
     ],
     "snapshotSerializers": [
       "jest-serializer-vue"
