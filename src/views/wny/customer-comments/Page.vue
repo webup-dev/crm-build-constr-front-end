@@ -47,7 +47,8 @@
 
                   </b-form-input>
                 </b-form-group>
-                <input type="hidden" name="replyParentId" :value="replyParentId">
+                <input type="hidden" name="commentId" :value="commentId">
+                <input type="hidden" name="parentId" :value="parentId">
                 <input type="hidden" name="parentLevel" :value="parentLevel">
               </div>
               <textarea class="form-control"
@@ -80,9 +81,10 @@
                 {{ comment.comment }}
               </div>
               <div>
-                <a @click="showReply(comment.comment, comment.id, comment.level)" style="color: #00aced">Reply </a>
+                <a @click="reply(comment)" style="color: #00aced">Reply </a>
                 <a v-if="comment.author_id === store.state.user.id" @click="editComment(comment)" style="color: green"> Edit </a>
-                <a v-if="comment.author_id === store.state.user.id" @click="deleteComment(comment.id)" style="color: red"> Delete </a></div>
+                <a v-if="comment.author_id === store.state.user.id" @click="deleteComment(comment)"
+                   style="color: red"> Delete </a></div>
             </a>
           </li>
             </span>
@@ -117,40 +119,41 @@
         displayNew: "none;",
         displayReply: "none;",
         displayEdit: "none;",
-        bodyComment: '',
         errors: [],
         error: false,
+        commentId: '',
+        bodyComment: '',
+        parentId: null,
         parentComment: '',
-        replyParentId: null,
         parentLevel: 1,
         store: store
       }
     },
     methods: {
       editComment(comment) {
-        this.bodyComment = comment.comment;
         this.disp = 'block';
         this.displayNew = 'none';
         this.displayReply = 'none';
         this.displayEdit = 'block';
+        this.commentId = comment.id;
+        this.bodyComment = comment.comment;
       },
       newComment() {
-        this.replyParentId = null;
-        this.parentComment = '';
+        console.log('newComment!')
         this.disp = 'block';
         this.displayNew = 'block';
         this.displayReply = 'none';
         this.displayEdit = 'none';
       },
 
-      showReply(comment, id, level) {
-        this.replyParentId = id;
-        this.parentComment = comment;
-        this.parentLevel = level;
+      reply(comment) {
         this.disp = 'block';
         this.displayNew = 'none';
         this.displayReply = 'block';
         this.displayEdit = 'none';
+        this.parentId = comment.id;
+        this.parentComment = comment.comment;
+        this.parentLevel = comment.level;
       },
 
       status(validation) {
@@ -169,13 +172,13 @@
         }
 
         if (!this.errors.length) {
-          this.create();
+          this.save();
           return true;
         }
 
         e.preventDefault();
       },
-      create() {
+      save() {
         let headers = {
           headers: {
             'Accept': 'application/json',
@@ -183,20 +186,56 @@
           }
         };
 
-        let dataPost = {
-          customer_id: this.customer.id,
-          author_id: store.state.user.id,
-          comment: this.bodyComment,
-          parent_id: this.replyParentId,
-          level: this.replyParentId !== null ? (this.parentLevel + 1) : 1
-        };
-
-        console.log(dataPost);
-        axios.post('/customers/' + this.$route.params.id + "/comments", dataPost, headers)
-             .then(request => this.commentCreatingSuccessful(request))
-             .catch((request) => this.commentCreatingFailed(request));
+        if (this.displayNew === 'block') {
+          this.create(headers)
+        }
+        if (this.displayEdit === 'block') {
+          this.edit(headers)
+        }
+        if (this.displayReply === 'block') {
+          this.createReply(headers)
+        }
 
         this.bodyComment = '';
+      },
+      create(headers) {
+          let dataPost = {
+            customer_id: this.customer.id,
+            author_id: store.state.user.id,
+            parent_id: null,
+            comment: this.bodyComment,
+            level: 1
+          };
+
+          axios.post('/customers/' + this.$route.params.id + "/comments", dataPost, headers)
+               .then(request => this.commentCreatingSuccessful(request))
+               .catch((request) => this.commentCreatingFailed(request));
+      },
+
+      edit(headers) {
+        let dataPost = {
+            comment: this.bodyComment,
+          };
+
+          console.log(dataPost);
+          axios.put('/customers/' + this.$route.params.id + "/comments/" + this.commentId, dataPost, headers)
+               .then(request => this.commentCreatingSuccessful(request))
+               .catch((request) => this.commentCreatingFailed(request));
+      },
+
+      createReply(headers) {
+        let dataPost = {
+            customer_id: this.customer.id,
+            author_id: store.state.user.id,
+            comment: this.bodyComment,
+            parent_id: this.parentId,
+            level: this.parentLevel + 1
+          };
+
+          console.log(dataPost);
+          axios.post('/customers/' + this.$route.params.id + "/comments", dataPost, headers)
+               .then(request => this.commentCreatingSuccessful(request))
+               .catch((request) => this.commentCreatingFailed(request));
       },
 
       commentCreatingSuccessful(req) {
@@ -213,7 +252,7 @@
         console.log(req);
       },
 
-      deleteComment: function (commentId) {
+      deleteComment: function (comment) {
         let headers = {
           headers: {
             'Accept': 'application/json',
@@ -221,7 +260,7 @@
           }
         };
 
-        axios.delete(API_URL + '/customers/' + this.$route.params.id + "/comments/" + commentId, headers)
+        axios.delete(API_URL + '/customers/' + this.$route.params.id + "/comments/" + comment.id, headers)
              .then(request => this.commentDeletingSuccessful(request))
              .catch((request) => this.commentDeletingFailed(request));
       },
