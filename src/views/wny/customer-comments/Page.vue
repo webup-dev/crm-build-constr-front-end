@@ -50,6 +50,7 @@
                 <input type="hidden" name="commentId" :value="commentId">
                 <input type="hidden" name="parentId" :value="parentId">
                 <input type="hidden" name="parentLevel" :value="parentLevel">
+                <input type="hidden" name="level" :value="level">
               </div>
               <textarea class="form-control"
                         id="message"
@@ -104,6 +105,8 @@
   import ordComms from "../../../mixins/orderedComments";
   import {validations} from './validation'
   import store from "../../../store";
+  import {getAllComments, createComment, updateComment, deleteComment} from "../../../api/customerComments"
+  import {getCustomer} from "../../../api/customers"
 
   const API_URL = process.env.VUE_APP_API_URL;
 
@@ -124,6 +127,7 @@
         commentId: '',
         bodyComment: '',
         parentId: null,
+        level: 1,
         parentComment: '',
         parentLevel: 1,
         store: store
@@ -137,6 +141,8 @@
         this.displayEdit = 'block';
         this.commentId = comment.id;
         this.bodyComment = comment.comment;
+        this.level = comment.level;
+        this.parentId = comment.parent_id;
       },
       newComment() {
         console.log('newComment!')
@@ -179,63 +185,54 @@
         e.preventDefault();
       },
       save() {
-        let headers = {
-          headers: {
-            'Accept': 'application/json',
-            'Authorization': 'Bearer ' + localStorage.token
-          }
-        };
-
         if (this.displayNew === 'block') {
-          this.create(headers)
+          this.create()
         }
         if (this.displayEdit === 'block') {
-          this.edit(headers)
+          this.edit()
         }
         if (this.displayReply === 'block') {
-          this.createReply(headers)
+          this.createReply()
         }
 
         this.bodyComment = '';
       },
-      create(headers) {
-          let dataPost = {
-            customer_id: this.customer.id,
-            author_id: store.state.user.id,
-            parent_id: null,
-            comment: this.bodyComment,
-            level: 1
-          };
+      create() {
+        let customer_id = this.customer.id;
+        let author_id = store.state.user.id;
+        let parent_id = null;
+        let comment = this.bodyComment;
+        let level = '1';
 
-          axios.post('/customers/' + this.$route.params.id + "/comments", dataPost, headers)
-               .then(request => this.commentCreatingSuccessful(request))
-               .catch((request) => this.commentCreatingFailed(request));
+        createComment(this.$route.params.id, author_id, parent_id, comment, level)
+          .then(request => this.commentCreatingSuccessful(request))
+          .catch((request) => this.commentCreatingFailed(request));
       },
 
-      edit(headers) {
-        let dataPost = {
-            comment: this.bodyComment,
-          };
+      edit() {
+        let comment_id = this.commentId;
+        let author_id = store.state.user.id;
+        let comment = this.bodyComment;
+        let level = this.level;
+        let parent_id = this.parent_id;
 
-          console.log(dataPost);
-          axios.put('/customers/' + this.$route.params.id + "/comments/" + this.commentId, dataPost, headers)
-               .then(request => this.commentCreatingSuccessful(request))
-               .catch((request) => this.commentCreatingFailed(request));
+        updateComment(this.$route.params.id, comment_id, author_id, parent_id, comment, level)
+          .then(request => this.commentCreatingSuccessful(request))
+          .catch((request) => this.commentCreatingFailed(request));
       },
 
-      createReply(headers) {
+      createReply() {
         let dataPost = {
-            customer_id: this.customer.id,
-            author_id: store.state.user.id,
-            comment: this.bodyComment,
-            parent_id: this.parentId,
-            level: this.parentLevel + 1
-          };
+          customer_id: this.customer.id,
+          author_id: store.state.user.id,
+          comment: this.bodyComment,
+          parent_id: this.parentId,
+          level: this.parentLevel + 1
+        };
 
-          console.log(dataPost);
-          axios.post('/customers/' + this.$route.params.id + "/comments", dataPost, headers)
-               .then(request => this.commentCreatingSuccessful(request))
-               .catch((request) => this.commentCreatingFailed(request));
+        createComment(this.$route.params.id, dataPost)
+          .then(request => this.commentCreatingSuccessful(request))
+          .catch((request) => this.commentCreatingFailed(request));
       },
 
       commentCreatingSuccessful(req) {
@@ -253,16 +250,9 @@
       },
 
       deleteComment: function (comment) {
-        let headers = {
-          headers: {
-            'Accept': 'application/json',
-            'Authorization': 'Bearer ' + localStorage.token
-          }
-        };
-
-        axios.delete(API_URL + '/customers/' + this.$route.params.id + "/comments/" + comment.id, headers)
-             .then(request => this.commentDeletingSuccessful(request))
-             .catch((request) => this.commentDeletingFailed(request));
+        deleteComment(this.$route.params.id, comment.id)
+          .then(request => this.commentDeletingSuccessful(request))
+          .catch((request) => this.commentDeletingFailed(request));
       },
       commentDeletingSuccessful(req) {
         this.errors = false;
@@ -326,30 +316,21 @@
       },
 
       downloadData() {
-        let headers = {
-          headers: {
-            'Accept': 'application/json',
-            'Authorization': 'Bearer ' + localStorage.token
-          }
-        };
+        getCustomer(this.$route.params.id)
+          .then(response => {
+            this.customer = response.data.data;
+            this.message = response.data.message;
+            this.success = response.data.success;
+          })
+          .catch(error => console.log(error));
 
-        axios.get(API_URL + '/customers/' + this.$route.params.id, headers)
-             .then(response => {
-               this.customer = response.data.data;
-               this.message = response.data.message;
-               this.success = response.data.success;
-             })
-             .catch(error => console.log(error));
-
-        axios.get(API_URL + '/customers/' + this.$route.params.id + '/comments', headers)
-             .then(response => {
-               this.comments = this.format(response.data.data.comments);
-               console.log("response");
-               console.log(response);
-               this.message = response.data.message;
-               this.success = response.data.success;
-             })
-             .catch(error => console.log(error));
+        getAllComments(this.$route.params.id)
+          .then(response => {
+            this.comments = this.format(response.data.data.comments);
+            this.message = response.data.message;
+            this.success = response.data.success;
+          })
+          .catch(error => console.log(error));
       }
     },
     mounted() {
