@@ -1,5 +1,4 @@
-import {required, minLength, email, numeric} from 'vuelidate/lib/validators'
-// import {address, alphaSpaceHyphen} from '../../../shared/validation-rules'
+import {required, minLength, email} from 'vuelidate/lib/validators'
 
 export const validations = {
   customerId: {

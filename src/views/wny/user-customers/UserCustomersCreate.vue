@@ -141,7 +141,7 @@
           this.errors.push('Email is required.');
         }
 
-        if (!this.$v.email.customerId) {
+        if (!this.$v.email.email) {
           this.errors.push('Field "Email" must be of e-mails format.');
         }
 
