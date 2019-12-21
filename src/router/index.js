@@ -86,6 +86,12 @@ const AccountEdit = () => import('@/views/wny/customers/edit/AccountEdit')
 // SFC Customer Comments
 const CustomerComments = () => import('@/views/wny/customer-comments/Page');
 
+// SFC User-Customers
+const UserCustomers = () => import('@/views/wny/user-customers/UserCustomers');
+const UserCustomersCreate = () => import('@/views/wny/user-customers/UserCustomersCreate');
+const UserCustomersEdit = () => import('@/views/wny/user-customers/UserCustomersEdit');
+const UserCustomersSoftDeleted = () => import('@/views/wny/user-customers/UserCustomersSoftDeleted');
+
 const Colors = () => import('@/views/theme/Colors')
 const Typography = () => import('@/views/theme/Typography')
 
@@ -248,7 +254,7 @@ export default new Router({
             {
               path: 'books/:id',
               component: BookShowFinal
-            }            ,
+            },
             {
               path: 'books/:id/edit',
               component: BookEdit
@@ -512,6 +518,22 @@ export default new Router({
             {
               path: 'customer-comments/:id',
               component: CustomerComments
+            },
+            {
+              path: 'user-customers',
+              component: UserCustomers
+            },
+            {
+              path: 'user-customers/create',
+              component: UserCustomersCreate
+            },
+            {
+              path: 'user-customers/:id/edit',
+              component: UserCustomersEdit
+            },
+            {
+              path: 'user-customers/soft-deleted',
+              component: UserCustomersSoftDeleted
             }
           ]
         },

@@ -94,6 +94,11 @@ export default {
       icon: 'fa fa-users'
     },
     {
+      name: 'User-Customers',
+      url: '/admin/user-customers',
+      icon: 'fa fa-users'
+    },
+    {
       title: true,
       name: 'Theme',
       class: '',
