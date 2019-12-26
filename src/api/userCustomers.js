@@ -23,3 +23,11 @@ export {
   restoreUserCustomer,
   deleteUserCustomerPermanently
 }
+
+const person = {
+  id:1,
+  name: 'jane'
+}
+
+person.name
+
