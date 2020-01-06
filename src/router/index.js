@@ -82,6 +82,7 @@ const CustomersCreate = () => import('@/views/wny/customers/create/CustomersCrea
 const CustomersEdit = () => import('@/views/wny/customers/edit/CustomersEdit')
 const CustomersShow = () => import('@/views/wny/customers/show/CustomersShow')
 const AccountEdit = () => import('@/views/wny/customers/edit/AccountEdit')
+const CustomersPage = () => import('@/views/wny/customers/show/CustomerPage');
 
 // SFC Customer Comments
 const CustomerComments = () => import('@/views/wny/customer-comments/Page');
@@ -510,6 +511,10 @@ export default new Router({
             {
               path: 'customers/:id',
               component: CustomersShow
+            },
+            {
+              path: 'customers/:id/show',
+              component: CustomersPage
             },
             {
               path: 'customers/:id/edit',
