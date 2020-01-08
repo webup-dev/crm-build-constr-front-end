@@ -1,155 +1,80 @@
 <template>
   <div>
-    <b-form-group
-      label="Name"
-      label-for="name"
-      :label-cols="5"
-      class="bold"
-    >
-      <b-form-input
-        plaintext
-        id="name"
-        :value="customer.name"
-        type="text">
+    <div class="row">
+      <div class="col-12">
+        <div class="row">
+          <div class="col-5 bold">
+            Name
+          </div>
+          <div class="col-7">
+            {{ customer.name }}
+          </div>
+        </div>
 
-      </b-form-input>
-    </b-form-group>
+        <div class="row">
+          <div class="col-5 bold">
+            Customer type
+          </div>
+          <div class="col-7">
+            {{ customer.type }}
+          </div>
+        </div>
 
-    <b-form-group
-      label="Organization"
-      label-for="organization"
-      :label-cols="5"
-      class="bold"
-    >
-      <b-form-input
-        plaintext
-        id="organization"
-        :value="customer.organization.name"
-        type="text">
+        <div class="row">
+          <div class="col-5 bold">
+            Billing City
+          </div>
+          <div class="col-7">
+            {{ customer.city }}
+          </div>
+        </div>
 
-      </b-form-input>
-    </b-form-group>
+        <div class="row">
+          <div class="col-5 bold">
+            Billing Line 1
+          </div>
+          <div class="col-7">
+            {{ customer.line_1 }}
+          </div>
+        </div>
 
-    <b-form-group
-      label="Customer type"
-      label-for="type"
-      :label-cols="5"
-      class="bold"
-    >
-      <b-form-input
-        plaintext
-        id="type"
-        :value="customer.type"
-        type="text">
+        <div class="row">
+          <div class="col-5 bold">
+            Billing Line 2
+          </div>
+          <div class="col-7">
+            {{ customer.line_2 }}
+          </div>
+        </div>
 
-      </b-form-input>
-    </b-form-group>
+        <div class="row">
+          <div class="col-5 bold">
+            State
+          </div>
+          <div class="col-7">
+            {{ customer.state }}
+          </div>
+        </div>
 
-    <b-form-group
-      label="Billing City"
-      label-for="city"
-      :label-cols="5"
-      class="bold"
-    >
-      <b-form-input
-        plaintext
-        id="city"
-        :value="customer.city"
-        type="text">
+        <div class="row">
+          <div class="col-5 bold">
+            Postal Code
+          </div>
+          <div class="col-7">
+            {{ customer.zip }}
+          </div>
+        </div>
 
-      </b-form-input>
-    </b-form-group>
-
-    <b-form-group
-      label="Billing Line 1"
-      label-for="line_1"
-      :label-cols="5"
-      class="bold"
-    >
-      <b-form-input
-        plaintext
-        id="line_1"
-        :value="customer.line_1"
-        type="text">
-
-      </b-form-input>
-    </b-form-group>
-
-    <b-form-group
-      label="Billing Line 2"
-      label-for="line_2"
-      :label-cols="5"
-      class="bold"
-    >
-      <b-form-input
-        plaintext
-        id="line_2"
-        :value="customer.line_2"
-        type="text">
-
-      </b-form-input>
-    </b-form-group>
-
-    <b-form-group
-      label="State"
-      label-for="state"
-      :label-cols="5"
-      class="bold"
-    >
-      <b-form-input
-        plaintext
-        id="state"
-        :value="customer.state"
-        type="text">
-
-      </b-form-input>
-    </b-form-group>
-
-    <b-form-group
-      label="Postal Code"
-      label-for="zip"
-      :label-cols="5"
-      class="bold"
-    >
-      <b-form-input
-        plaintext
-        id="zip"
-        :value="customer.zip"
-        type="text">
-
-      </b-form-input>
-    </b-form-group>
-
-    <b-form-group
-      label="Customer Owner"
-      label-for="customer_owner_user"
-      :label-cols="5"
-      class="bold"
-    >
-      <b-form-input
-        plaintext
-        id="customer_owner_user"
-        :value="customer.customer_owner_user.name"
-        type="text">
-
-      </b-form-input>
-    </b-form-group>
-
-
-    <b-form-group
-      label="Customer Owner"
-      label-for="customer_owner_user"
-      :label-cols="5"
-      class="bold"
-    >
-      <b-form-input
-        plaintext
-        id="customer_owner_user"
-        :value="customer.customer_owner_user.name"
-        type="text">
-
-      </b-form-input>
-    </b-form-group>
+        <div class="row">
+          <div class="col-5 bold">
+            Customer Owner
+          </div>
+          <div class="col-7">
+            {{ customer.customer_owner_user.name }}
+          </div>
+        </div>
+    </div>
+  </div>
   </div>
 </template>
 

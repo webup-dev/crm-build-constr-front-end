@@ -3,21 +3,20 @@
     <div slot="header">
       <strong>Users</strong>
     </div>
-    <div v-for="item in users">
-      <b-form-group
-        :label=item.id
-        label-for="name"
-        :label-cols="5"
-        class="bold"
-      >
-        <b-form-input
-          plaintext
-          id="name"
-          :value=item.name
-          type="text">
-
-        </b-form-input>
-      </b-form-group>
+    <div class="row">
+      <div class="col-12">
+          <div class="row" v-for="item in users" style="margin-bottom: 10px;">
+            <div class="col-2">
+              ID:  {{item.id}}
+            </div>
+            <div class="col-6">
+              {{ item.name }}
+            </div>
+            <div class="col-4">
+              <button v-if="item.detailsExist != true" class="btn btn-success">Add Details</button>
+            </div>
+          </div>
+      </div>
     </div>
   </div>
 </template>
@@ -27,9 +26,7 @@
     name: "CustomerUsers",
     props: ['users'],
     data: function () {
-      return {
-
-      }
+      return {}
     }
   }
 </script>
