@@ -2,7 +2,11 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
-### Changed
+### Added
+- Component "Customer Page".
+- Component "Customer Info".
+- Component "Customer's Users".
+- Component "Contact".
 
 ## [0.18.0] - 2019-12-13
 ### Changed
