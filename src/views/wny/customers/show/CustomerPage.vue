@@ -9,6 +9,8 @@
           <customer-info :customer="customer"/>
           <hr>
           <customer-users :users="users"/>
+          <hr>
+          <customer-user-add v-on:new-customer-user-created="downloadData"></customer-user-add>
         </b-card>
       </b-col>
 
@@ -28,6 +30,7 @@
   import Vue from 'vue'
   import CustomerInfo from "../../../../components/CustomerInfo";
   import CustomerUsers from "../../../../components/CustomerUsers";
+  import CustomerUserAdd from "../../../../components/CustomerUserAdd";
   import {getCustomerInfo} from "../../../../api/customerPage";
   import {getCustomer} from "../../../../api/customerUsers";
   import {getAllComments} from "../../../../api/customerComments";
@@ -41,7 +44,8 @@
     components: {
       CustomerInfo,
       CustomerUsers,
-      Contact
+      Contact,
+      CustomerUserAdd
     },
     data() {
       return {
