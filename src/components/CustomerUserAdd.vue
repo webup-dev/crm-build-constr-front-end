@@ -49,7 +49,7 @@
 <script>
   const API_URL = process.env.VUE_APP_API_URL;
 
-  import {validations} from '../components/validations/customerUserAdd'
+  import {validations} from '../components/validations/customerUserAdd';
 
   export default {
     // name: "CustomerUserAdd"
@@ -102,17 +102,6 @@
             this.create();
             return true;
         }
-
-        // this.$v.$touch();
-        // if (this.$v.$invalid) {
-        //   this.submitStatus = "Error";
-        //   this.errors.push('Field requirements not satisfied. See, please red fields.')
-        // } else {
-        //   this.create();
-        //   this.submitStatus = "Creating";
-        //
-        //   return true
-        // }
 
         e.preventDefault();
       },

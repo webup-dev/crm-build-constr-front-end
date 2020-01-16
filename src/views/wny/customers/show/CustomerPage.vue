@@ -8,7 +8,7 @@
           </div>
           <customer-info :customer="customer"/>
           <hr>
-          <customer-users :users="users"/>
+          <customer-users :users="users" :customer_id="$route.params.id"/>
           <hr>
           <customer-user-add v-on:new-customer-user-created="downloadData"></customer-user-add>
         </b-card>

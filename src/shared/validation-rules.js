@@ -26,6 +26,13 @@ export const alphaSpaceHyphenAnd = (value) => {
   return /^[a-zA-Z #&-]*$/.test(value)
 };
 
+export const alphaSpaceDotHyphen = (value) => {
+  if (typeof value === 'undefined' || value === null || value === '') {
+    return true
+  }
+  return /^[a-zA-Z .-]*$/.test(value)
+};
+
 export const alphaSpaceDotCommaHyphen = (value) => {
   if (typeof value === 'undefined' || value === null || value === '') {
     return true
@@ -45,4 +52,18 @@ export const city = (value) => {
     return true
   }
   return /^[a-zA-Z -]*$/.test(value)
+};
+
+export const companyName = (value) => {
+  if (typeof value === 'undefined' || value === null || value === '') {
+    return true
+  }
+  return /^[a-zA-Z #'.,&-]*$/.test(value)
+};
+
+export const usaPhone = (value) => {
+  if (typeof value === 'undefined' || value === null || value === '') {
+    return true
+  }
+  return /^[0-9 )(-]*$/.test(value)
 };

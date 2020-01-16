@@ -93,6 +93,8 @@ const UserCustomersCreate = () => import('@/views/wny/user-customers/UserCustome
 const UserCustomersEdit = () => import('@/views/wny/user-customers/UserCustomersEdit');
 const UserCustomersSoftDeleted = () => import('@/views/wny/user-customers/UserCustomersSoftDeleted');
 
+const UserDetailsCreate = () => import('@/views/wny/user-details/UserDetailsCreate');
+
 const Colors = () => import('@/views/theme/Colors')
 const Typography = () => import('@/views/theme/Typography')
 
@@ -539,6 +541,11 @@ export default new Router({
             {
               path: 'user-customers/soft-deleted',
               component: UserCustomersSoftDeleted
+            },
+            {
+              path: 'user-details/create',
+              component: UserDetailsCreate,
+              name: UserDetailsCreate
             }
           ]
         },

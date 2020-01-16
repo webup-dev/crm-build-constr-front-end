@@ -22,12 +22,28 @@ export default new Vuex.Store({
       name: '',
       role: '',
       id: ''
+    },
+    userDetails: {
+      customerId: '',
+      userId: ''
     }
   },
 
   getters: {
     auth(state) {
       return state.user
+    },
+    userDetails: state => {
+      return this.state.userDetails
+    }
+  },
+
+  mutations: {
+    setUDCustomerId(state, id) {
+      state.userDetails.customerId = id;
+    },
+    setUDUserId(state, id) {
+      state.userDetails.userId = id;
     }
   }
 })
