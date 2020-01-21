@@ -54,18 +54,6 @@
               </b-form-select>
             </b-form-group>
 
-            <b-form-group label="City *"
-                          label-for="city"
-                          :label-cols="4"
-                          class="label-bold">
-              <b-form-input id="city"
-                            v-model="$v.city.$model"
-                            :class="status($v.city)"
-                            type="text">
-
-              </b-form-input>
-            </b-form-group>
-
             <b-form-group label="Mailing Address Line 1 *"
                           label-for="line_1"
                           :label-cols="4"
@@ -85,6 +73,18 @@
                             v-model="$v.line_2.$model"
                             :class="status($v.line_2)"
                             type="text">
+              </b-form-input>
+            </b-form-group>
+
+            <b-form-group label="City *"
+                          label-for="city"
+                          :label-cols="4"
+                          class="label-bold">
+              <b-form-input id="city"
+                            v-model="$v.city.$model"
+                            :class="status($v.city)"
+                            type="text">
+
               </b-form-input>
             </b-form-group>
 

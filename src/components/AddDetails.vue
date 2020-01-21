@@ -598,7 +598,7 @@
         this.errors = false;
         this.error = false;
         this.flash('New UserDetails are created.', 'success');
-        this.$router.replace(this.$route.query.redirect || '/admin/customers/' + this.$route.params.id + '/show');
+        this.$router.replace(this.$route.query.redirect || '/admin/customers/' + + store.state.userDetails.customerId + '/show');
       },
 
       createFail(req) {

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-row>
+    <b-row >
       <b-col md="4">
         <b-card>
           <div slot="header">
