@@ -116,17 +116,32 @@
           <div class="col-5 bold">Updated At</div>
           <div class="col-7">{{userDetails.updated_at}}</div>
         </div>
+
+        <hr>
+
+        <div class="row">
+          <div class="col-5 bold">
+            <a id="btnAddUser" class="btn btn-success" v-on:click="goToEdit(userDetails.id, userDetails.user_id)">Edit Details</a>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+
   export default {
     name: "Contact",
-    props: ['userDetails'],
+    props: ['userDetails', 'customer_id'],
     data: function () {
-      return {
+      return {}
+    },
+    methods: {
+      goToEdit(id, userId) {
+        this.$store.commit('setUDCustomerId', this.customer_id);
+        this.$store.commit('setUDUserId', userId);
+        this.$router.push({path: '/admin/user-details/' + this.userDetails.id + '/edit'});
       }
     }
   }

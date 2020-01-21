@@ -19,7 +19,7 @@
           <div slot="header">
             <strong>Contact {{item.user_id}}: {{item.first_name}} {{item.last_name}}</strong>
           </div>
-          <contact :userDetails="item"></contact>
+          <contact :userDetails="item" :customer_id="$route.params.id"></contact>
         </b-card>
       </b-col>
     </b-row>

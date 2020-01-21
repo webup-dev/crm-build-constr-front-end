@@ -72,7 +72,7 @@
                 class="label-bold"
               >
                 <b-form-input
-                  id="suffix"
+                  id="first_name"
                   v-model="$v.first_name.$model"
                   type="text"
                   :class="status($v.first_name)">
@@ -102,7 +102,7 @@
                 class="label-bold"
               >
                 <b-form-input
-                  id="last_name"
+                  id="work_title"
                   v-model="$v.work_title.$model"
                   type="text"
                   :class="status($v.work_title)">
@@ -117,7 +117,7 @@
                 class="label-bold"
               >
                 <b-form-input
-                  id="last_name"
+                  id="work_department"
                   v-model="$v.work_department.$model"
                   type="text"
                   :class="status($v.work_department)">
@@ -132,7 +132,7 @@
                 class="label-bold"
               >
                 <b-form-input
-                  id="last_name"
+                  id="work_role"
                   v-model="$v.work_role.$model"
                   type="text"
                   :class="status($v.work_role)">
@@ -194,7 +194,7 @@
                 <masked-input
                   id="phone_home"
                   v-model="$v.phone_home.$model"
-                  :mask="['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]"
+                  :mask="['(', /[0-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]"
                   type="text"
                   :class="status($v.phone_home)"
                   class="form-control"
@@ -212,7 +212,7 @@
                 <masked-input
                   id="phone_work"
                   v-model="$v.phone_work.$model"
-                  :mask="['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]"
+                  :mask="['(', /[0-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]"
                   type="text"
                   :class="status($v.phone_work)"
                   class="form-control">
@@ -244,7 +244,7 @@
                 <masked-input
                   id="phone_mob"
                   v-model="$v.phone_mob.$model"
-                  :mask="['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]"
+                  :mask="['(', /[0-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]"
                   type="text"
                   :class="status($v.phone_mob)"
                   class="form-control">
@@ -259,9 +259,9 @@
                 class="label-bold"
               >
                 <masked-input
-                  id="statusDetails"
+                  id="phone_fax"
                   v-model="$v.phone_fax.$model"
-                  :mask="['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]"
+                  :mask="['(', /[0-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]"
                   type="text"
                   :class="status($v.phone_fax)"
                   class="form-control">
@@ -291,7 +291,7 @@
                 class="label-bold"
               >
                 <b-form-input
-                  id="statusDetails"
+                  id="line_2"
                   v-model="$v.line_2.$model"
                   type="text"
                   :class="status($v.line_2)">
@@ -356,11 +356,11 @@
                       style="margin-right: 10px">
               Back
             </b-button>
-            <b-button type="reset"
-                      variant="danger"
-                      v-on:click="closeForm">
-              Cancel
-            </b-button>
+<!--            <b-button type="reset"-->
+<!--                      variant="danger"-->
+<!--                      v-on:click="closeForm">-->
+<!--              Cancel-->
+<!--            </b-button>-->
           </div>
         </b-col>
       </b-row>
@@ -371,14 +371,15 @@
 <script>
   import MaskedInput from 'vue-text-mask';
   import {validations} from '../components/validations/addDetails';
-  import {addDetails} from "../api/addDetails";
+  import {updateDetails, getDetails} from "../api/getDetails";
   import store from "../store";
   import myHelper from "../mixins/myHelper";
   import {states} from './../shared/states';
 
   export default {
     // name: "CustomerUserAdd"
-    name: "AddDetails",
+    name: "EditDetails",
+    // props: ['userDetailsForEditing'],
     components: {
       MaskedInput,
     },
@@ -388,6 +389,7 @@
         errors: [],
         error: '',
         user_id: '',
+        id: '',
         prefix: '',
         suffix: '',
         first_name: '',
@@ -410,14 +412,41 @@
         states: states,
         zip: '',
         success: false,
-        store: store
+        store: store,
+        userDetailsForEditing2: {}
       }
     },
     validations: validations,
+    created() {
+      getDetails(this.$route.params.id)
+        .then(response => {
+          this.id = response.data.data.id;
+          this.prefix = response.data.data.prefix;
+          this.suffix = response.data.data.suffix;
+          this.first_name = response.data.data.first_name;
+          this.last_name = response.data.data.last_name;
+          this.work_title = response.data.data.work_title;
+          this.work_department = response.data.data.work_department;
+          this.work_role = response.data.data.work_role;
+          this.email_work = response.data.data.email_work;
+          this.email_personal = response.data.data.email_personal;
+          this.statusDetails = response.data.data.status;
+          this.phone_home = response.data.data.phone_home;
+          this.phone_work = response.data.data.phone_work;
+          this.phone_mob = response.data.data.phone_mob;
+          this.phone_fax = response.data.data.phone_fax;
+          this.phone_extension = response.data.data.phone_extension;
+          this.line_1 = response.data.data.line_1;
+          this.line_2 = response.data.data.line_2;
+          this.city = response.data.data.city;
+          this.stateAddress = response.data.data.state;
+          this.zip = response.data.data.zip;
+          this.message = response.data.message;
+          this.success = response.data.success;
+        })
+        .catch(error => console.log(error));
+    },
     methods: {
-      formatPhone(phone) {
-        return this.formatSinglePhone(phone)
-      },
       status(validation) {
         return {
           error: validation.$error,
@@ -561,13 +590,14 @@
         }
 
         if (!this.errors.length && !this.error.length) {
-          this.create();
+          this.update();
           return true;
         }
 
         e.preventDefault();
       },
-      create() {
+      update() {
+        let id = this.id;
         let user_id = store.state.userDetails.userId;
         let prefix = this.prefix;
         let first_name = this.first_name;
@@ -590,20 +620,20 @@
         let zip = this.zip;
         let status = this.statusDetails;
 
-        addDetails(user_id, prefix, first_name, last_name, suffix, work_title, work_department, work_role, phone_home, phone_work, phone_extension, phone_mob, phone_fax, email_work, email_personal, line_1, line_2, city, state, zip, status)
-          .then(request => this.createSuccess(request))
-          .catch((request) => this.createFail(request));
+        updateDetails(id, user_id, prefix, first_name, last_name, suffix, work_title, work_department, work_role, phone_home, phone_work, phone_extension, phone_mob, phone_fax, email_work, email_personal, line_1, line_2, city, state, zip, status)
+          .then(request => this.updateSuccess(request))
+          .catch((request) => this.updateFail(request));
       },
-      createSuccess(req) {
+      updateSuccess(req) {
         this.errors = false;
         this.error = false;
-        this.flash('New UserDetails are created.', 'success');
-        this.$router.replace(this.$route.query.redirect || '/admin/customers/' + this.$route.params.id + '/show');
+        this.flash('UserDetails are updated.', 'success');
+        this.$router.replace(this.$route.query.redirect || '/admin/customers/' + store.state.userDetails.customerId + '/show');
       },
 
-      createFail(req) {
+      updateFail(req) {
         this.errors = false;
-        this.error = 'New UserDetails creating failed! ' + req;
+        this.error = 'UserDetails updating failed! ' + req;
         console.log(req);
       }
     }

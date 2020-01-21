@@ -94,6 +94,7 @@ const UserCustomersEdit = () => import('@/views/wny/user-customers/UserCustomers
 const UserCustomersSoftDeleted = () => import('@/views/wny/user-customers/UserCustomersSoftDeleted');
 
 const UserDetailsCreate = () => import('@/views/wny/user-details/UserDetailsCreate');
+const UserDetailsEdit = () => import('@/views/wny/user-details/UserDetailsEdit');
 
 const Colors = () => import('@/views/theme/Colors')
 const Typography = () => import('@/views/theme/Typography')
@@ -546,6 +547,11 @@ export default new Router({
               path: 'user-details/create',
               component: UserDetailsCreate,
               name: UserDetailsCreate
+            },
+            {
+              path: 'user-details/:id/edit',
+              component: UserDetailsEdit,
+              name: UserDetailsEdit
             }
           ]
         },
