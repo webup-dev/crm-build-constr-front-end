@@ -96,6 +96,9 @@ const UserCustomersSoftDeleted = () => import('@/views/wny/user-customers/UserCu
 const UserDetailsCreate = () => import('@/views/wny/user-details/UserDetailsCreate');
 const UserDetailsEdit = () => import('@/views/wny/user-details/UserDetailsEdit');
 
+// Page Files
+const Files = () => import('@/views/wny/files/Files');
+
 const Colors = () => import('@/views/theme/Colors')
 const Typography = () => import('@/views/theme/Typography')
 
@@ -552,6 +555,11 @@ export default new Router({
               path: 'user-details/:id/edit',
               component: UserDetailsEdit,
               name: UserDetailsEdit
+            },
+            {
+              path: 'customers/:id/files',
+              component: Files,
+              name: Files
             }
           ]
         },

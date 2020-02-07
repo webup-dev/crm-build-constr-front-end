@@ -2,11 +2,16 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+## [0.19.0] - 2020-01-21
 ### Added
 - Component "Customer Page".
 - Component "Customer Info".
 - Component "Customer's Users".
 - Component "Contact".
+- Component "UserDetails Adding".
+- Component "UserDetails Editing".
+### Changed
+- Customers. Rows "City" in forms are moved to the place after address lines.
 
 ## [0.18.0] - 2019-12-13
 ### Changed
