@@ -50,15 +50,15 @@
     data() {
       return {
         customer: {
-          name: "Customer WNY2",
-          organization: "WNY2",
-          type: "Business",
-          city: "New York2",
-          line_1: "408 3rd Court Brentwood",
-          line_2: "22",
-          state: "Ca",
-          zip: 11718,
-          customer_owner_user: "John Higgins"
+          name: "",
+          organization: "",
+          type: "",
+          city: "",
+          line_1: "",
+          line_2: "",
+          state: "",
+          zip: '',
+          customer_owner_user: ""
         },
         users: [
           {'id': 16, 'order': 1, 'name': 'Eleanor Rigby'},

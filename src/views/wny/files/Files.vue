@@ -8,96 +8,31 @@
         <div class="card-header-actions"></div>
       </b-card-header>
       <b-card-body>
-        <div class="row" >
+        <div class="row">
           <!--        <div class="email-app">-->
-          <div class="col-md-3 info-block" style="padding: 10px; border: 1px solid #c8ced3" >
-              <!--            <a @click="newFile" class="btn btn-warning btn-block">Create New File</a>-->
-              <a class="btn btn-warning btn-block">Create New File</a>
-              <customer-info :customer="customer"/>
+          <div class="col-md-3 info-block" style="padding: 10px; border: 1px solid #c8ced3">
+            <!--            <a @click="newFile" class="btn btn-warning btn-block">Create New File</a>-->
+            <a @click="newFile" class="btn btn-warning btn-block" style="margin-bottom: 20px;">Create New File</a>
+            <customer-info :customer="customer"/>
           </div>
           <div class="col-md-9" style="padding: 10px; border: 1px solid #c8ced3; border-left: 0; ">
-              <!--            <b-form id="newComment"-->
-              <!--                    :style="{ 'display': disp}"-->
-              <!--                    @submit.prevent=checkForm-->
-              <!--                    novalidate=novalidate>-->
-              <!--              <div class="alert alert-danger" v-if="errors.length">-->
-              <!--                <b>Correct, please the following error(s):</b>-->
-              <!--                <ul>-->
-              <!--                  <li v-for="item in errors">{{ item }}</li>-->
-              <!--                </ul>-->
-              <!--              </div>-->
-              <!--              <div class="alert alert-danger" v-if="error">-->
-              <!--                {{ error }}-->
-              <!--              </div>-->
-              <!--              <h4 v-bind:style="{'display': displayReply}">Reply to the comment:</h4>-->
-              <!--              <h4 v-bind:style="{'display': displayEdit}">Edit your comment:</h4>-->
-              <!--              <h4 v-bind:style="{'display': displayNew}">Create a new comment:</h4>-->
-              <!--              <div class="form-group mt-4" id="newReply" v-bind:style="{'display': displayReply}">-->
-              <!--                <b-form-group>-->
-              <!--                  <b-form-input plaintext-->
-              <!--                                id="replyComment"-->
-              <!--                                v-model="$v.parentComment.$model"-->
-              <!--                                type="text"-->
-              <!--                                class="text-italic">-->
+            <div id="newFile" :style="{ 'display': display}">
+              <new-file v-on:add-file-block="closeNewFileForm" v-on:file-is-added="fileIsAdded" :owner="owner" :customer="customer"></new-file>
+              <hr>
+            </div>
+            <v-client-table :columns="columns" :data="data" :options="options" id="dataTable">
+              <p slot="actions" slot-scope="props">
+                <a :href="'#/admin/customers/' + props.row.id + '/show'" class="fa fa-user-o action-icon"></a>
+                <a :href="'#/admin/customer-comments/' + props.row.id" class="fa fa-comment-o action-icon"></a>
+                <a :href="'#/admin/customers/' + props.row.id + '/edit'" class="icon-pencil action-icon"></a>
+                <a :href="'#/admin/customers/' + props.row.id + '/files'" class="fa fa-files-o action-icon"></a>
+                <a class="icon-trash" v-on:click="deleteCustomer(props.row.id)" style="cursor: pointer"></a>
+              </p>
 
-              <!--                  </b-form-input>-->
-              <!--                </b-form-group>-->
-              <!--                <input type="hidden" name="commentId" :value="commentId">-->
-              <!--                <input type="hidden" name="parentId" :value="parentId">-->
-              <!--                <input type="hidden" name="parentLevel" :value="parentLevel">-->
-              <!--                <input type="hidden" name="level" :value="level">-->
-              <!--              </div>-->
-              <!--              <textarea class="form-control"-->
-              <!--                        id="message"-->
-              <!--                        rows="6"-->
-              <!--                        placeholder="Enter your comment here, please"-->
-              <!--                        v-model="$v.bodyComment.$model"-->
-              <!--                        type="text"-->
-              <!--                        :class="status($v.bodyComment)">-->
-              <!--            </textarea>-->
-              <!--              <div class="form-group">-->
-              <!--                <b-button class="mr-1"-->
-              <!--                          type="submit"-->
-              <!--                          variant="success"-->
-              <!--                          @click="disp = 'none'">-->
-              <!--                  Save-->
-              <!--                </b-button>-->
-              <!--                <b-button class="mr-1" @click="disp = 'none', bodyComment=''" variant="danger">Cancel</b-button>-->
-              <!--              </div>-->
-              <!--            </b-form>-->
-              <!--            <ul class="messages">-->
-              <!--          <span v-for="comment in comments">-->
-              <!--          <li class="message" v-bind:style="comment.marginL">-->
-              <!--            <a>-->
-              <!--              <div class="header">-->
-              <!--                <span class="from"><b>{{comment.user.name}}</b></span>-->
-              <!--                <span class="date"><span class="fa fa-paper-clip"></span><b> {{ comment.created_at }}</b></span>-->
-              <!--              </div>-->
-              <!--              <div class="title">-->
-              <!--                {{ comment.comment }}-->
-              <!--              </div>-->
-              <!--              <div>-->
-              <!--                <a @click="reply(comment)" style="color: #00aced">Reply </a>-->
-              <!--                <a v-if="comment.author_id === store.state.user.id" @click="editComment(comment)" style="color: green"> Edit </a>-->
-              <!--                <a v-if="comment.author_id === store.state.user.id" @click="deleteComment(comment)"-->
-              <!--                   style="color: red"> Delete </a></div>-->
-              <!--            </a>-->
-              <!--          </li>-->
-              <!--            </span>-->
-              <!--            </ul>-->
-              <v-client-table :columns="columns" :data="data" :options="options" :theme="theme" id="dataTable">
-                <p slot="actions" slot-scope="props">
-                  <a :href="'#/admin/customers/' + props.row.id + '/show'" class="fa fa-user-o action-icon"></a>
-                  <a :href="'#/admin/customer-comments/' + props.row.id" class="fa fa-comment-o action-icon"></a>
-                  <a :href="'#/admin/customers/' + props.row.id + '/edit'" class="icon-pencil action-icon"></a>
-                  <a :href="'#/admin/customers/' + props.row.id + '/files'" class="fa fa-files-o action-icon"></a>
-                  <a class="icon-trash" v-on:click="deleteCustomer(props.row.id)" style="cursor: pointer"></a>
-                </p>
-
-                <!--          <div slot="child_row" slot-scope="props">-->
-                <!--            The link to {{props.row.name}} is <a :href="props.row.uri">{{props.row.uri}}</a>-->
-                <!--          </div>-->
-              </v-client-table>
+              <!--          <div slot="child_row" slot-scope="props">-->
+              <!--            The link to {{props.row.name}} is <a :href="props.row.uri">{{props.row.uri}}</a>-->
+              <!--          </div>-->
+            </v-client-table>
 
           </div>
         </div>
@@ -110,9 +45,12 @@
   import Vue from "vue";
   import {ClientTable, Event} from 'vue-tables-2';
   import CustomerInfo from "../../../components/CustomerInfo";
+  import {getCustomerInfo} from "../../../api/customerPage";
   import {getCustomerFiles} from "../../../api/customerFiles";
   import axios from "../../../backend/vue-axios/axios";
   import mixin from "../../../mixins/mixin";
+  import NewFile from "../../../components/NewFile";
+  import store from "../../../store";
 
   const API_URL = process.env.VUE_APP_API_URL;
   Vue.use(ClientTable);
@@ -123,7 +61,8 @@
     components: {
       ClientTable,
       Event,
-      CustomerInfo
+      CustomerInfo,
+      NewFile
     },
     data() {
       return {
@@ -149,19 +88,40 @@
           }
         },
         customer: {
-          name: "Customer WNY2",
-          organization: "WNY2",
-          type: "Business",
-          city: "New York2",
-          line_1: "408 3rd Court Brentwood",
-          line_2: "22",
-          state: "Ca",
-          zip: 11718,
-          customer_owner_user: "John Higgins"
+          name: "",
+          organization: "",
+          type: "",
+          city: "",
+          line_1: "",
+          line_2: "",
+          state: "",
+          zip: '',
+          customer_owner_user: ""
+        },
+        display: "none;",
+        errors: [],
+        error: '',
+        owner: {
+          owner_object_type: 'customer',
+          owner_object_id: this.$route.params.id,
+          owner_user_id: store.state.user.id
+        },
+        fileInput: {
+          description: 'Description'
         }
       }
     },
     methods: {
+      fileIsAdded() {
+        this.closeNewFileForm();
+        this.downloadData();
+      },
+      newFile() {
+        this.display = 'block';
+      },
+      closeNewFileForm() {
+        this.display = 'none';
+      },
       deleteCustomer: function (customerId) {
         let headers = {
           headers: {
@@ -187,6 +147,14 @@
       },
 
       downloadData() {
+        getCustomerInfo(this.$route.params.id)
+          .then(response => {
+            this.customer = response.data.data;
+            this.message = response.data.message;
+            this.success = response.data.success;
+          })
+          .catch(error => console.log(error));
+
         getCustomerFiles(this.$route.params.id)
           .then(response => {
             this.data = response.data.data;
@@ -204,6 +172,9 @@
         }
       }
     },
+    created() {
+      this.display = 'none';
+    },
     mounted() {
       this.downloadData();
     }
@@ -211,8 +182,9 @@
 </script>
 
 <style scoped lang="scss">
-  #newComment, #newReply {
-    display: none;
+  #newFile {
+    width: 95%;
+    margin: 0 auto;
   }
 
   #dataTable {
