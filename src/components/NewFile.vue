@@ -94,7 +94,7 @@
               >
                 <b-form-input
                   plaintext
-                  id="owner_user_id"
+                  id="owner_user_name"
                   v-model="userName"
                   type="text">
 

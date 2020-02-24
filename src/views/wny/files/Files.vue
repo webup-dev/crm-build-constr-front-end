@@ -22,11 +22,11 @@
             </div>
             <v-client-table :columns="columns" :data="data" :options="options" id="dataTable">
               <p slot="actions" slot-scope="props">
-                <a :href="'#/admin/customers/' + props.row.id + '/show'" class="fa fa-user-o action-icon"></a>
-                <a :href="'#/admin/customer-comments/' + props.row.id" class="fa fa-comment-o action-icon"></a>
-                <a :href="'#/admin/customers/' + props.row.id + '/edit'" class="icon-pencil action-icon"></a>
-                <a :href="'#/admin/customers/' + props.row.id + '/files'" class="fa fa-files-o action-icon"></a>
-                <a class="icon-trash" v-on:click="deleteCustomer(props.row.id)" style="cursor: pointer"></a>
+<!--                <a :href="'#/admin/customers/' + props.row.id + '/show'" class="fa fa-user-o action-icon"></a>-->
+<!--                <a :href="'#/admin/customer-comments/' + props.row.id" class="fa fa-comment-o action-icon"></a>-->
+<!--                <a :href="'#/admin/customers/' + props.row.id + '/edit'" class="icon-pencil action-icon"></a>-->
+<!--                <a :href="'#/admin/customers/' + props.row.id + '/files'" class="fa fa-files-o action-icon"></a>-->
+                <a class="icon-trash" v-on:click="deleteFile(props.row.id)" style="cursor: pointer"></a>
               </p>
 
               <!--          <div slot="child_row" slot-scope="props">-->
@@ -47,6 +47,7 @@
   import CustomerInfo from "../../../components/CustomerInfo";
   import {getCustomerInfo} from "../../../api/customerPage";
   import {getCustomerFiles} from "../../../api/customerFiles";
+  import {softDestroyFile} from "../../../api/destroyFile";
   import axios from "../../../backend/vue-axios/axios";
   import mixin from "../../../mixins/mixin";
   import NewFile from "../../../components/NewFile";
@@ -66,14 +67,15 @@
     },
     data() {
       return {
-        columns: ['id', 'description', 'filename', 'created_at', 'updated_at', 'actions'],
+        columns: ['id', 'owner_user_id', 'user.name', 'description', 'filename', 'created_at', 'updated_at', 'actions'],
         data: [],
         options: {
           headings: {
             id: 'ID',
-            name: 'Account Name',
-            type: 'Type',
-            'organization.name': 'Organization',
+            owner_user_id: 'Owner ID',
+            'user.name': 'Owner',
+            description: 'Description',
+            filename: 'Filename',
             created_at: 'Created',
             updated_at: 'Updated',
             actions: 'Actions'
@@ -122,28 +124,23 @@
       closeNewFileForm() {
         this.display = 'none';
       },
-      deleteCustomer: function (customerId) {
-        let headers = {
-          headers: {
-            'Accept': 'application/json',
-            'Authorization': 'Bearer ' + localStorage.token
-          }
-        };
-
-        axios.delete(API_URL + '/customers/' + customerId, headers)
-             .then(request => this.customerDeletingSuccessful(request))
-             .catch((request) => this.customerDeletingFailed(request));
+      deleteFile: function (fileId) {
+        softDestroyFile(fileId)
+             .then(request => this.fileDeletingSuccessful(request))
+             .catch((request) => this.fileDeletingFailed(request));
       },
-      customerDeletingSuccessful(req) {
+      fileDeletingSuccessful(req) {
         this.errors = false;
         this.error = false;
-        this.flash('The Customer is deleted.', 'success');
+        this.flash('The File is deleted.', 'success');
 
         this.downloadData();
       },
-      customerDeletingFailed(req) {
+      fileDeletingFailed(req) {
         this.errors = false;
-        this.error = 'Customer Deleting failed! ' + req;
+        this.error = 'File Deleting failed! ' + req;
+        console.log(req);
+        this.flash(req.response.data.message + " Status code: " + req.response.data.code, 'error');
       },
 
       downloadData() {
@@ -160,6 +157,7 @@
             this.data = response.data.data;
             this.message = response.data.message;
             this.success = response.data.success;
+            console.log('getCustomerFiles: ');
             console.log(response);
           })
           .catch((error) => this.getFail(error));
