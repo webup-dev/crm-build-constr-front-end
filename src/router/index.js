@@ -98,6 +98,7 @@ const UserDetailsEdit = () => import('@/views/wny/user-details/UserDetailsEdit')
 
 // Page Files
 const Files = () => import('@/views/wny/files/Files');
+const FilesSoftDeleted = () => import('@/views/wny/files/FilesSoftDeleted');
 
 const Colors = () => import('@/views/theme/Colors')
 const Typography = () => import('@/views/theme/Typography')
@@ -560,6 +561,10 @@ export default new Router({
               path: 'customers/:id/files',
               component: Files,
               name: Files
+            },
+            {
+              path: 'files/soft-deleted',
+              component: FilesSoftDeleted
             }
           ]
         },
