@@ -1,15 +1,14 @@
 <template>
   <div>
     <b-card-header>
-      <i class="icon-menu mr-1"></i> Create File
+      <i class="icon-menu mr-1"></i> Edit File
 
       <div class="card-header-actions"></div>
     </b-card-header>
     <b-form
-      id="formNewFile"
+      id="formEditFile"
       @submit.prevent=checkForm
       novalidate=novalidate
-      enctype="multipart/form-data"
     >
       <b-row>
         <b-col>
@@ -26,32 +25,35 @@
           </b-row>
           <b-row>
             <b-col class="md-6">
+              <input id="id_edit" v-model=$v.fileInput.id.$model
+                     :class="status($v.fileInput.id)" type="hidden"/>
+
               <b-form-group
                 label="Owner Object Type *"
-                label-for="owner_object_type"
+                label-for="owner_object_type_edit"
                 :label-cols="3"
                 class="label bold"
               >
                 <b-form-input
                   plaintext
-                  id="owner_object_type"
+                  id="owner_object_type_edit"
                   v-model=$v.owner.owner_object_type.$model
                   type="text">
 
                 </b-form-input>
               </b-form-group>
 
-              <input id="owner_object_id" v-model=$v.owner.owner_object_id.$model type="hidden"/>
+              <input id="owner_object_id_edit" v-model=$v.owner.owner_object_id.$model type="hidden"/>
 
               <b-form-group
                 label="Owner Name *"
-                label-for="owner_name"
+                label-for="owner_name_edit"
                 :label-cols="3"
                 class="label bold"
               >
                 <b-form-input
                   plaintext
-                  id="owner_name"
+                  id="owner_name_edit"
                   v-model="customer.name"
                   type="text">
 
@@ -60,12 +62,12 @@
 
               <b-form-group
                 label="Description"
-                label-for="description"
+                label-for="description_edit"
                 :label-cols="3"
                 class="label bold"
               >
                 <b-form-input
-                  id="description"
+                  id="description_edit"
                   v-model="$v.fileInput.description.$model"
                   type="text"
                   :class="status($v.fileInput.description)">
@@ -73,33 +75,18 @@
                 </b-form-input>
               </b-form-group>
 
-              <input id="owner_user_id" v-model=$v.owner.owner_user_id.$model :class="status($v.owner.owner_user_id)" type="hidden"/>
-
-<!--              <b-form-group-->
-<!--                label="Owner User ID *"-->
-<!--                label-for="owner_user_id"-->
-<!--                :label-cols="3"-->
-<!--                class="label bold"-->
-<!--              >-->
-<!--                <b-form-input-->
-<!--                  plaintext-->
-<!--                  id="owner_user_id"-->
-<!--                  v-model="$v.owner.owner_user_id.$model"-->
-<!--                  type="text"-->
-<!--                  :class="status($v.owner.owner_user_id)">-->
-
-<!--                </b-form-input>-->
-<!--              </b-form-group>-->
+              <input id="owner_user_id_edit" v-model=$v.owner.owner_user_id.$model
+                     :class="status($v.owner.owner_user_id)" type="hidden"/>
 
               <b-form-group
                 label="Creator *"
-                label-for="owner_user_name"
+                label-for="owner_user_name_edit"
                 :label-cols="3"
                 class="label bold"
               >
                 <b-form-input
                   plaintext
-                  id="owner_user_name"
+                  id="owner_user_name_edit"
                   v-model="userName"
                   type="text">
 
@@ -107,20 +94,18 @@
               </b-form-group>
 
               <b-form-group
-                label="File input"
-                label-for="file"
+                label="Filename"
+                label-for="filename"
                 :label-cols="3"
-                style="float: none"
                 class="label bold"
               >
-                <input type="file"
-                       :class="status($v.file)"
-                       id="file"
-                       ref="file"
-                       v-on:change="handleFileUpload()"
-                       v-if="uploadReady"
-                       style="display: block; margin-bottom: 25px;"/>
-                <a class="btn btn-warning" @click="clear">Clear File</a>
+                <b-form-input
+                  plaintext
+                  id="filename"
+                  v-model="fileInput.filename"
+                  type="text">
+
+                </b-form-input>
               </b-form-group>
             </b-col>
           </b-row>
@@ -132,8 +117,8 @@
               Save User
             </b-button>
             <a class="btn btn-info"
-                      v-on:click="closeForm"
-                      style="margin-right: 10px">
+               v-on:click="closeForm"
+               style="margin-right: 10px">
               Close form
             </a>
             <a class="btn btn-danger"
@@ -148,20 +133,18 @@
 </template>
 
 <script>
-  import {validations} from '../components/validations/addFile';
+  import {validations} from '../components/validations/updateFile';
   import store from "../store";
   import {addFile} from "../api/addFile";
+  import {updateFile} from "../api/file";
 
   export default {
-    name: "NewFile",
-    props: ['owner', 'customer'],
+    name: "FileEdit",
+    props: ['owner', 'customer', 'fileInput'],
     data: function () {
       return {
         error: '',
         errors: [],
-        fileInput: {
-          description: '',
-        },
         file: '',
         uploadReady: true,
         userName: store.state.user.name
@@ -186,7 +169,7 @@
       },
       closeForm() {
         this.cancel();
-        this.$emit('add-file-block', false);
+        this.$emit('update-file-block', false);
       },
       status(validation) {
         return {
@@ -195,9 +178,18 @@
         }
       },
       checkForm: function (e) {
-        console.log('owner.owner_object_type: ' + this.owner.owner_object_type)
+        console.log('owner.owner_object_type: ' + this.owner.owner_object_type);
         // validation
         this.errors = [];
+
+        // id
+        if (!this.$v.fileInput.id.required) {
+          this.errors.push('File ID is required.');
+        }
+
+        if (!this.$v.fileInput.id.integer) {
+          this.errors.push('File ID must be integer.');
+        }
 
         // description
         if (!this.$v.fileInput.description.alphaSpaceDotHyphen) {
@@ -230,49 +222,34 @@
           this.errors.push('Owner-User ID must be integer.');
         }
 
-        // file
-        if (!this.$v.file.required) {
-          this.errors.push('File is required.');
-        }
-
         if (!this.errors.length && !this.error.length) {
-          this.create();
+          this.update();
           return true;
         }
 
         e.preventDefault();
       },
-      create() {
-        // let headers = {
-        //   headers: {
-        //     'Accept': 'application/json',
-        //     'Content-Type': 'multipart/form-data',
-        //     'Authorization': 'Bearer ' + localStorage.token
-        //   }
-        // };
-        console.log(this.file.name);
-        let formData = new FormData();
-        formData.append('photo', this.file);
-        formData.append('filename', this.file.name);
-        formData.append('owner_user_id', this.owner.owner_user_id);
-        formData.append('owner_object_type', this.owner.owner_object_type);
-        formData.append('owner_object_id', this.owner.owner_object_id);
-        formData.append('description', this.fileInput.description);
-        addFile(formData)
-            .then(request => this.createSuccess(request))
-            .catch((request) => this.createFail(request));
+      update() {
+        let data = {};
+        data.owner_user_id = this.owner.owner_user_id;
+        data.owner_object_type = this.owner_object_type;
+        data.owner_object_id = this.owner_object_id;
+        data.description = this.fileInput.description;
+
+        updateFile(this.fileInput.id, data)
+          .then(request => this.updateSuccess(request))
+          .catch((request) => this.updateFail(request));
       },
-      createSuccess(req) {
+      updateSuccess(req) {
         this.errors = false;
         this.error = false;
-        this.flash('New File is created.', 'success');
+        this.flash('File is updated.', 'success');
         this.clear();
         this.fileInput.description = '';
-        this.$emit('file-is-added', true);
-        // this.$router.replace(this.$route.query.redirect || '/admin/customers/' + store.state.userDetails.customerId + '/files');
+        this.$emit('file-is-updated', true);
       },
 
-      createFail(req) {
+      updateFail(req) {
         this.errors = false;
         this.error = 'New File creating failed! ' + req;
         console.log(req);

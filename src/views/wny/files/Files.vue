@@ -9,23 +9,30 @@
       </b-card-header>
       <b-card-body>
         <div class="row">
-          <!--        <div class="email-app">-->
+          <!-- Customer info -->
           <div class="col-md-3 info-block" style="padding: 10px; border: 1px solid #c8ced3">
-            <!--            <a @click="newFile" class="btn btn-warning btn-block">Create New File</a>-->
             <a @click="newFile" class="btn btn-warning btn-block" style="margin-bottom: 20px;">Create New File</a>
             <customer-info :customer="customer"/>
           </div>
+
+          <!-- Right column -->
           <div class="col-md-9" style="padding: 10px; border: 1px solid #c8ced3; border-left: 0; ">
-            <div id="newFile" :style="{ 'display': display}">
+            <!-- Create new file-->
+            <div id="newFile" :style="{ 'display': displayCreateForm}">
               <new-file v-on:add-file-block="closeNewFileForm" v-on:file-is-added="fileIsAdded" :owner="owner" :customer="customer"></new-file>
+              <hr>
+            </div>
+            <!-- Edit file-->
+            <div id="editFile" :style="{ 'display': displayEditForm}">
+              <file-edit v-on:update-file-block="closeUpdateFileForm" v-on:file-is-updated="fileIsUpdated" :owner="owner" :customer="customer" :fileInput="fileInput"></file-edit>
               <hr>
             </div>
             <v-client-table :columns="columns" :data="data" :options="options" id="dataTable">
               <p slot="actions" slot-scope="props">
-<!--                <a :href="'#/admin/customers/' + props.row.id + '/show'" class="fa fa-user-o action-icon"></a>-->
-<!--                <a :href="'#/admin/customer-comments/' + props.row.id" class="fa fa-comment-o action-icon"></a>-->
-<!--                <a :href="'#/admin/customers/' + props.row.id + '/edit'" class="icon-pencil action-icon"></a>-->
-<!--                <a :href="'#/admin/customers/' + props.row.id + '/files'" class="fa fa-files-o action-icon"></a>-->
+                <a class="icon-pencil" v-on:click="editFile(props.row.id)" style="cursor: pointer"></a>
+                <!--                <a :href="'#/admin/customer-comments/' + props.row.id" class="fa fa-comment-o action-icon"></a>-->
+                <!--                <a :href="'#/admin/customers/' + props.row.id + '/edit'" class="icon-pencil action-icon"></a>-->
+                <!--                <a :href="'#/admin/customers/' + props.row.id + '/files'" class="fa fa-files-o action-icon"></a>-->
                 <a class="icon-trash" v-on:click="deleteFile(props.row.id)" style="cursor: pointer"></a>
               </p>
 
@@ -48,9 +55,11 @@
   import {getCustomerInfo} from "../../../api/customerPage";
   import {getCustomerFiles} from "../../../api/customerFiles";
   import {softDestroyFile} from "../../../api/destroyFile";
+  import {getFile, updateFile} from "../../../api/file";
   import axios from "../../../backend/vue-axios/axios";
   import mixin from "../../../mixins/mixin";
   import NewFile from "../../../components/NewFile";
+  import FileEdit from "../../../components/FileEdit";
   import store from "../../../store";
 
   const API_URL = process.env.VUE_APP_API_URL;
@@ -63,7 +72,8 @@
       ClientTable,
       Event,
       CustomerInfo,
-      NewFile
+      NewFile,
+      FileEdit
     },
     data() {
       return {
@@ -100,7 +110,8 @@
           zip: '',
           customer_owner_user: ""
         },
-        display: "none;",
+        displayCreateForm: "none;",
+        displayEditForm: "none",
         errors: [],
         error: '',
         owner: {
@@ -109,7 +120,7 @@
           owner_user_id: store.state.user.id
         },
         fileInput: {
-          description: 'Description'
+          description: ''
         }
       }
     },
@@ -118,11 +129,36 @@
         this.closeNewFileForm();
         this.downloadData();
       },
+      fileIsUpdated() {
+        this.closeUpdateFileForm();
+        this.downloadData();
+      },
       newFile() {
-        this.display = 'block';
+        this.displayCreateForm = 'block';
+        this.closeUpdateFileForm();
       },
       closeNewFileForm() {
-        this.display = 'none';
+        this.displayCreateForm = 'none';
+      },
+      closeUpdateFileForm() {
+        this.displayEditForm = 'none';
+      },
+      editFile: function (fileId) {
+        this.displayEditForm = 'block';
+        getFile(fileId)
+          .then(response => {
+            this.fileInput = response.data.data;
+            this.message = response.data.message;
+            this.success = response.data.success;
+          })
+          .catch((request) => this.getFileFailed(request));
+        this.closeNewFileForm();
+      },
+      getFileFailed(req) {
+        this.errors = false;
+        this.error = 'File Information Getting failed! ' + req;
+        console.log(req);
+        this.flash(req.response.data.message + " Status code: " + req.response.data.code, 'error');
       },
       deleteFile: function (fileId) {
         softDestroyFile(fileId)
@@ -171,7 +207,8 @@
       }
     },
     created() {
-      this.display = 'none';
+      this.displayCreateForm = 'none';
+      this.displayEditForm = 'none';
     },
     mounted() {
       this.downloadData();
@@ -180,7 +217,7 @@
 </script>
 
 <style scoped lang="scss">
-  #newFile {
+  #newFile, #editFile {
     width: 95%;
     margin: 0 auto;
   }

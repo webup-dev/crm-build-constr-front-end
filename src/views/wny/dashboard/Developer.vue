@@ -24,6 +24,9 @@
               <a href="#/admin/organizations/soft-deleted"><p>Organizations
                 <b-badge>{{ organizationsSoftDeleted }}</b-badge>
               </p></a>
+              <a href="#"><p>Organizations
+                <b-badge>{{ organizationsSoftDeleted }}</b-badge>
+              </p></a>
             </div>
           </b-card>
         </b-col>
