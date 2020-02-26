@@ -178,7 +178,7 @@
         }
       },
       checkForm: function (e) {
-        console.log('owner.owner_object_type: ' + this.owner.owner_object_type);
+        // console.log('owner.owner_object_type: ' + this.owner.owner_object_type);
         // validation
         this.errors = [];
 

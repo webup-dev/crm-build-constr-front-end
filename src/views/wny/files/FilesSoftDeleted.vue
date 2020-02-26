@@ -5,7 +5,7 @@
 
       <b-card-header>
         <i class="icon-menu mr-1"></i>Soft-Deleted Files
-<!--        <a href="#" class="badge badge-danger">Module Customers</a>-->
+        <!--        <a href="#" class="badge badge-danger">Module Customers</a>-->
 
         <div class="card-header-actions">
           <!--          <a-->
@@ -20,7 +20,7 @@
 
         <v-client-table :columns="columns" :data="data" :options="options" :theme="theme" id="dataTable">
           <p slot="actions" slot-scope="props">
-            <a class="icon-action-undo action-icon" v-on:click="restoreCustomer(props.row.id)"
+            <a class="icon-action-undo action-icon" v-on:click="restoreFile(props.row.id)"
                style="cursor: pointer"></a>
             <a class="icon-trash" v-on:click="permanentDeleteCustomer(props.row.id)" style="cursor: pointer"></a>
           </p>
@@ -35,130 +35,118 @@
 </template>
 
 <script>
-    import Vue from 'vue'
-    import {ClientTable, Event} from 'vue-tables-2'
-    import moment from "moment";
-    import axios from "../../../backend/vue-axios/axios";
+  import Vue from 'vue'
+  import {ClientTable, Event} from 'vue-tables-2'
+  import moment from "moment";
+  import axios from "../../../backend/vue-axios/axios";
+  import {softDeleted, restoreFile} from "../../../api/file";
 
-    const API_URL = process.env.VUE_APP_API_URL;
-    Vue.use(ClientTable)
-    // Vue.use(BCard)
+  const API_URL = process.env.VUE_APP_API_URL;
+  Vue.use(ClientTable)
+  // Vue.use(BCard)
 
-    export default {
-        name: 'CustomersSoftDeleted',
-        components: {
-            ClientTable,
-            Event
+  export default {
+    name: 'CustomersSoftDeleted',
+    components: {
+      ClientTable,
+      Event
+    },
+    data: function () {
+      return {
+        columns: ['id', 'owner_user_id', 'description', 'filename', 'created_at', 'updated_at', 'actions'],
+        data: [],
+        message: '',
+        success: false,
+        options: {
+          headings: {
+            id: 'ID',
+            owner_user_id: 'Owner ID',
+            // 'user.name': 'Owner',
+            description: 'Description',
+            filename: 'Filename',
+            deleted_at: 'Deleted',
+            created_at: 'Created',
+            updated_at: 'Updated',
+            actions: 'Actions'
+          },
+          sortable: ['id', 'owner_user_id', 'description', 'filename', 'created_at', 'updated_at', 'actions'],
+          filterable: ['id', 'owner_user_id', 'description', 'filename', 'created_at', 'updated_at', 'actions'],
+          sortIcon: {base: 'fa', up: 'fa-sort-asc', down: 'fa-sort-desc', is: 'fa-sort'},
+          pagination: {
+            chunk: 5,
+            edge: false,
+            nav: 'scroll'
+          }
         },
-        data: function () {
-            return {
-                columns: ['id', 'owner_user_id', 'description', 'filename', 'created_at', 'updated_at', 'actions'],
-                data: [],
-                message: '',
-                success: false,
-                options: {
-                    headings: {
-                      id: 'ID',
-                      owner_user_id: 'Owner ID',
-                      // 'user.name': 'Owner',
-                      description: 'Description',
-                      filename: 'Filename',
-                      deleted_at: 'Deleted',
-                      created_at: 'Created',
-                      updated_at: 'Updated',
-                      actions: 'Actions'
-                    },
-                    sortable: ['id', 'owner_user_id', 'description', 'filename', 'created_at', 'updated_at', 'actions'],
-                    filterable: ['id', 'owner_user_id', 'description', 'filename', 'created_at', 'updated_at', 'actions'],
-                    sortIcon: {base: 'fa', up: 'fa-sort-asc', down: 'fa-sort-desc', is: 'fa-sort'},
-                    pagination: {
-                        chunk: 5,
-                        edge: false,
-                        nav: 'scroll'
-                    }
-                },
-                useVuex: false,
-                theme: 'bootstrap4',
-                template: 'default'
-            }
-        },
-        methods: {
-            permanentDeleteCustomer: function (customerId) {
-                let headers = {
-                    headers: {
-                        'Accept': 'application/json',
-                        'Authorization': 'Bearer ' + localStorage.token
-                    }
-                };
+        useVuex: false,
+        theme: 'bootstrap4',
+        template: 'default'
+      }
+    },
+    methods: {
+      permanentDeleteCustomer: function (customerId) {
+        let headers = {
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.token
+          }
+        };
 
-                axios.delete(API_URL + '/customers/' + customerId + '/permanently', headers)
-                     .then(request => this.customerDeletingSuccessful(request))
-                     .catch((request) => this.customerDeletingFailed(request));
-            },
-            customerDeletingSuccessful(req) {
-                this.errors = false;
-                this.error = false;
-                this.flash('The Customer is deleted permanently.', 'success');
+        axios.delete(API_URL + '/customers/' + customerId + '/permanently', headers)
+             .then(request => this.customerDeletingSuccessful(request))
+             .catch((request) => this.customerDeletingFailed(request));
+      },
+      customerDeletingSuccessful(req) {
+        this.errors = false;
+        this.error = false;
+        this.flash('The Customer is deleted permanently.', 'success');
 
-                this.downloadData();
-            },
-            customerDeletingFailed(req) {
-                this.errors = false;
-                this.error = 'Customer deleting permanently failed! ' + req;
-            },
+        this.downloadData();
+      },
+      customerDeletingFailed(req) {
+        this.errors = false;
+        this.error = 'Customer deleting permanently failed! ' + req;
+      },
 
-            restoreCustomer: function (customerId) {
-                let headers = {
-                    headers: {
-                        'Accept': 'application/json',
-                        'Authorization': 'Bearer ' + localStorage.token
-                    }
-                };
+      restoreFile: function (fileId) {
+        restoreFile(fileId)
+            .then(request => this.fileRestoringSuccessful(request))
+            .catch((request) => this.fileRestoringFailed(request));
 
-                this.$http.put(API_URL + '/customers/' + customerId + '/restore', headers)
-                    .then(request => this.customerRestoringSuccessful(request))
-                    .catch((request) => this.customerRestoringFailed(request));
+      },
+      fileRestoringSuccessful(req) {
+        this.errors = false;
+        this.error = false;
+        this.flash('The File Data is restored.', 'success');
 
-            },
-            customerRestoringSuccessful(req) {
-                this.errors = false;
-                this.error = false;
-                this.flash('The Customer is restored.', 'success');
+        this.downloadData();
+        // this.$router.replace(this.$route.query.redirect || '/admin/user-profiles')
+      },
+      fileRestoringFailed(req) {
+        this.errors = false;
+        this.error = 'File Data Restoring failed! ' + req;
+        console.log(req);
+        this.flash(req.response.data.message + " Status code: " + req.response.data.code, 'error');
+      },
 
-                this.downloadData();
-                // this.$router.replace(this.$route.query.redirect || '/admin/user-profiles')
-            },
-            customerRestoringFailed(req) {
-                this.errors = false;
-                this.error = 'Customer Restoring failed! ' + req;
-                console.log(req);
-            },
-
-            downloadData() {
-                let headers = {
-                    headers: {
-                        'Accept': 'application/json',
-                        'Authorization': 'Bearer ' + localStorage.token
-                    }
-                };
-
-                axios.get(API_URL + '/files/soft-deleted', headers)
-                     .then(response => {
-                         if (response.status === 204) {
-                             this.data = [];
-                         } else {
-                             this.data = response.data.data;
-                             this.message = response.data.message;
-                             this.success = response.data.success;
-                         }
-                     })
-                     .catch(error => console.log(error));
-            }
-        },
-        mounted() {
-            this.downloadData();
-        }
-    };
+      downloadData() {
+        softDeleted()
+             .then(response => {
+               if (response.status === 204) {
+                 this.data = [];
+               } else {
+                 this.data = response.data.data;
+                 this.message = response.data.message;
+                 this.success = response.data.success;
+               }
+             })
+             .catch(error => console.log(error));
+      }
+    },
+    mounted() {
+      this.downloadData();
+    }
+  };
 </script>
 
 <style lang="scss">
