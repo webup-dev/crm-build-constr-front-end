@@ -22,7 +22,7 @@
           <p slot="actions" slot-scope="props">
             <a class="icon-action-undo action-icon" v-on:click="restoreFile(props.row.id)"
                style="cursor: pointer"></a>
-            <a class="icon-trash" v-on:click="permanentDeleteCustomer(props.row.id)" style="cursor: pointer"></a>
+            <a class="icon-trash" v-on:click="permanentDeleteFile(props.row.id)" style="cursor: pointer"></a>
           </p>
 
           <!--          <div slot="child_row" slot-scope="props">-->
@@ -39,14 +39,14 @@
   import {ClientTable, Event} from 'vue-tables-2'
   import moment from "moment";
   import axios from "../../../backend/vue-axios/axios";
-  import {softDeleted, restoreFile} from "../../../api/file";
+  import {softDeleted, restoreFile, permanentDestroyFile} from "../../../api/file";
 
   const API_URL = process.env.VUE_APP_API_URL;
   Vue.use(ClientTable)
   // Vue.use(BCard)
 
   export default {
-    name: 'CustomersSoftDeleted',
+    name: 'FilesSoftDeleted',
     components: {
       ClientTable,
       Event
@@ -84,28 +84,23 @@
       }
     },
     methods: {
-      permanentDeleteCustomer: function (customerId) {
-        let headers = {
-          headers: {
-            'Accept': 'application/json',
-            'Authorization': 'Bearer ' + localStorage.token
-          }
-        };
-
-        axios.delete(API_URL + '/customers/' + customerId + '/permanently', headers)
-             .then(request => this.customerDeletingSuccessful(request))
-             .catch((request) => this.customerDeletingFailed(request));
+      permanentDeleteFile: function (fileId) {
+        permanentDestroyFile(fileId)
+             .then(request => this.fileDeletingSuccessful(request))
+             .catch((request) => this.fileDeletingFailed(request));
       },
-      customerDeletingSuccessful(req) {
+      fileDeletingSuccessful(req) {
         this.errors = false;
         this.error = false;
-        this.flash('The Customer is deleted permanently.', 'success');
+        this.flash('The File data is deleted permanently.', 'success');
 
         this.downloadData();
       },
-      customerDeletingFailed(req) {
+      fileDeletingFailed(req) {
         this.errors = false;
-        this.error = 'Customer deleting permanently failed! ' + req;
+        this.error = 'File data deleting permanently failed! ' + req;
+        console.log(req);
+        this.flash(req.response.data.message + " Status code: " + req.response.data.code, 'error');
       },
 
       restoreFile: function (fileId) {
