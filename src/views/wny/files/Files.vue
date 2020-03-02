@@ -30,7 +30,12 @@
             <v-client-table :columns="columns" :data="data" :options="options" id="dataTable">
               <p slot="actions" slot-scope="props">
                 <a class="icon-pencil" v-on:click="editFile(props.row.id)" style="cursor: pointer"></a>
-                <!--                <a :href="'#/admin/customer-comments/' + props.row.id" class="fa fa-comment-o action-icon"></a>-->
+<!--                <a class="icon-cloud-download" href="http://wny2.com/storage/customer-1-2020-02-19_08-41-20-579.pdf" download="customer-1-2020-02-19_08-41-20-579.pdf"></a>-->
+<!--                <button @click="downloadWithVueResource">Download file with Vue Resource</button>-->
+<!--                <button @click="downloadWithAxios">Download file with Axios</button>-->
+<!--                <a class="icon-cloud-download"-->
+<!--                   :href="props.row.filename"-->
+<!--                   @click.prevent="downloadItem(props.row.filename)" />-->
                 <!--                <a :href="'#/admin/customers/' + props.row.id + '/edit'" class="icon-pencil action-icon"></a>-->
                 <!--                <a :href="'#/admin/customers/' + props.row.id + '/files'" class="fa fa-files-o action-icon"></a>-->
                 <a class="icon-trash" v-on:click="deleteFile(props.row.id)" style="cursor: pointer"></a>
@@ -61,8 +66,9 @@
   import NewFile from "../../../components/NewFile";
   import FileEdit from "../../../components/FileEdit";
   import store from "../../../store";
-
   const API_URL = process.env.VUE_APP_API_URL;
+  const DOC_URL = 'http://wny2.com/storage';
+
   Vue.use(ClientTable);
 
   export default {
@@ -121,10 +127,85 @@
         },
         fileInput: {
           description: ''
-        }
+        },
+        url:'http://wny2.com/storage/customer_1_test-file-2.jpg'
       }
     },
     methods: {
+      forceFileDownload(response){
+        const url = window.URL.createObjectURL(new Blob([response.data]))
+        const link = document.createElement('a')
+        link.href = url
+        link.setAttribute('download', 'file.png') //or any other extension
+        document.body.appendChild(link)
+        link.click()
+      },
+
+      downloadWithVueResource() {
+
+        this.$http({
+              method: 'get',
+              url: this.url,
+              responseType: 'arraybuffer'
+            })
+            .then(response => {
+              this.forceFileDownload(response)
+            })
+            .catch(() => console.log('error occured'))
+
+      },
+
+      downloadWithAxios(){
+        axios({
+          method: 'get',
+          url: this.url,
+          responseType: 'arraybuffer'
+        })
+          .then(response => {
+
+            this.forceFileDownload(response)
+
+          })
+          .catch(() => console.log('error occured'))
+      },
+      // forceFileDownload(response, filename){
+      //   const url = window.URL.createObjectURL(new Blob([response.data]))
+      //   const link = document.createElement('a')
+      //   link.href = url
+      //   link.setAttribute('download', filename) //or any other extension
+      //   document.body.appendChild(link)
+      //   link.click()
+      // },
+      //
+      // downloadFile(filename) {
+      //   this.$http({
+      //         method: 'get',
+      //         url: DOC_URL + '/' + filename,
+      //         responseType: 'arraybuffer'
+      //       })
+      //       .then(response => {
+      //         this.forceFileDownload(response, filename)
+      //       })
+      //       .catch(() => console.log('error occured'))
+      //
+      // },
+      // downloadItem (filename) {
+      //   const url = DOC_URL + '/' + filename;
+      //   console.log('url')
+      //   console.log(url)
+      //   const label = filename;
+      //   axios.get(url, { responseType: 'blob' })
+      //        .then(response => {
+      //          const blob = new Blob([response.data], { type: 'application/jpg' })
+      //          const link = document.createElement('a')
+      //
+      //          link.href = URL.createObjectURL(blob)
+      //          link.download = label
+      //          link.click()
+      //          URL.revokeObjectURL(link.href)
+      //        })
+      //        .catch(console.error);
+      // },
       fileIsAdded() {
         this.closeNewFileForm();
         this.downloadData();

@@ -2,6 +2,8 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+
+## [0.20.0] - 2020-03-02
 ### Added
 - Created Page "Customer Files".
 - Component "Customer Info" is added to the Page "Customer Files".

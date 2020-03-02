@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const httpClient2 = axios.create({
   baseURL: process.env.VUE_APP_API_URL,
-  timeout: 1000, // indicates, 1000ms ie. 1 second
+  timeout: 10000, // indicates, 1000ms ie. 1 second
 });
 
 const getAuthToken = () => localStorage.token;

@@ -115,7 +115,6 @@
         this.flash('The File Data is restored.', 'success');
 
         this.downloadData();
-        // this.$router.replace(this.$route.query.redirect || '/admin/user-profiles')
       },
       fileRestoringFailed(req) {
         this.errors = false;
