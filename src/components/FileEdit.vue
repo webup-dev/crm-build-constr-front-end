@@ -192,8 +192,8 @@
         }
 
         // description
-        if (!this.$v.fileInput.description.alphaSpaceDotHyphen) {
-          this.errors.push('Description must consist of letters, spaces. dots, hyphens only.');
+        if (!this.$v.fileInput.description.alphaNumSpaceDotCommaHyphen) {
+          this.errors.push('Description must consist of letters, numbers, spaces, dots, commas, hyphens only.');
         }
 
         // owner_object_type

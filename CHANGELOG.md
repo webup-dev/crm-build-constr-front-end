@@ -9,6 +9,12 @@ All notable changes to this project will be documented in this file.
 - Component "Customer Info" is added to the Page "Customer Files".
 - Created Component "Index of Customer Files".
 - Component 'Index of Customer Files' is added to the Page 'Customer Files'.
+- Created Component "Create New File".
+- Component 'Create New File' is added to the Page 'Customer Files'.
+- Created Component "Update File".
+- Component 'Update File' is added to the Page 'Customer Files'.
+- Created Component "Delete File".
+- Component 'Delete File' is added to the Page 'Customer Files'.
 
 ## [0.19.0] - 2020-01-21
 ### Added

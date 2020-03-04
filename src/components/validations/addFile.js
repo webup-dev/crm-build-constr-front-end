@@ -1,5 +1,5 @@
 import {required, integer, alpha} from 'vuelidate/lib/validators'
-import {alphaSpaceDotHyphen, alphaSpace} from '../../shared/validation-rules'
+import {alphaSpace, alphaNumSpaceDotCommaHyphen} from '../../shared/validation-rules'
 
 export const validations = {
   file: {
@@ -7,7 +7,7 @@ export const validations = {
   },
   fileInput: {
     description: {
-      alphaSpaceDotHyphen
+      alphaNumSpaceDotCommaHyphen
     }
   },
   owner: {
