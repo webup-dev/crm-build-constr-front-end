@@ -36,9 +36,7 @@
 
 <script>
     import Vue from 'vue'
-    // import BCard from 'bootstrap-vue/es/components'
     import {ClientTable, Event} from 'vue-tables-2'
-    import moment from "moment";
     import axios from "../../../../backend/vue-axios/axios";
 
     const API_URL = process.env.VUE_APP_API_URL;
@@ -93,10 +91,10 @@
                 };
 
                 axios.delete(API_URL + '/customers/' + customerId, headers)
-                    .then(request => this.customerDeletingSuccessful(request))
+                    .then(() => this.customerDeletingSuccessful())
                     .catch((request) => this.customerDeletingFailed(request));
             },
-            customerDeletingSuccessful(req) {
+            customerDeletingSuccessful() {
                 this.errors = false;
                 this.error = false;
                 this.flash('The Customer is deleted.', 'success');

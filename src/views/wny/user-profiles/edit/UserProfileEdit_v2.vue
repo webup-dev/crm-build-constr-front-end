@@ -15,7 +15,7 @@
               <div class="alert alert-danger" v-if="errors.length">
                 <b>Correct, please the following error(s):</b>
                 <ul>
-                  <li v-for="error in errors">{{ error }}</li>
+                  <li v-for="error in errors" v-bind:key="error">{{ error }}</li>
                 </ul>
               </div>
               <div class="alert alert-danger" v-if="error">
@@ -591,10 +591,10 @@
                 console.log("dataPost 2: " + dataPost.start_date);
 
                 this.$http.put('/user-profiles/' + this.$route.params.id, dataPost, headers)
-                    .then(request => this.userProfilesUpdatingSuccessful(request))
+                    .then(() => this.userProfilesUpdatingSuccessful())
                     .catch((request) => this.userProfilesUpdatingFailed(request));
             },
-            userProfilesUpdatingSuccessful(req) {
+            userProfilesUpdatingSuccessful() {
                 this.errors = false;
                 this.error = false;
                 this.flash('User Profile updated.', 'success');

@@ -9,7 +9,7 @@
       <div class="alert alert-danger" v-if="errors.length">
         <b>Correct, please the following error(s):</b>
         <ul>
-          <li v-for="error in errors">{{ error }}</li>
+          <li v-for="error in errors" v-bind:key="error">{{ error }}</li>
         </ul>
       </div>
       <div class="alert alert-danger" v-if="error">
@@ -47,8 +47,6 @@
 </template>
 
 <script>
-  const API_URL = process.env.VUE_APP_API_URL;
-
   import {validations} from '../components/validations/customerUserAdd';
 
   export default {
@@ -119,10 +117,10 @@
         };
 
         this.$http.post('/user-customers', dataPost, headers)
-            .then(request => this.createSuccess(request))
+            .then(() => this.createSuccess())
             .catch((request) => this.createFail(request));
       },
-      createSuccess(req) {
+      createSuccess() {
         this.errors = false;
         this.error = false;
         this.success = true;

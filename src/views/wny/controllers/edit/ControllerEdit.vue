@@ -13,7 +13,7 @@
             <div class="alert alert-danger" v-if="errors.length">
               <b>Correct, please the following error(s):</b>
               <ul>
-                <li v-for="item in errors">{{ item }}</li>
+                <li v-for="item in errors" v-bind:key="item">{{ item }}</li>
               </ul>
             </div>
             <div class="alert alert-danger" v-if="myError">
@@ -110,11 +110,11 @@
                     name: this.name
                 };
                 this.$http.put('/controllers/' + this.$route.params.id, dataPost, headers)
-                    .then(request => this.controllerCreatingSuccessful(request))
+                    .then(() => this.controllerCreatingSuccessful())
                     .catch((request) => this.controllerCreatingFailed(request));
             },
 
-            controllerCreatingSuccessful(req) {
+            controllerCreatingSuccessful() {
                 this.errors = false;
                 this.error = false;
                 this.flash('New Controller is created.', 'success');

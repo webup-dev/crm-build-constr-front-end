@@ -1,5 +1,4 @@
 import httpClient from './httpClient';
-import store from "../store";
 
 const END_POINT = '/user-details/';
 

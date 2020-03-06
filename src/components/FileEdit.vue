@@ -16,7 +16,7 @@
             <div class="alert alert-danger" v-if="errors.length">
               <b>Correct, please the following error(s):</b>
               <ul>
-                <li v-for="error in errors">{{ error }}</li>
+                <li v-for="error in errors" v-bind:key="error">{{ error }}</li>
               </ul>
             </div>
             <div class="alert alert-danger" v-if="error">
@@ -135,7 +135,6 @@
 <script>
   import {validations} from '../components/validations/updateFile';
   import store from "../store";
-  import {addFile} from "../api/addFile";
   import {updateFile} from "../api/file";
 
   export default {
@@ -237,10 +236,10 @@
         data.description = this.fileInput.description;
 
         updateFile(this.fileInput.id, data)
-          .then(request => this.updateSuccess(request))
+          .then(() => this.updateSuccess())
           .catch((request) => this.updateFail(request));
       },
-      updateSuccess(req) {
+      updateSuccess() {
         this.errors = false;
         this.error = false;
         this.flash('File is updated.', 'success');

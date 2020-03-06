@@ -33,8 +33,8 @@ export default new Vuex.Store({
     auth(state) {
       return state.user
     },
-    userDetails: state => {
-      return this.state.userDetails
+    userDetails(state) {
+      return state.userDetails
     }
   },
 

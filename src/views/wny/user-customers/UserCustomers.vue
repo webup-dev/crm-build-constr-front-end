@@ -34,7 +34,7 @@
   import BCard from "bootstrap-vue/es/components/card/card";
   import BCardHeader from "bootstrap-vue/es/components/card/card-header";
   import BCardBody from "bootstrap-vue/es/components/card/card-body";
-  import {getAllUserCustomers, createUserCustomer, updateUserCustomer, deleteUserCustomer} from "../../../api/userCustomers"
+  import {getAllUserCustomers} from "../../../api/userCustomers"
 
   const API_URL = process.env.VUE_APP_API_URL;
   Vue.use(ClientTable)
@@ -88,10 +88,10 @@
         };
 
         axios.delete(API_URL + '/user-customers/' + id, headers)
-             .then(request => this.deletingSuccessful(request))
+             .then(() => this.deletingSuccessful())
              .catch((request) => this.deletingFailed(request));
       },
-      deletingSuccessful(req) {
+      deletingSuccessful() {
         this.errors = false;
         this.error = false;
         this.flash('The User-Customer is deleted.', 'success');

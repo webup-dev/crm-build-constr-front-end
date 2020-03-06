@@ -7,14 +7,7 @@
         <i class="icon-menu mr-1"></i>Soft-Deleted Files
         <!--        <a href="#" class="badge badge-danger">Module Customers</a>-->
 
-        <div class="card-header-actions">
-          <!--          <a-->
-          <!--            href="https://github.com/vadis2/helper/blob/master/vuejs/admin-template/coreUI/components/05-table-final.md"-->
-          <!--            rel="noopener noreferrer" target="_blank"-->
-          <!--            className="card-header-action" class="btn btn-ghost-default">-->
-          <!--            <small className="text-muted">docs</small>-->
-          <!--          </a>-->
-        </div>
+        <div class="card-header-actions"></div>
       </b-card-header>
       <b-card-body>
 
@@ -37,13 +30,9 @@
 <script>
   import Vue from 'vue'
   import {ClientTable, Event} from 'vue-tables-2'
-  import moment from "moment";
-  import axios from "../../../backend/vue-axios/axios";
   import {softDeleted, restoreFile, permanentDestroyFile} from "../../../api/file";
 
-  const API_URL = process.env.VUE_APP_API_URL;
   Vue.use(ClientTable)
-  // Vue.use(BCard)
 
   export default {
     name: 'FilesSoftDeleted',
@@ -86,10 +75,10 @@
     methods: {
       permanentDeleteFile: function (fileId) {
         permanentDestroyFile(fileId)
-             .then(request => this.fileDeletingSuccessful(request))
+             .then(() => this.fileDeletingSuccessful())
              .catch((request) => this.fileDeletingFailed(request));
       },
-      fileDeletingSuccessful(req) {
+      fileDeletingSuccessful() {
         this.errors = false;
         this.error = false;
         this.flash('The File data is deleted permanently.', 'success');
@@ -105,11 +94,11 @@
 
       restoreFile: function (fileId) {
         restoreFile(fileId)
-            .then(request => this.fileRestoringSuccessful(request))
+            .then(() => this.fileRestoringSuccessful())
             .catch((request) => this.fileRestoringFailed(request));
 
       },
-      fileRestoringSuccessful(req) {
+      fileRestoringSuccessful() {
         this.errors = false;
         this.error = false;
         this.flash('The File Data is restored.', 'success');

@@ -75,10 +75,10 @@
                 };
 
                 this.$http.delete(API_URL + '/activities', headers)
-                    .then(request => this.clearHistorySuccessful(request))
+                    .then(() => this.clearHistorySuccessful())
                     .catch((request) => this.clearHistoryFailed(request));
             },
-            clearHistorySuccessful(req) {
+            clearHistorySuccessful() {
                 this.errors = false;
                 this.error = false;
                 this.flash('The History of Activities is cleared.', 'success');

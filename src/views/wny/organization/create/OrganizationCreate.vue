@@ -13,7 +13,7 @@
             <div class="alert alert-danger" v-if="errors.length">
               <b>Correct, please the following error(s):</b>
               <ul>
-                <li v-for="item in errors">{{ item }}</li>
+                <li v-for="item in errors" v-bind:key="item">{{ item }}</li>
               </ul>
             </div>
             <div class="alert alert-danger" v-if="error">
@@ -93,15 +93,7 @@
         return /^[0-9a-zA-Z #,.-]*$/.test(value)
     };
 
-    const alphaSpace = (value) => {
-        if (typeof value === 'undefined' || value === null || value === '') {
-            return true
-        }
-        return /^[a-zA-Z #]*$/.test(value)
-    };
-
     import {required, minLength, maxLength, numeric} from 'vuelidate/lib/validators'
-    import store from "../../../../store";
     import orgDeps from "../../../../mixins/orderedDepartments";
 
     export default {
@@ -145,7 +137,7 @@
 
                 trick = this.formatNames(trick);
 
-                trick.forEach(function (item, index, array) {
+                trick.forEach(function (item) {
                     let row = {
                         value: item.id,
                         text: item.name
@@ -165,23 +157,6 @@
                 }
             },
             checkForm: function (e) {
-                // validation
-                // this.errors = [];
-                //
-                // if (!this.name) {
-                //     this.errors.push('Name is required.');
-                // }
-                //
-                // if (!this.order) {
-                //     this.errors.push('Order is required.');
-                // }
-                //
-                // if (!this.errors.length && !this.error.length) {
-                //     this.create();
-                //     return true;
-                // }
-
-                console.log("Submit Create.");
                 this.$v.$touch();
                 if (this.$v.$invalid) {
                     this.submitStatus = "Error";
@@ -189,11 +164,9 @@
                 } else {
                     this.create();
                     this.submitStatus = "Creating";
-                    console.log("submitStatus: " + this.submitStatus)
                     return true
                 }
 
-                console.log("submitStatus: " + this.submitStatus)
                 e.preventDefault();
             },
             create() {
@@ -212,11 +185,11 @@
 
                 console.log(dataPost);
                 this.$http.post('/organizations', dataPost, headers)
-                    .then(request => this.organizationsCreatingSuccessful(request))
+                    .then(() => this.organizationsCreatingSuccessful())
                     .catch((request) => this.organizationsCreatingFailed(request));
             },
 
-            organizationsCreatingSuccessful(req) {
+            organizationsCreatingSuccessful() {
                 this.errors = false;
                 this.error = false;
                 this.flash('New Organization created.', 'success');

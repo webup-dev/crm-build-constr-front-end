@@ -1,5 +1,4 @@
 import httpClient from './httpClient2';
-import store from "../store";
 
 const END_POINT = '/files';
 

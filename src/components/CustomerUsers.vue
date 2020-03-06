@@ -5,7 +5,7 @@
     </div>
     <div class="row">
       <div class="col-12">
-        <div class="row" v-for="item in users" style="margin-bottom: 10px;">
+        <div class="row" v-for="item in users" v-bind:key="item" style="margin-bottom: 10px;">
           <div class="col-2">
             ID: {{item.id}}
           </div>

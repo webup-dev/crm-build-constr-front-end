@@ -13,7 +13,7 @@
             <div class="alert alert-danger" v-if="errors.length">
               <b>Correct, please the following error(s):</b>
               <ul>
-                <li v-for="error in errors">{{ error }}</li>
+                <li v-for="error in errors" v-bind:key="error">{{ error }}</li>
               </ul>
             </div>
             <div class="alert alert-danger" v-if="error">
@@ -158,11 +158,11 @@
                     pages_count: this.pages_count
                 };
                 this.$http.put('/book/' + this.$route.params.id, dataPost, headers)
-                    .then(request => this.bookUpdatingSuccessful(request))
+                    .then(() => this.bookUpdatingSuccessful())
                     .catch((request) => this.bookUpdatingFailed(request));
             },
 
-            bookUpdatingSuccessful(req) {
+            bookUpdatingSuccessful() {
                 this.errors = false;
                 this.error = false;
                 this.flash('The Book updated.', 'success');

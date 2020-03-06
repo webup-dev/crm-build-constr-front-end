@@ -13,7 +13,7 @@
             <div class="alert alert-danger" v-if="errors.length">
               <b>Correct, please the following error(s):</b>
               <ul>
-                <li v-for="item in errors">{{ item }}</li>
+                <li v-for="item in errors" v-bind:key="item">{{ item }}</li>
               </ul>
             </div>
             <div class="alert alert-danger" v-if="error">
@@ -104,11 +104,11 @@
 
                 console.log(dataPost);
                 this.$http.post('/method-roles/' + this.$route.params.id, dataPost, headers)
-                    .then(request => this.methodRolesCreatingSuccessful(request))
+                    .then(() => this.methodRolesCreatingSuccessful())
                     .catch((request) => this.methodRolesCreatingFailed(request));
             },
 
-            methodRolesCreatingSuccessful(req) {
+            methodRolesCreatingSuccessful() {
                 this.errors = false;
                 this.error = false;
                 this.flash('New Method Roles created.', 'success');

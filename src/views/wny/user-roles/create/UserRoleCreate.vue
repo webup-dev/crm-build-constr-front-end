@@ -13,7 +13,7 @@
             <div class="alert alert-danger" v-if="errors.length">
               <b>Correct, please the following error(s):</b>
               <ul>
-                <li v-for="error in errors">{{ error }}</li>
+                <li v-for="error in errors" v-bind:key="error">{{ error }}</li>
               </ul>
             </div>
             <div class="alert alert-danger" v-if="error">
@@ -132,11 +132,11 @@
                 };
                 console.log(dataPost);
                 this.$http.post('/user-roles/' + this.$route.params.id, dataPost, headers)
-                    .then(request => this.userRolesCreatingSuccessful(request))
+                    .then(() => this.userRolesCreatingSuccessful())
                     .catch((request) => this.userRolesCreatingFailed(request));
             },
 
-            userRolesCreatingSuccessful(req) {
+            userRolesCreatingSuccessful() {
                 this.errors = false;
                 this.error = false;
                 this.flash('New User Roles created.', 'success');

@@ -15,7 +15,7 @@
               <div class="alert alert-danger" v-if="errors.length">
                 <b>Correct, please the following error(s):</b>
                 <ul>
-                  <li v-for="error in errors">{{ error }}</li>
+                  <li v-for="error in errors" v-bind:key="error">{{ error }}</li>
                 </ul>
               </div>
               <div class="alert alert-danger" v-if="error">
@@ -552,10 +552,10 @@
                 dataPost = this.formatDateOutput(dataPost);
 
                 this.$http.post('/user-profiles', dataPost, headers)
-                    .then(request => this.userProfilesCreatingSuccessful(request))
+                    .then(() => this.userProfilesCreatingSuccessful())
                     .catch((request) => this.userProfilesCreatingFailed(request));
             },
-            userProfilesCreatingSuccessful(req) {
+            userProfilesCreatingSuccessful() {
                 this.errors = false;
                 this.error = false;
                 this.flash('User Profile created.', 'success');

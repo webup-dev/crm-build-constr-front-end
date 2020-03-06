@@ -17,7 +17,7 @@
             <div class="alert alert-danger" v-if="errors.length">
               <b>Correct, please the following error(s):</b>
               <ul>
-                <li v-for="error in errors">{{ error }}</li>
+                <li v-for="error in errors" v-bind:key="error">{{ error }}</li>
               </ul>
             </div>
             <div class="alert alert-danger" v-if="error">
@@ -74,22 +74,6 @@
               </b-form-group>
 
               <input id="owner_user_id" v-model=$v.owner.owner_user_id.$model :class="status($v.owner.owner_user_id)" type="hidden"/>
-
-<!--              <b-form-group-->
-<!--                label="Owner User ID *"-->
-<!--                label-for="owner_user_id"-->
-<!--                :label-cols="3"-->
-<!--                class="label bold"-->
-<!--              >-->
-<!--                <b-form-input-->
-<!--                  plaintext-->
-<!--                  id="owner_user_id"-->
-<!--                  v-model="$v.owner.owner_user_id.$model"-->
-<!--                  type="text"-->
-<!--                  :class="status($v.owner.owner_user_id)">-->
-
-<!--                </b-form-input>-->
-<!--              </b-form-group>-->
 
               <b-form-group
                 label="Creator *"
@@ -181,8 +165,6 @@
       },
       handleFileUpload() {
         this.file = this.$refs.file.files[0];
-        console.log("customer: ");
-        console.log(this.customer);
       },
       closeForm() {
         this.cancel();
@@ -195,7 +177,6 @@
         }
       },
       checkForm: function (e) {
-        console.log('owner.owner_object_type: ' + this.owner.owner_object_type)
         // validation
         this.errors = [];
 
@@ -243,14 +224,6 @@
         e.preventDefault();
       },
       create() {
-        // let headers = {
-        //   headers: {
-        //     'Accept': 'application/json',
-        //     'Content-Type': 'multipart/form-data',
-        //     'Authorization': 'Bearer ' + localStorage.token
-        //   }
-        // };
-        console.log(this.file.name);
         let formData = new FormData();
         formData.append('photo', this.file);
         formData.append('filename', this.file.name);
@@ -259,17 +232,16 @@
         formData.append('owner_object_id', this.owner.owner_object_id);
         formData.append('description', this.fileInput.description);
         addFile(formData)
-            .then(request => this.createSuccess(request))
+            .then(() => this.createSuccess())
             .catch((request) => this.createFail(request));
       },
-      createSuccess(req) {
+      createSuccess() {
         this.errors = false;
         this.error = false;
         this.flash('New File is created.', 'success');
         this.clear();
         this.fileInput.description = '';
         this.$emit('file-is-added', true);
-        // this.$router.replace(this.$route.query.redirect || '/admin/customers/' + store.state.userDetails.customerId + '/files');
       },
 
       createFail(req) {

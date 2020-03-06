@@ -24,14 +24,12 @@
 <script>
   import Vue from 'vue'
   import {ClientTable, Event} from 'vue-tables-2'
-  import axios from "../../../backend/vue-axios/axios";
   import BCard from "bootstrap-vue/es/components/card/card";
   import BCardHeader from "bootstrap-vue/es/components/card/card-header";
   import BCardBody from "bootstrap-vue/es/components/card/card-body";
   import {getAllUserCustomersSoftDeleted, restoreUserCustomer, deleteUserCustomerPermanently} from "../../../api/userCustomers"
 
-  const API_URL = process.env.VUE_APP_API_URL;
-  Vue.use(ClientTable)
+  Vue.use(ClientTable);
 
   export default {
     name: 'UserCustomersSoftDeleted',
@@ -76,10 +74,10 @@
     methods: {
       deleteUC: function (id) {
         deleteUserCustomerPermanently(id)
-             .then(request => this.deletingSuccessful(request))
+             .then(() => this.deletingSuccessful())
              .catch((request) => this.deletingFailed(request));
       },
-      deletingSuccessful(req) {
+      deletingSuccessful() {
         this.errors = false;
         this.error = false;
         this.flash('The User-Customer is deleted permanently.', 'success');
@@ -94,12 +92,12 @@
 
       restore: function (id) {
         restoreUserCustomer(id)
-            .then(request => this.restoringSuccessful(request))
+            .then(() => this.restoringSuccessful())
             .catch((request) => this.restoringFailed(request));
 
       },
 
-      restoringSuccessful(req) {
+      restoringSuccessful() {
         this.errors = false;
         this.error = false;
         this.flash('The User-Customer is restored.', 'success');

@@ -83,10 +83,10 @@
                 };
 
                 this.$http.delete(API_URL + '/user-roles/' + userId, headers)
-                    .then(request => this.userRoleDeletingSuccessful(request))
+                    .then(() => this.userRoleDeletingSuccessful())
                     .catch((request) => this.userRoleDeletingFailed(request));
             },
-            userRoleDeletingSuccessful(req) {
+            userRoleDeletingSuccessful() {
                 this.errors = false;
                 this.error = false;
                 this.flash('The User Roles are deleted.', 'success');

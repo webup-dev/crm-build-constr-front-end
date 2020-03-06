@@ -13,7 +13,7 @@
             <div class="alert alert-danger" v-if="errors.length">
               <b>Correct, please the following error(s):</b>
               <ul>
-                <li v-for="error in errors">{{ error }}</li>
+                <li v-for="error in errors" v-bind:key="error">{{ error }}</li>
               </ul>
             </div>
             <div class="alert alert-danger" v-if="error">
@@ -72,8 +72,6 @@
 </template>
 
 <script>
-    const API_URL = process.env.VUE_APP_API_URL;
-
     export default {
         name: 'RoleCreate',
         data() {
@@ -113,11 +111,11 @@
                     description: this.description
                 };
                 this.$http.post('/role', dataPost, headers)
-                    .then(request => this.roleCreatingSuccessful(request))
+                    .then(() => this.roleCreatingSuccessful())
                     .catch((request) => this.roleCreatingFailed(request));
             },
 
-            roleCreatingSuccessful(req) {
+            roleCreatingSuccessful() {
                 this.errors = false;
                 this.error = false;
                 this.flash('New Role created.', 'success');

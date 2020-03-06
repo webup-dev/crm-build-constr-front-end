@@ -37,7 +37,6 @@
 <script>
     import Vue from 'vue'
     import {ClientTable, Event} from 'vue-tables-2'
-    import moment from "moment";
     import axios from "../../../../backend/vue-axios/axios";
 
     const API_URL = process.env.VUE_APP_API_URL;
@@ -93,10 +92,10 @@
                 };
 
                 axios.delete(API_URL + '/customers/' + customerId + '/permanently', headers)
-                     .then(request => this.customerDeletingSuccessful(request))
+                     .then(() => this.customerDeletingSuccessful())
                      .catch((request) => this.customerDeletingFailed(request));
             },
-            customerDeletingSuccessful(req) {
+            customerDeletingSuccessful() {
                 this.errors = false;
                 this.error = false;
                 this.flash('The Customer is deleted permanently.', 'success');
@@ -118,11 +117,11 @@
                 };
 
                 this.$http.put(API_URL + '/customers/' + customerId + '/restore', headers)
-                    .then(request => this.customerRestoringSuccessful(request))
+                    .then(() => this.customerRestoringSuccessful())
                     .catch((request) => this.customerRestoringFailed(request));
 
             },
-            customerRestoringSuccessful(req) {
+            customerRestoringSuccessful() {
                 this.errors = false;
                 this.error = false;
                 this.flash('The Customer is restored.', 'success');

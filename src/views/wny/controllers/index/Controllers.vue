@@ -11,7 +11,7 @@
       </b-card-header>
       <b-card-body>
         <a href="/#/controllers/create" class="btn btn-warning" style="float: right">Create Controller</a>
-        
+
         <v-client-table :columns="columns" :data="data" :options="options" :theme="theme" id="dataTable">
           <p slot="actions" slot-scope="props">
             <a :href="'#/controllers/' + props.row.id + '/edit'" class="icon-pencil action-icon"></a>
@@ -78,10 +78,10 @@
                 };
 
                 this.$http.delete(API_URL + '/controllers/' + controllerId, headers)
-                    .then(request => this.controllerDeletingSuccessful(request))
+                    .then(() => this.controllerDeletingSuccessful())
                     .catch((request) => this.controllerDeletingFailed(request));
             },
-            controllerDeletingSuccessful(req) {
+            controllerDeletingSuccessful() {
                 this.errors = false;
                 this.error = false;
                 this.flash('The Controller is deleted.', 'success');

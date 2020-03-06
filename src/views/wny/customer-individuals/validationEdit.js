@@ -1,4 +1,4 @@
-import {required, minLength, maxLength, email, numeric} from 'vuelidate/lib/validators'
+import {required, minLength, numeric} from 'vuelidate/lib/validators'
 import {alphaSpaceHyphen} from '../../../shared/validation-rules'
 
 export const validations = {
@@ -15,7 +15,7 @@ export const validations = {
     required
   },
   note: {
-  
+
   },
   departmentId: {
     required,

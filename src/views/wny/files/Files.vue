@@ -19,31 +19,24 @@
           <div class="col-md-9" style="padding: 10px; border: 1px solid #c8ced3; border-left: 0; ">
             <!-- Create new file-->
             <div id="newFile" :style="{ 'display': displayCreateForm}">
-              <new-file v-on:add-file-block="closeNewFileForm" v-on:file-is-added="fileIsAdded" :owner="owner" :customer="customer"></new-file>
+              <new-file v-on:add-file-block="closeNewFileForm" v-on:file-is-added="fileIsAdded" :owner="owner"
+                        :customer="customer"></new-file>
               <hr>
             </div>
             <!-- Edit file-->
             <div id="editFile" :style="{ 'display': displayEditForm}">
-              <file-edit v-on:update-file-block="closeUpdateFileForm" v-on:file-is-updated="fileIsUpdated" :owner="owner" :customer="customer" :fileInput="fileInput"></file-edit>
+              <file-edit v-on:update-file-block="closeUpdateFileForm" v-on:file-is-updated="fileIsUpdated"
+                         :owner="owner" :customer="customer" :fileInput="fileInput"></file-edit>
               <hr>
             </div>
+            <!--Table with files-->
             <v-client-table :columns="columns" :data="data" :options="options" id="dataTable">
               <p slot="actions" slot-scope="props">
-                <a class="icon-pencil" v-on:click="editFile(props.row.id)" style="cursor: pointer"></a>
-<!--                <a class="icon-cloud-download" href="http://wny2.com/storage/customer-1-2020-02-19_08-41-20-579.pdf" download="customer-1-2020-02-19_08-41-20-579.pdf"></a>-->
-<!--                <button @click="downloadWithVueResource">Download file with Vue Resource</button>-->
-<!--                <button @click="downloadWithAxios">Download file with Axios</button>-->
-<!--                <a class="icon-cloud-download"-->
-<!--                   :href="props.row.filename"-->
-<!--                   @click.prevent="downloadItem(props.row.filename)" />-->
-                <!--                <a :href="'#/admin/customers/' + props.row.id + '/edit'" class="icon-pencil action-icon"></a>-->
-                <!--                <a :href="'#/admin/customers/' + props.row.id + '/files'" class="fa fa-files-o action-icon"></a>-->
-                <a class="icon-trash" v-on:click="deleteFile(props.row.id)" style="cursor: pointer"></a>
+                <a class="icon-pencil action-in-table" v-on:click="editFile(props.row.id)"></a>
+                <a class="icon-cloud-download action-in-table"
+                   v-on:click="downloadWithAxios(props.row.id, props.row.filename)"/>
+                <a class="icon-trash action-in-table" v-on:click="deleteFile(props.row.id)"></a>
               </p>
-
-              <!--          <div slot="child_row" slot-scope="props">-->
-              <!--            The link to {{props.row.name}} is <a :href="props.row.uri">{{props.row.uri}}</a>-->
-              <!--          </div>-->
             </v-client-table>
 
           </div>
@@ -60,14 +53,14 @@
   import {getCustomerInfo} from "../../../api/customerPage";
   import {getCustomerFiles} from "../../../api/customerFiles";
   import {softDestroyFile} from "../../../api/destroyFile";
-  import {getFile, updateFile} from "../../../api/file";
+  import {getFile} from "../../../api/file";
   import axios from "../../../backend/vue-axios/axios";
   import mixin from "../../../mixins/mixin";
   import NewFile from "../../../components/NewFile";
   import FileEdit from "../../../components/FileEdit";
   import store from "../../../store";
+
   const API_URL = process.env.VUE_APP_API_URL;
-  const DOC_URL = 'http://wny2.com/storage';
 
   Vue.use(ClientTable);
 
@@ -127,22 +120,20 @@
         },
         fileInput: {
           description: ''
-        },
-        url:'http://wny2.com/storage/customer_1_test-file-2.jpg'
+        }
       }
     },
     methods: {
-      forceFileDownload(response){
-        const url = window.URL.createObjectURL(new Blob([response.data]))
-        const link = document.createElement('a')
-        link.href = url
-        link.setAttribute('download', 'file.png') //or any other extension
-        document.body.appendChild(link)
-        link.click()
+      forceFileDownload(response, filename) {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', filename);
+        document.body.appendChild(link);
+        link.click();
       },
 
       downloadWithVueResource() {
-
         this.$http({
               method: 'get',
               url: this.url,
@@ -151,61 +142,25 @@
             .then(response => {
               this.forceFileDownload(response)
             })
-            .catch(() => console.log('error occured'))
-
+            .catch(() => console.log('error occurred'))
       },
 
-      downloadWithAxios(){
+      downloadWithAxios(id, filename) {
         axios({
           method: 'get',
-          url: this.url,
-          responseType: 'arraybuffer'
+          url: API_URL + '/file/' + id,
+          responseType: 'arraybuffer',
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.token
+          }
         })
           .then(response => {
-
-            this.forceFileDownload(response)
-
+            this.forceFileDownload(response, filename)
           })
-          .catch(() => console.log('error occured'))
+          .catch(() => console.log('error occurred'))
       },
-      // forceFileDownload(response, filename){
-      //   const url = window.URL.createObjectURL(new Blob([response.data]))
-      //   const link = document.createElement('a')
-      //   link.href = url
-      //   link.setAttribute('download', filename) //or any other extension
-      //   document.body.appendChild(link)
-      //   link.click()
-      // },
-      //
-      // downloadFile(filename) {
-      //   this.$http({
-      //         method: 'get',
-      //         url: DOC_URL + '/' + filename,
-      //         responseType: 'arraybuffer'
-      //       })
-      //       .then(response => {
-      //         this.forceFileDownload(response, filename)
-      //       })
-      //       .catch(() => console.log('error occured'))
-      //
-      // },
-      // downloadItem (filename) {
-      //   const url = DOC_URL + '/' + filename;
-      //   console.log('url')
-      //   console.log(url)
-      //   const label = filename;
-      //   axios.get(url, { responseType: 'blob' })
-      //        .then(response => {
-      //          const blob = new Blob([response.data], { type: 'application/jpg' })
-      //          const link = document.createElement('a')
-      //
-      //          link.href = URL.createObjectURL(blob)
-      //          link.download = label
-      //          link.click()
-      //          URL.revokeObjectURL(link.href)
-      //        })
-      //        .catch(console.error);
-      // },
+
       fileIsAdded() {
         this.closeNewFileForm();
         this.downloadData();
@@ -243,10 +198,10 @@
       },
       deleteFile: function (fileId) {
         softDestroyFile(fileId)
-             .then(request => this.fileDeletingSuccessful(request))
-             .catch((request) => this.fileDeletingFailed(request));
+          .then(() => this.fileDeletingSuccessful())
+          .catch((request) => this.fileDeletingFailed(request));
       },
-      fileDeletingSuccessful(req) {
+      fileDeletingSuccessful() {
         this.errors = false;
         this.error = false;
         this.flash('The File is deleted.', 'success');
@@ -274,15 +229,12 @@
             this.data = response.data.data;
             this.message = response.data.message;
             this.success = response.data.success;
-            console.log('getCustomerFiles: ');
-            console.log(response);
           })
           .catch((error) => this.getFail(error));
       },
       getFail(error) {
         if (error.response) {
-          console.log(error.response.data);
-          console.log(error.response.status);
+          console.log(error.response);
           this.logout();
         }
       }
@@ -301,6 +253,11 @@
   #newFile, #editFile {
     width: 95%;
     margin: 0 auto;
+  }
+
+  .action-in-table {
+    cursor: pointer;
+    margin-right: 5px
   }
 
   #dataTable {

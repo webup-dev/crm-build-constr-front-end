@@ -7,14 +7,7 @@
         <i class="icon-menu mr-1"></i>Soft-Deleted Customer Index
         <a href="#" class="badge badge-danger">Module Customers</a>
 
-        <div class="card-header-actions">
-          <!--          <a-->
-          <!--            href="https://github.com/vadis2/helper/blob/master/vuejs/admin-template/coreUI/components/05-table-final.md"-->
-          <!--            rel="noopener noreferrer" target="_blank"-->
-          <!--            className="card-header-action" class="btn btn-ghost-default">-->
-          <!--            <small className="text-muted">docs</small>-->
-          <!--          </a>-->
-        </div>
+        <div class="card-header-actions"></div>
       </b-card-header>
       <b-card-body>
 
@@ -37,12 +30,11 @@
 <script>
     import Vue from 'vue'
     import {ClientTable, Event} from 'vue-tables-2'
-    import moment from "moment";
     import axios from "../../../../backend/vue-axios/axios";
 
     const API_URL = process.env.VUE_APP_API_URL;
-    Vue.use(ClientTable)
-    // Vue.use(BCard)
+
+    Vue.use(ClientTable);
 
     export default {
         name: 'CustomersSoftDeleted',
@@ -91,10 +83,10 @@
                 };
 
                 axios.delete(API_URL + '/customers/' + customerId + '/permanently', headers)
-                     .then(request => this.customerDeletingSuccessful(request))
+                     .then(() => this.customerDeletingSuccessful())
                      .catch((request) => this.customerDeletingFailed(request));
             },
-            customerDeletingSuccessful(req) {
+            customerDeletingSuccessful() {
                 this.errors = false;
                 this.error = false;
                 this.flash('The Customer is deleted permanently.', 'success');
@@ -115,11 +107,11 @@
                 };
 
                 this.$http.put(API_URL + '/customers/' + customerId + '/restore', headers)
-                    .then(request => this.customerRestoringSuccessful(request))
+                    .then(() => this.customerRestoringSuccessful())
                     .catch((request) => this.customerRestoringFailed(request));
 
             },
-            customerRestoringSuccessful(req) {
+            customerRestoringSuccessful() {
                 this.errors = false;
                 this.error = false;
                 this.flash('The Customer is restored.', 'success');

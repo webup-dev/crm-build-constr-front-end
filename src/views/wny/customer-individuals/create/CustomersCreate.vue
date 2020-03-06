@@ -11,7 +11,7 @@
             <div class="alert alert-danger" v-if="errors.length">
               <b>Correct, please the following error(s):</b>
               <ul>
-                <li v-for="item in errors">{{ item }}</li>
+                <li v-for="item in errors" v-bind:key="item">{{ item }}</li>
               </ul>
             </div>
             <div class="alert alert-danger" v-if="error">
@@ -129,7 +129,6 @@
 <script>
     const API_URL = process.env.VUE_APP_API_URL;
 
-    import store from "../../../../store";
     import orgDeps from "../../../../mixins/orderedDepartments";
     import {validations} from '../validation'
     import axios from "../../../../backend/vue-axios/axios";
@@ -212,11 +211,11 @@
 
                 console.log(dataPost);
                 axios.post('/customers', dataPost, headers)
-                    .then(request => this.organizationsCreatingSuccessful(request))
+                    .then(() => this.organizationsCreatingSuccessful())
                     .catch((request) => this.organizationsCreatingFailed(request));
             },
 
-            organizationsCreatingSuccessful(req) {
+            organizationsCreatingSuccessful() {
                 this.errors = false;
                 this.error = false;
                 this.flash('New Customer is created.', 'success');

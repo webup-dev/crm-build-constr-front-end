@@ -5,7 +5,7 @@
 
       <b-card-header>
         <i class="icon-menu mr-1"></i>Controller <b><span style="color: red">{{controllerName}}</span></b>. Index of
-        Methods&nbsp
+        Methods&nbsp;
         <a href="#" class="badge badge-danger">Module Methods</a>
         <a v-bind:href="'/#/methods/' + controllerId + '/create'" class="badge badge-warning" style="margin-left: 20px">Create
           Method</a>
@@ -102,10 +102,10 @@
                 };
 
                 this.$http.delete(API_URL + '/methods/' + methodId, headers)
-                    .then(request => this.methodDeletingSuccessful(request))
+                    .then(() => this.methodDeletingSuccessful())
                     .catch((request) => this.methodDeletingFailed(request));
             },
-            methodDeletingSuccessful(req) {
+            methodDeletingSuccessful() {
                 this.errors = false;
                 this.error = false;
                 this.flash('The Method is deleted.', 'success');
@@ -125,10 +125,10 @@
                 };
 
                 this.$http.delete(API_URL + '/method-roles/' + methodId, headers)
-                    .then(request => this.methodRoleDeletingSuccessful(request))
+                    .then(() => this.methodRoleDeletingSuccessful())
                     .catch((request) => this.methodRoleDeletingFailed(request));
             },
-            methodRoleDeletingSuccessful(req) {
+            methodRoleDeletingSuccessful() {
                 this.errors = false;
                 this.error = false;
                 this.flash('Method Roles are deleted.', 'success');

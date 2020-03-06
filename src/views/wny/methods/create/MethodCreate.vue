@@ -13,7 +13,7 @@
             <div class="alert alert-danger" v-if="errors.length">
               <b>Correct, please the following error(s):</b>
               <ul>
-                <li v-for="item in errors">{{ item }}</li>
+                <li v-for="item in errors" v-bind:key="item">{{ item }}</li>
               </ul>
             </div>
             <div class="alert alert-danger" v-if="error">
@@ -117,11 +117,11 @@
                     controller_id: this.controllerId
                 };
                 this.$http.post('/methods/' + this.$route.params.id, dataPost, headers)
-                    .then(request => this.methodCreatingSuccessful(request))
+                    .then(() => this.methodCreatingSuccessful())
                     .catch((request) => this.methodCreatingFailed(request));
             },
 
-            methodCreatingSuccessful(req) {
+            methodCreatingSuccessful() {
                 this.errors = false;
                 this.error = false;
                 this.flash('New Method is created.', 'success');

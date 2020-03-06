@@ -87,10 +87,10 @@
                 };
 
                 this.$http.delete(API_URL + '/user-profiles/' + roleId, headers)
-                    .then(request => this.userDeletingSuccessful(request))
+                    .then(() => this.userDeletingSuccessful())
                     .catch((request) => this.userDeletingFailed(request));
             },
-            userDeletingSuccessful(req) {
+            userDeletingSuccessful() {
                 this.errors = false;
                 this.error = false;
                 this.flash('The User is deleted.', 'success');

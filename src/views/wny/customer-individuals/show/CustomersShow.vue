@@ -351,14 +351,11 @@
             // create item list for select
             options: function () {
                 let trick = this.optionsApi;
-                console.log(trick);
                 let optionsArr = [
                     {value: 0, text: "Select Organization"}
                 ];
 
-                trick.forEach(function (item, index, array) {
-                    // console.log(item.id + " " + item.name)
-
+                trick.forEach(function (item) {
                     let row = {
                         value: item.id,
                         text: item.name
@@ -366,17 +363,13 @@
 
                     optionsArr.push(row)
                 });
-                console.log("optionsArr: ");
-                console.log(optionsArr);
 
                 return optionsArr;
             },
             // create selected item from the list
             departmentId: function () {
                 let trick = this.optionsApi;
-                let departmentId = trick.find(x => x.id === this.$route.params.id).department_id;
-
-                return departmentId
+                return trick.find(x => x.id === this.$route.params.id).department_id;
             }
         },
         methods: {

@@ -7,7 +7,7 @@ export default {
           trick[i].parent_id = 0;
         }
       }
-    
+
       // Creating of plain copy (arr) of input array of objects
       let arr = [trick.length - 1];
       for (let k = 0; k < trick.length; k++) {
@@ -19,20 +19,20 @@ export default {
         obj.level = trick[k].level;
         arr.push(obj);
       }
-    
+
       // create temporary arr
       // parent 1 =[]  // empty arr if there is child
       //     child 1
       //     child 2
       // parent 2
-      
+
       let hashArr = {};
-    
+
       for (let i = 0; i < arr.length; i++) {
         if (hashArr[arr[i].parent_id] === undefined) hashArr[arr[i].parent_id] = [];
         hashArr[arr[i].parent_id].push(arr[i]);
       }
-    
+
       return  this.hierarchySort(hashArr, 0, []);
     },
     // formatNames(trick) {
@@ -67,7 +67,7 @@ export default {
           trick[i].name = prefix + trick[i].name;
         }
       }
-    
+
       return trick;
     },
     hierarchySortFunc(a, b) {
@@ -77,7 +77,7 @@ export default {
         return -1
       }
     },
-  
+
     hierarchySort(hashArr, key, result) {
       if (hashArr[key] === undefined) return;
       let arr = hashArr[key].sort(this.hierarchySortFunc);
@@ -92,7 +92,7 @@ export default {
     getParents(trick) {
       // Creating of arr
       let arr = [];
-      
+
       for (let i = 0; i < trick.length; i++) {
         if (trick[i].level == 1) {
           let obj = {};
@@ -106,7 +106,7 @@ export default {
       }
       console.log("parents:");
       console.log(arr);
-      
+
       return arr
     }
   },
@@ -117,41 +117,33 @@ export default {
       let optionsArr = [
         {value: 0, text: "Select Organization"}
       ];
-    
+
       trick = this.formatNames(trick);
-    
-      trick.forEach(function (item, index, array) {
-        // console.log(item.id + " " + item.name)
-      
+
+      trick.forEach(function (item) {
         let row = {
           value: item.id,
           text: item.name
         };
-      
+
         optionsArr.push(row)
       });
-      // console.log(optionsArr);
-    
-      // console.log('departmentId:');
-      // console.log(trick.find(x => x.id === this.$route.params.id));
-    
+
       return optionsArr;
     },
     parents: function () {
       let trick = this.optionsApi;
       let optionsArr = [];
-    
-      trick.forEach(function (item, index, array) {
-        // console.log(item.id + " " + item.name)
-      
+
+      trick.forEach(function (item) {
         let row = {
           value: item.id,
           text: item.name
         };
-      
+
         optionsArr.push(row)
       });
-      
+
       return optionsArr;
     }
   }

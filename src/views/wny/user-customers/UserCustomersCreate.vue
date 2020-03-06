@@ -16,7 +16,7 @@
             <div class="alert alert-danger" v-if="errors.length">
               <b>Correct, please the following error(s):</b>
               <ul>
-                <li v-for="error in errors">{{ error }}</li>
+                <li v-for="error in errors" v-bind:key="error">{{ error }}</li>
               </ul>
             </div>
             <div class="alert alert-danger" v-if="error">
@@ -107,7 +107,7 @@
         let trick = this.customers;
         let optionsArr = [];
 
-        trick.forEach(function (item, index, array) {
+        trick.forEach(function (item) {
 
           let row = {
             value: item.id,
@@ -180,10 +180,10 @@
         };
 
         this.$http.post('/user-customers', dataPost, headers)
-            .then(request => this.userCustomersCreatingSuccessful(request))
+            .then(() => this.userCustomersCreatingSuccessful())
             .catch((request) => this.userCustomersCreatingFailed(request));
       },
-      userCustomersCreatingSuccessful(req) {
+      userCustomersCreatingSuccessful() {
         this.errors = false;
         this.error = false;
         this.flash('User-Customer created.', 'success');

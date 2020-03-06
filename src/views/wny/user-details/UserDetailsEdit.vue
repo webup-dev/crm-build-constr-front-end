@@ -14,7 +14,6 @@
 </template>
 
 <script>
-  import Vue from 'vue';
   import EditDetails from "../../../components/EditDetails";
   import {getDetails} from "../../../api/getDetails";
 

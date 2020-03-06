@@ -6,12 +6,6 @@
       <b-card-header>
         <i class="icon-menu mr-1"></i>Soft Deleted Organizations
         <a href="#" class="badge badge-danger">Module Organizations</a>
-
-        <!--        <a v-bind:href="'/#/admin/organization/show'" class="badge badge-info" style="margin-left: 20px">Show WNY-->
-        <!--          Structure</a>-->
-        <!--        <a v-bind:href="'/#/admin/organization/2/show'" class="badge badge-info" style="margin-left: 20px">Show Spring-->
-        <!--          Structure</a>-->
-
         <div class="card-header-actions"></div>
       </b-card-header>
       <b-card-body>
@@ -31,165 +25,156 @@
 </template>
 
 <script>
-    import Vue from 'vue'
-    import {ClientTable, Event} from 'vue-tables-2'
-    import _ from 'lodash'
+  import Vue from 'vue'
+  import {ClientTable, Event} from 'vue-tables-2'
+  import _ from 'lodash'
 
-    const API_URL = process.env.VUE_APP_API_URL;
-    Vue.use(ClientTable);
+  const API_URL = process.env.VUE_APP_API_URL;
+  Vue.use(ClientTable);
 
-    export default {
-        name: 'OrganizationsSoftDeleted',
-        components: {
-            ClientTable,
-            Event
+  export default {
+    name: 'OrganizationsSoftDeleted',
+    components: {
+      ClientTable,
+      Event
+    },
+    data: function () {
+      return {
+        columns: ['id', 'superName', 'parent_id', 'order', 'actions'],
+        data: [],
+        message: '',
+        success: false,
+        options: {
+          headings: {
+            id: 'Item ID',
+            superName: 'Name',
+            parent_id: 'Parent',
+            order: "Order",
+            actions: 'Actions'
+          },
+          sortable: ['id', 'name', 'parent_id'],
+          filterable: ['id', 'name', 'parent_id'],
+          sortIcon: {base: 'fa', up: 'fa-sort-asc', down: 'fa-sort-desc', is: 'fa-sort'},
+          pagination: {
+            chunk: 5,
+            edge: false,
+            nav: 'scroll'
+          }
         },
-        data: function () {
-            return {
-                columns: ['id', 'superName', 'parent_id', 'order', 'actions'],
-                data: [],
-                message: '',
-                success: false,
-                options: {
-                    headings: {
-                        id: 'Item ID',
-                        superName: 'Name',
-                        parent_id: 'Parent',
-                        order: "Order",
-                        actions: 'Actions'
-                    },
-                    sortable: ['id', 'name', 'parent_id'],
-                    filterable: ['id', 'name', 'parent_id'],
-                    sortIcon: {base: 'fa', up: 'fa-sort-asc', down: 'fa-sort-desc', is: 'fa-sort'},
-                    pagination: {
-                        chunk: 5,
-                        edge: false,
-                        nav: 'scroll'
-                    }
-                },
-                useVuex: false,
-                theme: 'bootstrap4',
-                template: 'default'
-            }
-        },
-        methods: {
-            restoreOrganization: function (organizationId) {
-                let headers = {
-                    headers: {
-                        'Accept': 'application/json',
-                        'Authorization': 'Bearer ' + localStorage.token
-                    }
-                };
+        useVuex: false,
+        theme: 'bootstrap4',
+        template: 'default'
+      }
+    },
+    methods: {
+      restoreOrganization: function (organizationId) {
+        let headers = {
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.token
+          }
+        };
 
-                this.$http.put(API_URL + '/organizations/' + organizationId + '/restore', headers)
-                    .then(request => this.organizationRestoringSuccessful(request))
-                    .catch((request) => this.organizationRestoringFailed(request));
+        this.$http.put(API_URL + '/organizations/' + organizationId + '/restore', headers)
+            .then(() => this.organizationRestoringSuccessful())
+            .catch((request) => this.organizationRestoringFailed(request));
 
-            },
-            organizationRestoringSuccessful(req) {
-                this.errors = false;
-                this.error = false;
-                this.flash('The Organization is restored.', 'success');
+      },
+      organizationRestoringSuccessful() {
+        this.errors = false;
+        this.error = false;
+        this.flash('The Organization is restored.', 'success');
 
-                this.downloadData();
-                // this.$router.replace(this.$route.query.redirect || '/admin/user-profiles')
-            },
+        this.downloadData();
+      },
 
-            organizationRestoringFailed(req) {
-                this.errors = false;
-                this.flash(req.response.data.message + " Status code: " + req.response.data.code, 'error');
-            },
-            permanentDeleteOrganization: function (organizationId) {
-                let headers = {
-                    headers: {
-                        'Accept': 'application/json',
-                        'Authorization': 'Bearer ' + localStorage.token
-                    }
-                };
+      organizationRestoringFailed(req) {
+        this.errors = false;
+        this.flash(req.response.data.message + " Status code: " + req.response.data.code, 'error');
+      },
+      permanentDeleteOrganization: function (organizationId) {
+        let headers = {
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.token
+          }
+        };
 
-                this.$http.delete(API_URL + '/organizations/' + organizationId + '/permanently', headers)
-                    .then(request => this.organizationDeletingSuccessful(request))
-                    .catch((request) => this.organizationDeletingFailed(request));
-            },
-            organizationDeletingSuccessful(req) {
-                this.errors = false;
-                this.error = false;
-                this.flash('The Organization is deleted permanently.', 'success');
+        this.$http.delete(API_URL + '/organizations/' + organizationId + '/permanently', headers)
+            .then(() => this.organizationDeletingSuccessful())
+            .catch((request) => this.organizationDeletingFailed(request));
+      },
+      organizationDeletingSuccessful() {
+        this.errors = false;
+        this.error = false;
+        this.flash('The Organization is deleted permanently.', 'success');
 
-                this.downloadData();
-            },
-            organizationDeletingFailed(req) {
-                this.errors = false;
-                this.flash(req.response.data.message + " Status code: " + req.response.data.code, 'error');
-            },
-            downloadData() {
-                let headers = {
-                    headers: {
-                        'Accept': 'application/json',
-                        'Authorization': 'Bearer ' + localStorage.token
-                    }
-                };
+        this.downloadData();
+      },
+      organizationDeletingFailed(req) {
+        this.errors = false;
+        this.flash(req.response.data.message + " Status code: " + req.response.data.code, 'error');
+      },
+      downloadData() {
+        let headers = {
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.token
+          }
+        };
 
-                this.$http.get(API_URL + '/organizations/soft-deleted', headers)
-                    .then(response => {
-                        if (response.status === 204) {
-                            console.log('204');
-                            this.data = [];
-                        } else {
-                            this.data = response.data.data;
-                            this.message = response.data.message;
-                            this.success = response.data.success;
-                        }
-                    })
-                    .catch(error => console.log(error));
+        this.$http.get(API_URL + '/organizations/soft-deleted', headers)
+            .then(response => {
+              if (response.status === 204) {
+                this.data = [];
+              } else {
+                this.data = response.data.data;
+                this.message = response.data.message;
+                this.success = response.data.success;
+              }
+            })
+            .catch(error => console.log(error));
+      },
+      formatColumnName(source) {
+        let min = this.findMinLevel(source);
+        // cycle over data
+        // we add the new field "subname" in each object
+        // subname adds all parents names
+        source.forEach(function (item) {
+          item.subname = '';
+          let tempItem = _.clone(item);
+          let parent_id = item.parent_id;
+          while (tempItem.parent_id !== null && tempItem.level !== min) {
+            // find item with id = parent_id
+            let itemParent = source.find(x => x.id === parent_id);
+            item.subname = itemParent.name + ':' + item.subname;
+            tempItem = _.clone(itemParent);
 
-                console.log(this.data);
-            },
-            formatColumnName(source) {
-                let min = this.findMinLevel(source);
-                // cycle over data
-                // we add the new field "subname" in each object
-                // subname adds all parents names
-                console.log("formatColumnName. source:");
-                console.log(source);
-                source.forEach(function (item, index, array) {
-                    item.subname = '';
-                    let tempItem = _.clone(item);
-                    console.log(tempItem);
-                    let parent_id = item.parent_id;
-                    while (tempItem.parent_id !== null && tempItem.level !== min) {
-                        // find item with id = parent_id
-                        let itemParent = source.find(x => x.id === parent_id);
-                        item.subname = itemParent.name + ':' + item.subname;
-                        tempItem = _.clone(itemParent);
+            parent_id = tempItem.parent_id;
+          }
+          if (item.subname !== '') {
 
-                        parent_id = tempItem.parent_id;
-                    }
-                    if (item.subname !== '') {
+            item.subname += item.name;
+          }
+        });
 
-                        item.subname += item.name;
-                    }
-                });
-                console.log("formatColumnName. output:");
-                console.log(source);
+        return source
+      },
+      findMinLevel(arr) {
+        let min = arr[0].level;
 
-                return source
-            },
-            findMinLevel(arr) {
-                let min = arr[0].level;
-
-                for (let i = 1, len = arr.length; i < len; i++) {
-                    let v = arr[i].level;
-                    min = (v < min) ? v : min;
-                }
-
-                return min;
-            }
-        },
-        mounted() {
-            this.downloadData();
+        for (let i = 1, len = arr.length; i < len; i++) {
+          let v = arr[i].level;
+          min = (v < min) ? v : min;
         }
-    };
+
+        return min;
+      }
+    },
+    mounted() {
+      this.downloadData();
+    }
+  };
 </script>
 
 <style lang="scss">

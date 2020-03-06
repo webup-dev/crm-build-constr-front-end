@@ -13,7 +13,7 @@
             <div class="alert alert-danger" v-if="errors.length">
               <b>Correct, please the following error(s):</b>
               <ul>
-                <li v-for="error in errors">{{ error }}</li>
+                <li v-for="error in errors" v-bind:key="error">{{ error }}</li>
               </ul>
             </div>
             <div class="alert alert-danger" v-if="error">
@@ -106,9 +106,6 @@
 </template>
 
 <script>
-    const API_URL = process.env.VUE_APP_API_URL;
-    console.log(localStorage.token);
-
     export default {
         name: 'BookShowStatic',
         data() {

@@ -14,7 +14,7 @@
         </b-card>
       </b-col>
 
-      <b-col md="4" v-for="item in userDetails">
+      <b-col md="4" v-for="item in userDetails" v-bind:key="item">
         <b-card>
           <div slot="header">
             <strong>Contact {{item.user_id}}: {{item.first_name}} {{item.last_name}}</strong>
@@ -27,13 +27,11 @@
 </template>
 
 <script>
-  import Vue from 'vue'
   import CustomerInfo from "../../../../components/CustomerInfo";
   import CustomerUsers from "../../../../components/CustomerUsers";
   import CustomerUserAdd from "../../../../components/CustomerUserAdd";
   import {getCustomerInfo} from "../../../../api/customerPage";
   import {getCustomer} from "../../../../api/customerUsers";
-  import {getAllComments} from "../../../../api/customerComments";
   import Contact from "../../../../components/Contact";
   import myHelper from "../../../../mixins/myHelper";
   import orgDeps from "../../../../mixins/orderedDepartments";

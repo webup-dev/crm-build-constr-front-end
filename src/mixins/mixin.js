@@ -87,11 +87,12 @@ export default {
 
       this.error = false;
     },
-    mainRoleFailed(req) {
+    mainRoleFailed() {
       this.error = 'Main role getting is failed!';
       delete localStorage.token;
     },
     mainRoleSuccessfulFailed(req) {
+      console.log(req);
       this.flash('You do not have any role.', 'error');
       this.roleStoreConfig('guest');
     },
@@ -105,10 +106,10 @@ export default {
       };
 
       this.$http.post('/auth/logout', [], headers)
-          .then(request => this.logoutSuccessful(request))
+          .then(() => this.logoutSuccessful())
           .catch(request => this.logoutFailed(request));
     },
-    logoutSuccessful(req) {
+    logoutSuccessful() {
       // console.log(req);
       delete localStorage.token;
       this.allToFalse();

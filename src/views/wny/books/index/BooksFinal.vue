@@ -78,10 +78,10 @@
                 };
 
                 this.$http.delete(API_URL + '/book/' + bookId, headers)
-                    .then(request => this.bookDeletingSuccessful(request))
+                    .then(() => this.bookDeletingSuccessful())
                     .catch((request) => this.bookDeletingFailed(request));
             },
-            bookDeletingSuccessful(req) {
+            bookDeletingSuccessful() {
                 this.errors = false;
                 this.error = false;
                 this.flash('The Book is deleted.', 'success');

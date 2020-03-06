@@ -56,9 +56,6 @@
 <script>
   import store from "../../../store";
   import mixin from "../../../mixins/mixin";
-  import axios from "../../../backend/vue-axios/axios";
-
-  const API_URL = process.env.VUE_APP_API_URL;
 
   export default {
     name: 'Login',
@@ -72,41 +69,32 @@
     },
     methods: {
       login() {
-        console.log("Login.vue");
         this.$http.post('/auth/login', {email: this.email, password: this.password})
             .then(request => this.loginSuccessful(request))
             .catch(request => this.loginFailed(request));
       },
 
       loginSuccessful(req) {
-        console.log("loginSuccessful");
-
         if (!req.data.token) {
           console.log("token ia absent")
-          this.loginFailedFromLoginSuccessful(req);
+          this.loginFailedFromLoginSuccessful();
           return
         }
-        console.log("loginSuccessful-2");
-        // console.log("token: " + req.data.token);
 
         localStorage.token = req.data.token;
         this.error = false;
         this.mainRole();
-
-        console.log("loginSuccessful-3. Role");
-        console.log(store.state.user.role);
         this.me();
-
         this.$router.replace(this.$route.query.redirect || '/dashboard')
       },
 
-      loginFailedFromLoginSuccessful(req) {
+      loginFailedFromLoginSuccessful() {
         this.error = 'Login was successful but failed!';
         delete localStorage.token;
       },
 
       loginFailed(req) {
-        console.log("loginFailed");
+        console.log(req);
         this.error = 'Login failed!';
         delete localStorage.token;
       },
@@ -125,7 +113,6 @@
 
       meSuccessful(req) {
         const name = req.data.name;
-        console.log("name: " + name);
         const id = req.data.id;
 
         this.userStoreConfig(name, id);
@@ -137,7 +124,6 @@
 
       redirecting() {
         let role = store.state.user.role;
-        console.log("role: " + role);
 
         switch (role) {
           case 'developer':
@@ -164,7 +150,7 @@
         }
       },
 
-      meFailed(req) {
+      meFailed() {
         this.error = 'Main role getting is failed!';
         delete localStorage.token;
       }

@@ -13,7 +13,7 @@
             <div class="alert alert-danger" v-if="errors.length">
               <b>Correct, please the following error(s):</b>
               <ul>
-                <li v-for="error in errors">{{ error }}</li>
+                <li v-for="error in errors" v-bind:key="error">{{ error }}</li>
               </ul>
             </div>
             <div class="alert alert-danger" v-if="error">
@@ -123,11 +123,11 @@
                     description: this.description
                 };
                 this.$http.put('/roles/' + this.$route.params.id, dataPost, headers)
-                    .then(request => this.roleUpdatingSuccessful(request))
+                    .then(() => this.roleUpdatingSuccessful())
                     .catch((request) => this.roleUpdatingFailed(request));
             },
 
-            roleUpdatingSuccessful(req) {
+            roleUpdatingSuccessful() {
                 this.errors = false;
                 this.error = false;
                 this.flash('The Role is updated.', 'success');

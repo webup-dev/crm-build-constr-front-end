@@ -28,7 +28,7 @@
               <div class="alert alert-danger" v-if="errors.length">
                 <b>Correct, please the following error(s):</b>
                 <ul>
-                  <li v-for="item in errors">{{ item }}</li>
+                  <li v-for="item in errors" v-bind:key="item">{{ item }}</li>
                 </ul>
               </div>
               <div class="alert alert-danger" v-if="error">
@@ -71,7 +71,7 @@
               </div>
             </b-form>
             <ul class="messages">
-          <span v-for="comment in comments">
+          <span v-for="comment in comments" v-bind:key="comment">
           <li class="message" v-bind:style="comment.marginL">
             <a>
               <div class="header">
@@ -99,16 +99,12 @@
 </template>
 
 <script>
-  import Vue from 'vue'
-  import axios from "../../../backend/vue-axios/axios";
   import moment from "moment";
   import ordComms from "../../../mixins/orderedComments";
   import {validations} from './validation'
   import store from "../../../store";
   import {getAllComments, createComment, updateComment, deleteComment} from "../../../api/customerComments"
   import {getCustomer} from "../../../api/customers"
-
-  const API_URL = process.env.VUE_APP_API_URL;
 
   export default {
     name: "Page",
@@ -198,7 +194,6 @@
         this.bodyComment = '';
       },
       create() {
-        let customer_id = this.customer.id;
         let author_id = store.state.user.id;
         let parent_id = null;
         let comment = this.bodyComment;
@@ -231,11 +226,11 @@
         };
 
         createComment(this.$route.params.id, dataPost)
-          .then(request => this.commentCreatingSuccessful(request))
+          .then(() => this.commentCreatingSuccessful())
           .catch((request) => this.commentCreatingFailed(request));
       },
 
-      commentCreatingSuccessful(req) {
+      commentCreatingSuccessful() {
         this.errors = false;
         this.error = false;
         this.flash('New Comment is created.', 'success');
@@ -251,10 +246,10 @@
 
       deleteComment: function (comment) {
         deleteComment(this.$route.params.id, comment.id)
-          .then(request => this.commentDeletingSuccessful(request))
+          .then(() => this.commentDeletingSuccessful())
           .catch((request) => this.commentDeletingFailed(request));
       },
-      commentDeletingSuccessful(req) {
+      commentDeletingSuccessful() {
         this.errors = false;
         this.error = false;
         this.flash('The Comment is deleted.', 'success');
@@ -310,9 +305,6 @@
         } else {
           return date;
         }
-      },
-      order(comments) {
-
       },
 
       downloadData() {

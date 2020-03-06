@@ -92,10 +92,10 @@
                 };
 
                 this.$http.delete(API_URL + '/user-profiles/' + roleId + '/permanently', headers)
-                    .then(request => this.userDeletingSuccessful(request))
+                    .then(() => this.userDeletingSuccessful())
                     .catch((request) => this.userDeletingFailed(request));
             },
-            userDeletingSuccessful(req) {
+            userDeletingSuccessful() {
                 this.errors = false;
                 this.error = false;
                 this.flash('The User is permanently deleted.', 'success');
@@ -116,11 +116,11 @@
                 };
 
                 this.$http.put(API_URL + '/user-profiles/' + roleId + '/restore', headers)
-                    .then(request => this.userRestoringSuccessful(request))
+                    .then(() => this.userRestoringSuccessful())
                     .catch((request) => this.userRestoringFailed(request));
 
             },
-            userRestoringSuccessful(req) {
+            userRestoringSuccessful() {
                 this.errors = false;
                 this.error = false;
                 this.flash('The User is restored.', 'success');

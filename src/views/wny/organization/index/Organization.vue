@@ -83,10 +83,10 @@
                 };
 
                 this.$http.delete(API_URL + '/organizations/' + orgId, headers)
-                    .then(request => this.itemDeletingSuccessful(request))
+                    .then(() => this.itemDeletingSuccessful())
                     .catch((request) => this.itemDeletingFailed(request));
             },
-            itemDeletingSuccessful(req) {
+            itemDeletingSuccessful() {
                 this.errors = false;
                 this.error = false;
                 this.flash('The Item is deleted.', 'success');
@@ -112,20 +112,12 @@
                         this.success = response.data.success;
                     })
                     .catch(error => console.log(error));
-
-                console.log(this.data);
             },
             formatColumnName(source) {
                 let min = this.findMinLevel(source);
-                // cycle over data
-                // we add the new field "subname" in each object
-                // subname adds all parents names
-                console.log("formatColumnName. source:");
-                console.log(source);
-                source.forEach(function (item, index, array) {
+                source.forEach(function (item) {
                     item.subname = '';
                     let tempItem = _.clone(item);
-                    console.log(tempItem);
                     let parent_id = item.parent_id;
                     while (tempItem.parent_id !== null && tempItem.level !== min) {
                         // find item with id = parent_id
@@ -140,8 +132,6 @@
                         item.subname += item.name;
                     }
                 });
-                console.log("formatColumnName. output:");
-                console.log(source);
 
                 return source
             },

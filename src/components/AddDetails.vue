@@ -11,7 +11,7 @@
             <div class="alert alert-danger" v-if="errors.length">
               <b>Correct, please the following error(s):</b>
               <ul>
-                <li v-for="error in errors">{{ error }}</li>
+                <li v-for="error in errors" v-bind:key="error">{{ error }}</li>
               </ul>
             </div>
             <div class="alert alert-danger" v-if="error">
@@ -591,10 +591,10 @@
         let status = this.statusDetails;
 
         addDetails(user_id, prefix, first_name, last_name, suffix, work_title, work_department, work_role, phone_home, phone_work, phone_extension, phone_mob, phone_fax, email_work, email_personal, line_1, line_2, city, state, zip, status)
-          .then(request => this.createSuccess(request))
+          .then(() => this.createSuccess())
           .catch((request) => this.createFail(request));
       },
-      createSuccess(req) {
+      createSuccess() {
         this.errors = false;
         this.error = false;
         this.flash('New UserDetails are created.', 'success');

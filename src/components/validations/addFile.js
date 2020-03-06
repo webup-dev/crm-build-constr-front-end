@@ -1,4 +1,4 @@
-import {required, integer, alpha} from 'vuelidate/lib/validators'
+import {required, integer} from 'vuelidate/lib/validators'
 import {alphaSpace, alphaNumSpaceDotCommaHyphen} from '../../shared/validation-rules'
 
 export const validations = {

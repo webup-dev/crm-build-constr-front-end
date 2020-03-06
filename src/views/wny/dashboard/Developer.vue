@@ -50,8 +50,6 @@
 <script>
   const API_URL = process.env.VUE_APP_API_URL;
 
-  import Vue from 'vue'
-
   export default {
     name: 'DashboardDeveloper',
     data: function () {
