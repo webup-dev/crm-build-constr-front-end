@@ -146,7 +146,6 @@
             }
         },
         created() {
-            console.log("defaultContainer. isSuperadmin: " + store.state.role.isSuperadmin);
             let headers = {
                 headers: {
                     'Accept': 'application/json',

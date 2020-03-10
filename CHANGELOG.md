@@ -3,6 +3,14 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.20.1] - 2020-03-09
+### Added
+- Created functionality "Download File".
+
+### Changed
+- Component "Create New File". File extension is changed to the extension from
+  the source file.
+
 ## [0.20.0] - 2020-03-02
 ### Added
 - Created Page "Customer Files".

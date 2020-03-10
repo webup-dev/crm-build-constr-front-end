@@ -113,7 +113,7 @@
             <b-button type="submit"
                       variant="primary"
                       style="margin-right: 10px">
-              Save User
+              Save File
             </b-button>
             <a class="btn btn-info"
                       v-on:click="closeForm"

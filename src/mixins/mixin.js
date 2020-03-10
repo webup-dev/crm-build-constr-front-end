@@ -76,7 +76,6 @@ export default {
     },
     mainRoleSuccessful(req) {
       const mainRole = req.data.data.name;
-      console.log("mainRole: " + mainRole);
       if (Array.isArray(mainRole) && !mainRole.length) {
         this.mainRoleSuccessfulFailed(req);
         return
@@ -97,7 +96,6 @@ export default {
       this.roleStoreConfig('guest');
     },
     logout() {
-      console.log("Start Logout. Token: " + localStorage.token);
       let headers = {
         headers: {
           'Accept': 'application/json',
@@ -110,20 +108,16 @@ export default {
           .catch(request => this.logoutFailed(request));
     },
     logoutSuccessful() {
-      // console.log(req);
       delete localStorage.token;
       this.allToFalse();
       this.userStoreConfig("");
       this.error = false;
-      console.log("Logout!");
       this.$router.replace('/auth/sign-in');
     },
     logoutFailed(req) {
       console.log(req);
       this.error = true;
       this.message = 'Login failed!';
-      // console.log("Logout Failed. Token: " + localStorage);
-      // console.log("store.state.user: " + store.state.user);
     }
   }
 };
