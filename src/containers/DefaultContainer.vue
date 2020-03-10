@@ -43,6 +43,7 @@
         <SidebarNav v-if="store.state.role.isPlatformAdmin === true" :navItems="navPlatformAdmin"></SidebarNav>
         <SidebarNav v-if="store.state.role.isOrganizationSuperadmin === true" :navItems="navOrganizationSuperadmin"></SidebarNav>
         <SidebarNav v-if="store.state.role.isOrganizationAdmin === true" :navItems="navOrganizationAdmin"></SidebarNav>
+        <SidebarNav v-if="store.state.role.isOrganizationGeneralManager === true" :navItems="navOrganizationGeneralManager"></SidebarNav>
         <SidebarNav v-if="store.state.role.isGuest === true" :navItems="navGuest"></SidebarNav>
         <SidebarNav v-if="store.state.role.isCustomer === true" :navItems="navCustomer"></SidebarNav>
         <!--            <user-view v-if="userType === 'user'"></user-view>&ndash;&gt;-->
@@ -85,6 +86,7 @@
     import navPlatformAdmin from '../views/wny/menu/nav_platform_admin'
     import navOrganizationSuperadmin from '../views/wny/menu/nav_organization_superadmin'
     import navOrganizationAdmin from '../views/wny/menu/nav_organization_admin'
+    import navOrganizationGeneralManager from '../views/wny/menu/nav_organization_general_manager'
     import navCustomer from '../views/wny/menu/nav_customer'
     import {
         Header as AppHeader,
@@ -142,6 +144,7 @@
                 navOrganizationSuperadmin: navOrganizationSuperadmin.items,
                 navOrganizationAdmin: navOrganizationAdmin.items,
                 navCustomer: navCustomer.items,
+                navOrganizationGeneralManager: navOrganizationGeneralManager.items,
                 store: store
             }
         },
