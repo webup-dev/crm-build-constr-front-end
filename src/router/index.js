@@ -93,13 +93,16 @@ const UserCustomers = () => import('@/views/wny/user-customers/UserCustomers');
 const UserCustomersCreate = () => import('@/views/wny/user-customers/UserCustomersCreate');
 const UserCustomersEdit = () => import('@/views/wny/user-customers/UserCustomersEdit');
 const UserCustomersSoftDeleted = () => import('@/views/wny/user-customers/UserCustomersSoftDeleted');
-
 const UserDetailsCreate = () => import('@/views/wny/user-details/UserDetailsCreate');
-const UserDetailsEdit = () => import('@/views/wny/user-details/UserDetailsEdit');
 
+const UserDetailsEdit = () => import('@/views/wny/user-details/UserDetailsEdit');
 // Page Files
 const Files = () => import('@/views/wny/files/Files');
+
 const FilesSoftDeleted = () => import('@/views/wny/files/FilesSoftDeleted');
+
+// Lead Sources
+const LeadSources = () => import('@/views/wny/leads/LeadSources');
 
 const Colors = () => import('@/views/theme/Colors')
 const Typography = () => import('@/views/theme/Typography')
@@ -571,6 +574,10 @@ export default new Router({
             {
               path: 'files/soft-deleted',
               component: FilesSoftDeleted
+            },
+            {
+              path: 'lead-sources',
+              component: LeadSources
             }
           ]
         },
