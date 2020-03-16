@@ -104,6 +104,7 @@ const FilesSoftDeleted = () => import('@/views/wny/files/FilesSoftDeleted');
 // Lead Sources
 const LeadSources = () => import('@/views/wny/leads/LeadSources');
 const LeadSourceCreate = () => import('@/views/wny/leads/LeadSourceCreate');
+const LeadSourceEdit = () => import('@/views/wny/leads/LeadSourceEdit');
 
 const Colors = () => import('@/views/theme/Colors')
 const Typography = () => import('@/views/theme/Typography')
@@ -586,6 +587,11 @@ export default new Router({
               name: 'LeadSourceCreate',
               component: LeadSourceCreate
             },
+            {
+              path: 'lead-sources/:id/edit',
+              name: 'LeadSourceEdit',
+              component: LeadSourceEdit
+            }
           ]
         },
         {

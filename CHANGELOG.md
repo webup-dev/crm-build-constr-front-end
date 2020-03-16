@@ -3,6 +3,20 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.21.0] - 2020-03-16
+### Added
+- Created page "Index of Lead Sources"
+- Created page "Create New Lead Sources"
+    Page is created,
+    the button 'Create New Lead Source' in the index page is
+    edited,
+    the route is created,
+    validations is created and implemented,
+    API endpoint is created and implemented.
+    
+### Changed    
+-   CustomerUserAdd.vue is cleared.
+
 ## [0.20.1] - 2020-03-09
 ### Added
 - Created functionality "Download File".

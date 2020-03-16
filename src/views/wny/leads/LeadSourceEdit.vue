@@ -4,7 +4,7 @@
       <b-col md="6">
         <b-card>
           <div slot="header">
-            <strong>Create Lead Source</strong>
+            <strong>Edit Lead Source</strong>
           </div>
           <b-form
             @submit.prevent=checkForm
@@ -79,7 +79,7 @@
 
 <script>
   import {validations} from '../../../components/validations/leadSource';
-  import {addLeadSources} from "../../../api/leadSources";
+  import {updateLeadSources, getLeadSourceById} from "../../../api/leadSources";
 
   export default {
     name: 'LeadSourceCreate',
@@ -124,35 +124,46 @@
         }
 
         if (!this.errors.length && !this.error.length) {
-          this.create();
+          this.update();
           return true;
         }
 
         e.preventDefault();
       },
-      create() {
+      update() {
         let dataPost = {
           name: this.name,
           description: this.lsDescription
         };
-        addLeadSources(dataPost)
-          .then(() => this.leadSourceCreatingSuccessful())
-          .catch((request) => this.leadSourceCreatingFailed(request));
+        updateLeadSources(dataPost, this.$route.params.id)
+          .then(() => this.leadSourceUpdateSuccessful())
+          .catch((request) => this.leadSourceUpdateFailed(request));
       },
 
-      leadSourceCreatingSuccessful() {
+      leadSourceUpdateSuccessful() {
         this.errors = false;
         this.error = false;
-        this.flash('New Lead Source is created.', 'success');
+        this.flash('Lead Source is updated.', 'success');
 
         this.$router.replace(this.$route.query.redirect || '/admin/lead-sources')
       },
 
-      leadSourceCreatingFailed(req) {
+      leadSourceUpdateFailed(req) {
         this.errors = false;
-        this.error = 'Lead Source Creating failed! ' + req;
+        this.error = 'Lead Source Updating is failed! ' + req;
         console.log(req);
+      },
+
+      download() {
+        getLeadSourceById(this.$route.params.id)
+          .then(response => (
+            this.name = response.data.data.name,
+              this.lsDescription = response.data.data.description
+          ));
       }
+    },
+    mounted() {
+      this.download();
     }
   }
 </script>
