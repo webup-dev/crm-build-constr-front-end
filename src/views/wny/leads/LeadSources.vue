@@ -9,7 +9,7 @@
         <div class="card-header-actions"></div>
       </b-card-header>
       <b-card-body>
-        <a href="/#/roles/create" class="btn btn-warning" style="float: right">Create Lead Source</a>
+        <a href="/#/admin/lead-sources/create" class="btn btn-warning" style="float: right">Create Lead Source</a>
 
         <v-client-table :columns="columns" :data="data" :options="options" :theme="theme" id="dataTable">
           <p slot="actions" slot-scope="props">

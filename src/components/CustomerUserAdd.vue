@@ -50,7 +50,6 @@
   import {validations} from '../components/validations/customerUserAdd';
 
   export default {
-    // name: "CustomerUserAdd"
     name: "CustomerUserAdd",
     data: function () {
       return {
