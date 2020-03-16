@@ -3,6 +3,27 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.21.2] - 2020-03-16
+### Added
+- Created method "Delete Lead Sources"
+    - API endpoint is created,
+    - Created method "Delete Lead Sources".
+    
+### Changed    
+- The button'Delete' in the index page 'Lead Sources' is updated.
+    
+## [0.21.1] - 2020-03-16
+### Added
+- Created page "Update Lead Sources"
+    - API endpoint is created,
+    - validations is updates as universal,
+    the route is created,
+    - page 'Update Lead Source' is created.
+    
+### Changed    
+- the button 'Update Lead Source' is updated,
+- page 'Create Lead Source' is updated.
+    
 ## [0.21.0] - 2020-03-16
 ### Added
 - Created page "Index of Lead Sources"

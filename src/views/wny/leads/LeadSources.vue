@@ -13,9 +13,9 @@
 
         <v-client-table :columns="columns" :data="data" :options="options" :theme="theme" id="dataTable">
           <p slot="actions" slot-scope="props">
-<!--            <a :href="'#/roles/' + props.row.id" class="icon-eye action-icon"></a>-->
+            <!--            <a :href="'#/roles/' + props.row.id" class="icon-eye action-icon"></a>-->
             <a :href="'#/admin/lead-sources/' + props.row.id + '/edit'" class="icon-pencil action-icon"></a>
-            <a class="icon-trash" v-on:click="deleteRole(props.row.id)" style="cursor: pointer"></a>
+            <a class="icon-trash" v-on:click="deleteLeadSource(props.row.id)" style="cursor: pointer"></a>
           </p>
 
         </v-client-table>
@@ -25,86 +25,79 @@
 </template>
 
 <script>
-    import Vue from 'vue'
-    import {ClientTable, Event} from 'vue-tables-2'
-    import {getLeadSources} from "../../../api/leadSources";
+  import Vue from 'vue'
+  import {ClientTable, Event} from 'vue-tables-2'
+  import {getLeadSources, deleteLeadSource} from "../../../api/leadSources";
 
-    // const API_URL = process.env.VUE_APP_API_URL;
-    Vue.use(ClientTable);
+  // const API_URL = process.env.VUE_APP_API_URL;
+  Vue.use(ClientTable);
 
-    export default {
-        name: 'LeadSources',
-        components: {
-            ClientTable,
-            Event
+  export default {
+    name: 'LeadSources',
+    components: {
+      ClientTable,
+      Event
+    },
+    data: function () {
+      return {
+        columns: ['id', 'name', 'description', 'actions'],
+        data: [],
+        message: '',
+        success: false,
+        res: [],
+        options: {
+          headings: {
+            id: 'ID',
+            name: 'Name',
+            description: 'Description',
+            actions: 'Actions'
+          },
+          sortable: ['id', 'name'],
+          filterable: ['id', 'name', 'description'],
+          sortIcon: {base: 'fa', up: 'fa-sort-asc', down: 'fa-sort-desc', is: 'fa-sort'},
+          pagination: {
+            chunk: 5,
+            edge: false,
+            nav: 'scroll'
+          }
         },
-        data: function () {
-            return {
-                columns: ['id', 'name', 'description', 'actions'],
-                data: [],
-                message: '',
-                success: false,
-                res: [],
-                options: {
-                    headings: {
-                        id: 'ID',
-                        name: 'Name',
-                        description: 'Description',
-                        actions: 'Actions'
-                    },
-                    sortable: ['id', 'name'],
-                    filterable: ['id', 'name', 'description'],
-                    sortIcon: {base: 'fa', up: 'fa-sort-asc', down: 'fa-sort-desc', is: 'fa-sort'},
-                    pagination: {
-                        chunk: 5,
-                        edge: false,
-                        nav: 'scroll'
-                    }
-                },
-                useVuex: false,
-                theme: 'bootstrap4',
-                template: 'default'
-            }
-        },
-        methods: {
-            deleteRole: function (roleId) {
-                let headers = {
-                    headers: {
-                        'Accept': 'application/json',
-                        'Authorization': 'Bearer ' + localStorage.token
-                    }
-                };
+        useVuex: false,
+        theme: 'bootstrap4',
+        template: 'default'
+      }
+    },
+    methods: {
+      deleteLeadSource: function (id) {
+        deleteLeadSource(id)
+            .then(() => this.leadSourceDeletingSuccessful())
+            .catch((request) => this.leadSourceDeletingFailed(request));
+      },
+      leadSourceDeletingSuccessful() {
+        this.errors = false;
+        this.error = false;
+        this.flash('The Lead Source is deleted.', 'success');
 
-                this.$http.delete(API_URL + '/roles/' + roleId, headers)
-                    .then(() => this.roleDeletingSuccessful())
-                    .catch((request) => this.roleDeletingFailed(request));
-            },
-            roleDeletingSuccessful() {
-                this.errors = false;
-                this.error = false;
-                this.flash('The Role is deleted.', 'success');
-
-                this.downloadData();
-            },
-            roleDeletingFailed(req) {
-                this.errors = false;
-                this.error = 'Role Deleting failed! ' + req;
-                console.log(req);
-            },
-            downloadData() {
-                getLeadSources()
-                    .then(response => {
-                        this.data = response.data.data;
-                        this.message = response.data.message;
-                        this.success = response.data.success;
-                    })
-                    .catch(error => console.log(error));
-            }
-        },
-        mounted() {
-            this.downloadData();
-        }
-    };
+        this.downloadData();
+      },
+      leadSourceDeletingFailed(req) {
+        this.errors = false;
+        this.error = 'The Lead Source Deleting failed! ' + req;
+        console.log(req);
+      },
+      downloadData() {
+        getLeadSources()
+          .then(response => {
+            this.data = response.data.data;
+            this.message = response.data.message;
+            this.success = response.data.success;
+          })
+          .catch(error => console.log(error));
+      }
+    },
+    mounted() {
+      this.downloadData();
+    }
+  };
 </script>
 
 <style lang="scss">
