@@ -37,6 +37,11 @@
                   <b-badge>{{ filesSoftDeleted }}</b-badge>
                 </p>
               </a>
+              <a href="#/admin/lead-sources/soft-deleted">
+                <p>Lead Sources
+                  <b-badge>{{ leadSourcesSoftDeleted }}</b-badge>
+                </p>
+              </a>
             </div>
           </b-card>
         </b-col>
@@ -58,7 +63,8 @@
         usersSoftDeleted: '',
         userCustomersSoftDeleted: '',
         organizationsSoftDeleted: '',
-        filesSoftDeleted: ''
+        filesSoftDeleted: '',
+        leadSourcesSoftDeleted: ''
       }
     },
 
@@ -76,7 +82,8 @@
               this.customersSoftDeleted = response.data.data[1].count,
               this.userCustomersSoftDeleted = response.data.data[3].count,
               this.organizationsSoftDeleted = response.data.data[2].count,
-              this.filesSoftDeleted =response.data.data[4].count
+              this.filesSoftDeleted = response.data.data[4].count,
+              this.leadSourcesSoftDeleted = response.data.data[5].count
           ));
     }
   }
