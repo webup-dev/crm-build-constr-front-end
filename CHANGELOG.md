@@ -3,6 +3,16 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.22.0] - 2020-03-17
+### Added
+- Block of LeadSourcesSoftDeleted related features
+    - API endpoints are created,
+    - Routers are created,
+    - Dashbord menu for developer is updated,
+    - Page with the index of LeadSourcesSoftDeleted is created,
+    - Restore function is created,
+    - Permanently Deleted function is created.
+    
 ## [0.21.2] - 2020-03-16
 ### Added
 - Created method "Delete Lead Sources"

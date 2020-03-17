@@ -82,8 +82,8 @@
               this.customersSoftDeleted = response.data.data[1].count,
               this.userCustomersSoftDeleted = response.data.data[3].count,
               this.organizationsSoftDeleted = response.data.data[2].count,
-              this.filesSoftDeleted = response.data.data[4].count,
-              this.leadSourcesSoftDeleted = response.data.data[5].count
+              this.leadSourcesSoftDeleted = response.data.data[5].count,
+              this.filesSoftDeleted = response.data.data[4].count
           ));
     }
   }
