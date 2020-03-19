@@ -3,6 +3,19 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.23.0] - 2020-03-18
+### Changed
+- Components LeadSources... are renamed to LsCategories...
+    - Router is changed,
+	- API endpoints are changed,
+	- Components LeadSources... are renamed to LsCategories...,
+	- Component LsCategories is updated,
+	- Component LsCategoryCreate is updated,
+	- Component LsCategoryEdit is updated,
+	- Component LsCategoriesSoftDeleted is updated,
+	- Component dashboard/Developer is updated,
+	- CHANGELOG is updated.
+	    
 ## [0.22.0] - 2020-03-17
 ### Added
 - Block of LeadSourcesSoftDeleted related features
