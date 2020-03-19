@@ -101,11 +101,11 @@ const Files = () => import('@/views/wny/files/Files');
 
 const FilesSoftDeleted = () => import('@/views/wny/files/FilesSoftDeleted');
 
-// Lead Sources
-const LeadSources = () => import('@/views/wny/leads/LeadSources');
-const LeadSourceCreate = () => import('@/views/wny/leads/LeadSourceCreate');
-const LeadSourceEdit = () => import('@/views/wny/leads/LeadSourceEdit');
-const LeadSourcesSoftDeleted = () => import('@/views/wny/leads/LeadSourcesSoftDeleted');
+// Lead Sources Categories
+const LsCategories = () => import('@/views/wny/leads/LsCategories');
+const LsCategoryCreate = () => import('@/views/wny/leads/LsCategoryCreate');
+const LsCategoryEdit = () => import('@/views/wny/leads/LsCategoryEdit');
+const LsCategoriesSoftDeleted = () => import('@/views/wny/leads/LsCategoriesSoftDeleted');
 
 const Colors = () => import('@/views/theme/Colors')
 const Typography = () => import('@/views/theme/Typography')
@@ -579,24 +579,24 @@ export default new Router({
               component: FilesSoftDeleted
             },
             {
-              path: 'lead-sources',
-              name: 'LeadSources',
-              component: LeadSources
+              path: 'lead-source-categories',
+              name: 'LsCategories',
+              component: LsCategories
             },
             {
-              path: 'lead-sources/create',
-              name: 'LeadSourceCreate',
-              component: LeadSourceCreate
+              path: 'lead-source-categories/create',
+              name: 'LsCategoryCreate',
+              component: LsCategoryCreate
             },
             {
-              path: 'lead-sources/:id/edit',
-              name: 'LeadSourceEdit',
-              component: LeadSourceEdit
+              path: 'lead-source-categories/:id/edit',
+              name: 'LsCategoryEdit',
+              component: LsCategoryEdit
             },
             {
-              path: 'lead-sources/soft-deleted',
-              name: 'LeadSourcesSoftDeleted',
-              component: LeadSourcesSoftDeleted
+              path: 'lead-source-categories/soft-deleted',
+              name: 'LsCategoriesSoftDeleted',
+              component: LsCategoriesSoftDeleted
             }
           ]
         },

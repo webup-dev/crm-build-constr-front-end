@@ -4,7 +4,7 @@
       <b-col md="6">
         <b-card>
           <div slot="header">
-            <strong>Edit Lead Source</strong>
+            <strong>Edit Lead Source Category</strong>
           </div>
           <b-form
             @submit.prevent=checkForm
@@ -79,10 +79,10 @@
 
 <script>
   import {validations} from '../../../components/validations/leadSource';
-  import {updateLeadSources, getLeadSourceById} from "../../../api/leadSources";
+  import {updateLsCategories, getLsCategoryById} from "../../../api/lsCategories";
 
   export default {
-    name: 'LeadSourceCreate',
+    name: 'LsCategoryCreate',
     data() {
       return {
         name: '',
@@ -99,7 +99,7 @@
       },
       closeForm() {
         this.cancel();
-        this.$router.replace(this.$route.query.redirect || '/admin/lead-sources')
+        this.$router.replace(this.$route.query.redirect || '/admin/lead-source-categories')
       },
       status(validation) {
         return {
@@ -135,27 +135,27 @@
           name: this.name,
           description: this.lsDescription
         };
-        updateLeadSources(dataPost, this.$route.params.id)
-          .then(() => this.leadSourceUpdateSuccessful())
-          .catch((request) => this.leadSourceUpdateFailed(request));
+        updateLsCategories(dataPost, this.$route.params.id)
+          .then(() => this.lsCategoryUpdateSuccessful())
+          .catch((request) => this.lsCategoryUpdateFailed(request));
       },
 
-      leadSourceUpdateSuccessful() {
+      lsCategoryUpdateSuccessful() {
         this.errors = false;
         this.error = false;
-        this.flash('Lead Source is updated.', 'success');
+        this.flash('Lead Source Category is updated.', 'success');
 
-        this.$router.replace(this.$route.query.redirect || '/admin/lead-sources')
+        this.$router.replace(this.$route.query.redirect || '/admin/lead-source-categories')
       },
 
-      leadSourceUpdateFailed(req) {
+      lsCategoryUpdateFailed(req) {
         this.errors = false;
-        this.error = 'Lead Source Updating is failed! ' + req;
+        this.error = 'Lead Source Category Updating is failed! ' + req;
         console.log(req);
       },
 
       download() {
-        getLeadSourceById(this.$route.params.id)
+        getLsCategoryById(this.$route.params.id)
           .then(response => (
             this.name = response.data.data.name,
               this.lsDescription = response.data.data.description

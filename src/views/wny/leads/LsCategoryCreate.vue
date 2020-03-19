@@ -4,7 +4,7 @@
       <b-col md="6">
         <b-card>
           <div slot="header">
-            <strong>Create Lead Source</strong>
+            <strong>Create Lead Source Category</strong>
           </div>
           <b-form
             @submit.prevent=checkForm
@@ -79,10 +79,10 @@
 
 <script>
   import {validations} from '../../../components/validations/leadSource';
-  import {addLeadSources} from "../../../api/leadSources";
+  import {addLsCategories} from "../../../api/lsCategories";
 
   export default {
-    name: 'LeadSourceCreate',
+    name: 'LsCategoryCreate',
     data() {
       return {
         name: '',
@@ -99,7 +99,7 @@
       },
       closeForm() {
         this.cancel();
-        this.$router.replace(this.$route.query.redirect || '/admin/lead-sources')
+        this.$router.replace(this.$route.query.redirect || '/admin/lead-source-categories')
       },
       status(validation) {
         return {
@@ -135,22 +135,22 @@
           name: this.name,
           description: this.lsDescription
         };
-        addLeadSources(dataPost)
-          .then(() => this.leadSourceCreatingSuccessful())
-          .catch((request) => this.leadSourceCreatingFailed(request));
+        addLsCategories(dataPost)
+          .then(() => this.lsCategoryCreatingSuccessful())
+          .catch((request) => this.lsCategoryCreatingFailed(request));
       },
 
-      leadSourceCreatingSuccessful() {
+      lsCategoryCreatingSuccessful() {
         this.errors = false;
         this.error = false;
-        this.flash('New Lead Source is created.', 'success');
+        this.flash('New Lead Source Category is created.', 'success');
 
-        this.$router.replace(this.$route.query.redirect || '/admin/lead-sources')
+        this.$router.replace(this.$route.query.redirect || '/admin/lead-source-categories')
       },
 
-      leadSourceCreatingFailed(req) {
+      lsCategoryCreatingFailed(req) {
         this.errors = false;
-        this.error = 'Lead Source Creating failed! ' + req;
+        this.error = 'Lead Source Category Creating failed! ' + req;
         console.log(req);
       }
     }

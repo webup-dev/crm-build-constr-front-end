@@ -4,18 +4,20 @@
       <flash-message></flash-message>
 
       <b-card-header>
-        <i class="icon-menu mr-1"></i>Soft-Deleted Lead Sources
+        <i class="icon-menu mr-1"></i>Lead Source Categories
 
         <div class="card-header-actions"></div>
       </b-card-header>
       <b-card-body>
+        <a href="/#/admin/lead-source-categories/create" class="btn btn-warning" style="float: right">Create Lead Source Category</a>
 
         <v-client-table :columns="columns" :data="data" :options="options" :theme="theme" id="dataTable">
           <p slot="actions" slot-scope="props">
-            <a class="icon-action-undo action-icon" v-on:click="restoreLeadSource(props.row.id)"
-               style="cursor: pointer"></a>
-            <a class="icon-trash" v-on:click="permanentDeleteLeadSource(props.row.id)" style="cursor: pointer"></a>
+            <!--            <a :href="'#/roles/' + props.row.id" class="icon-eye action-icon"></a>-->
+            <a :href="'#/admin/lead-source-categories/' + props.row.id + '/edit'" class="icon-pencil action-icon"></a>
+            <a class="icon-trash" v-on:click="deleteLeadSourceCategory(props.row.id)" style="cursor: pointer"></a>
           </p>
+
         </v-client-table>
       </b-card-body>
     </b-card>
@@ -25,37 +27,33 @@
 <script>
   import Vue from 'vue'
   import {ClientTable, Event} from 'vue-tables-2'
-  import axios from "../../../backend/vue-axios/axios";
-  import {getLeadSourcesSoftDeleted, restoreLeadSource, deleteLeadSourcePermanently} from "../../../api/leadSources";
+  import {getLsCategories, deleteLsCategory} from "../../../api/lsCategories";
 
-  const API_URL = process.env.VUE_APP_API_URL;
-
+  // const API_URL = process.env.VUE_APP_API_URL;
   Vue.use(ClientTable);
 
   export default {
-    name: 'CustomersSoftDeleted',
+    name: 'LsCategory',
     components: {
       ClientTable,
       Event
     },
     data: function () {
       return {
-        columns: ['id', 'name', 'description', 'deleted_at', 'created_at', 'updated_at', 'actions'],
+        columns: ['id', 'name', 'description', 'actions'],
         data: [],
         message: '',
         success: false,
+        res: [],
         options: {
           headings: {
             id: 'ID',
             name: 'Name',
             description: 'Description',
-            deleted_at: 'Deleted',
-            created_at: 'Created',
-            updated_at: 'Updated',
             actions: 'Actions'
           },
-          sortable: ['name', 'description', 'deleted_at', 'created_date', 'updated_date'],
-          filterable: ['name', 'description', 'deleted_at', 'created_date', 'updated_date'],
+          sortable: ['id', 'name'],
+          filterable: ['id', 'name', 'description'],
           sortIcon: {base: 'fa', up: 'fa-sort-asc', down: 'fa-sort-desc', is: 'fa-sort'},
           pagination: {
             chunk: 5,
@@ -69,52 +67,29 @@
       }
     },
     methods: {
-      permanentDeleteLeadSource: function (id) {
-        deleteLeadSourcePermanently(id)
-             .then(() => this.leadSourcesDeletingSuccessful())
-             .catch((request) => this.leadSourcesDeletingFailed(request));
+      deleteLeadSourceCategory: function (id) {
+        deleteLsCategory(id)
+            .then(() => this.leadSourceCategoryDeletingSuccessful())
+            .catch((request) => this.leadSourceCategoryDeletingFailed(request));
       },
-      leadSourcesDeletingSuccessful() {
+      leadSourceCategoryDeletingSuccessful() {
         this.errors = false;
         this.error = false;
-        this.flash('The Lead Source is deleted permanently.', 'success');
+        this.flash('The Lead Source is deleted.', 'success');
 
         this.downloadData();
       },
-      leadSourcesDeletingFailed(req) {
+      leadSourceCategoryDeletingFailed(req) {
         this.errors = false;
-        this.error = 'Lead Source deleting permanently failed! ' + req;
-      },
-
-      restoreLeadSource: function (id) {
-        restoreLeadSource(id)
-            .then(() => this.leadSourceRestoringSuccessful())
-            .catch((request) => this.leadSourceRestoringFailed(request));
-
-      },
-      leadSourceRestoringSuccessful() {
-        this.errors = false;
-        this.error = false;
-        this.flash('The Lead Source is restored.', 'success');
-
-        this.downloadData();
-      },
-      leadSourceRestoringFailed(req) {
-        this.errors = false;
-        this.error = 'Lead Source Restoring failed! ' + req;
+        this.error = 'The Lead Source Deleting failed! ' + req;
         console.log(req);
       },
-
       downloadData() {
-        getLeadSourcesSoftDeleted()
+        getLsCategories()
           .then(response => {
-            if (response.status === 204) {
-              this.data = [];
-            } else {
-              this.data = response.data.data;
-              this.message = response.data.message;
-              this.success = response.data.success;
-            }
+            this.data = response.data.data;
+            this.message = response.data.message;
+            this.success = response.data.success;
           })
           .catch(error => console.log(error));
       }

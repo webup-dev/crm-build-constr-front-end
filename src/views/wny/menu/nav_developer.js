@@ -99,8 +99,8 @@ export default {
       icon: 'fa fa-users'
     },
     {
-      name: 'LeadSources',
-      url: '/admin/lead-sources',
+      name: 'Lead Categories',
+      url: '/admin/lead-source-categories',
       icon: 'fa fa-users'
     },
     {

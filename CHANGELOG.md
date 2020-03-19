@@ -8,7 +8,7 @@ All notable changes to this project will be documented in this file.
 - Block of LeadSourcesSoftDeleted related features
     - API endpoints are created,
     - Routers are created,
-    - Dashbord menu for developer is updated,
+    - Dashboard menu for developer is updated,
     - Page with the index of LeadSourcesSoftDeleted is created,
     - Restore function is created,
     - Permanently Deleted function is created.

@@ -37,7 +37,7 @@
                   <b-badge>{{ filesSoftDeleted }}</b-badge>
                 </p>
               </a>
-              <a href="#/admin/lead-sources/soft-deleted">
+              <a href="#/admin/lead-source-categories/soft-deleted">
                 <p>Lead Sources
                   <b-badge>{{ leadSourcesSoftDeleted }}</b-badge>
                 </p>
