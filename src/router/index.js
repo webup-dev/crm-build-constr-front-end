@@ -107,8 +107,11 @@ const LsCategoryCreate = () => import('@/views/wny/leads/LsCategoryCreate');
 const LsCategoryEdit = () => import('@/views/wny/leads/LsCategoryEdit');
 const LsCategoriesSoftDeleted = () => import('@/views/wny/leads/LsCategoriesSoftDeleted');
 
-const Colors = () => import('@/views/theme/Colors')
-const Typography = () => import('@/views/theme/Typography')
+// Lead Sources
+const LeadSources = () => import('@/views/wny/leads/LeadSources');
+
+const Colors = () => import('@/views/theme/Colors');
+const Typography = () => import('@/views/theme/Typography');
 
 const Charts = () => import('@/views/Charts')
 const Widgets = () => import('@/views/Widgets')
@@ -597,6 +600,11 @@ export default new Router({
               path: 'lead-source-categories/soft-deleted',
               name: 'LsCategoriesSoftDeleted',
               component: LsCategoriesSoftDeleted
+            },
+            {
+              path: 'lead-sources',
+              name: 'LeadSources',
+              component: LeadSources
             }
           ]
         },

@@ -104,6 +104,11 @@ export default {
       icon: 'fa fa-users'
     },
     {
+      name: 'Lead Sources',
+      url: '/admin/lead-sources',
+      icon: 'fa fa-users'
+    },
+    {
       title: true,
       name: 'Theme',
       class: '',

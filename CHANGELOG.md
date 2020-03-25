@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+## [0.24.0] - 2020-03-25
+### Added
+- Page "Lead Sources" is created
+    - API endpoints are created for all components of the block.
 
 ## [0.23.0] - 2020-03-18
 ### Changed
