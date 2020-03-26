@@ -14,7 +14,7 @@
         <v-client-table :columns="columns" :data="data" :options="options" :theme="theme" id="dataTable">
           <p slot="actions" slot-scope="props">
             <!--            <a :href="'#/roles/' + props.row.id" class="icon-eye action-icon"></a>-->
-            <a :href="'#/admin/lead-source-categories/' + props.row.id + '/edit'" class="icon-pencil action-icon"></a>
+            <a :href="'#/admin/lead-sources/' + props.row.id + '/edit'" class="icon-pencil action-icon"></a>
             <a class="icon-trash" v-on:click="deleteLeadSourceCategory(props.row.id)" style="cursor: pointer"></a>
           </p>
 

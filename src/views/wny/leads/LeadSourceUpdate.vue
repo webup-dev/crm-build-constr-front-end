@@ -4,7 +4,7 @@
       <b-col md="6">
         <b-card>
           <div slot="header">
-            <strong>Create Lead Source</strong>
+            <strong>Update Lead Source</strong>
           </div>
           <b-form
             @submit.prevent=checkForm
@@ -103,16 +103,16 @@
 
 <script>
   import {validations} from '../../../components/validations/leadSources';
-  import {addLeadSources, getOrganizations, getCategories} from "../../../api/leadSources";
+  import {getLeadSourceById, getOrganizations, getCategories, updateLeadSource} from "../../../api/leadSources";
 
   export default {
-    name: 'LeadSourceCreate',
+    name: 'LeadSourceUpdate',
     data() {
       return {
         name: '',
         lsCategoryOptions: '',
         lsCategoryId: '',
-        organizationOptions: [{value: 0, text: 'org 1'}, {value: 1, text: 'org 2'}],
+        organizationOptions: '',
         organizationId: '',
         lsStatusOptions: [{value: 'active', text: 'active'}, {value: 'inactive', text: 'inactive'}],
         lsStatus: '',
@@ -175,35 +175,35 @@
         }
 
         if (!this.errors.length && !this.error.length) {
-          this.create();
+          this.update(this.$route.params.id);
           return true;
         }
 
         e.preventDefault();
       },
-      create() {
+      update(id) {
         let dataPost = {
           name: this.name,
           category_id: this.lsCategoryId,
           organization_id: this.organizationId,
           status: this.lsStatus
         };
-        addLeadSources(dataPost)
-          .then(() => this.leadSourceCreatingSuccessful())
-          .catch((request) => this.leadSourceCreatingFailed(request));
+        updateLeadSource(dataPost, id)
+          .then(() => this.leadSourceUpdatingSuccessful())
+          .catch((request) => this.leadSourceUpdatingFailed(request));
       },
 
-      leadSourceCreatingSuccessful() {
+      leadSourceUpdatingSuccessful() {
         this.errors = false;
         this.error = false;
-        this.flash('New Lead Source is created.', 'success');
+        this.flash('The Lead Source is updated.', 'success');
 
         this.$router.replace(this.$route.query.redirect || '/admin/lead-sources')
       },
 
-      leadSourceCreatingFailed(req) {
+      leadSourceUpdatingFailed(req) {
         this.errors = false;
-        this.error = 'Lead Source Creating failed! ' + req;
+        this.error = 'Lead Source Updating failed! ' + req;
         console.log(req);
       },
       downloadData() {
@@ -219,6 +219,17 @@
           .then(response => {
             this.organizationOptions = this.formatCategories(response.data.data);
             this.message = this.formatOrganizations(response.data.message);
+            this.success = response.data.success;
+          })
+          .catch(error => console.log(error));
+
+        getLeadSourceById(this.$route.params.id)
+          .then(response => {
+            this.lsCategoryId = response.data.data.category_id;
+            this.organizationId = response.data.data.organization_id;
+            this.name = response.data.data.name;
+            this.lsStatus = response.data.data.status;
+            this.message = response.data.message;
             this.success = response.data.success;
           })
           .catch(error => console.log(error));
