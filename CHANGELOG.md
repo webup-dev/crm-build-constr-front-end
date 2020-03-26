@@ -2,10 +2,14 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+## [0.24.2] - 2020-03-26
 ### Changed
 - Page "Create New Lead Source". Buttons are configured
     - Button "Cancel" is configured,
     - Button "Close form" is configured.
+
+### Added
+- Page "Update Lead Source" is created.    
 
 ## [0.24.1] - 2020-03-26
 ### Added
