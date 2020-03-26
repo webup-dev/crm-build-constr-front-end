@@ -109,6 +109,7 @@ const LsCategoriesSoftDeleted = () => import('@/views/wny/leads/LsCategoriesSoft
 
 // Lead Sources
 const LeadSources = () => import('@/views/wny/leads/LeadSources');
+const LeadSourceCreate = () => import('@/views/wny/leads/LeadSourceCreate');
 
 const Colors = () => import('@/views/theme/Colors');
 const Typography = () => import('@/views/theme/Typography');
@@ -605,6 +606,11 @@ export default new Router({
               path: 'lead-sources',
               name: 'LeadSources',
               component: LeadSources
+            },
+            {
+              path: 'lead-sources/create',
+              name: 'LeadSourceCreate',
+              component: LeadSourceCreate
             }
           ]
         },

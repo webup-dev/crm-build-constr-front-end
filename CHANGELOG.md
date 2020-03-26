@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+## [0.24.1] - 2020-03-26
+### Added
+- Page "Create New Lead Source" is created
+    
 ## [0.24.0] - 2020-03-25
 ### Added
 - Page "Lead Sources" is created
