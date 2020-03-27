@@ -15,7 +15,7 @@
           <p slot="actions" slot-scope="props">
             <!--            <a :href="'#/roles/' + props.row.id" class="icon-eye action-icon"></a>-->
             <a :href="'#/admin/lead-sources/' + props.row.id + '/edit'" class="icon-pencil action-icon"></a>
-            <a class="icon-trash" v-on:click="deleteLeadSourceCategory(props.row.id)" style="cursor: pointer"></a>
+            <a class="icon-trash" v-on:click="deleteLeadSource(props.row.id)" style="cursor: pointer"></a>
           </p>
 
         </v-client-table>
@@ -71,19 +71,19 @@
       }
     },
     methods: {
-      deleteLeadSourceCategory: function (id) {
-        deleteLsCategory(id)
-            .then(() => this.leadSourceCategoryDeletingSuccessful())
-            .catch((request) => this.leadSourceCategoryDeletingFailed(request));
+      deleteLeadSource: function (id) {
+        deleteLeadSource(id)
+            .then(() => this.leadSourceDeletingSuccessful())
+            .catch((request) => this.leadSourceDeletingFailed(request));
       },
-      leadSourceCategoryDeletingSuccessful() {
+      leadSourceDeletingSuccessful() {
         this.errors = false;
         this.error = false;
         this.flash('The Lead Source is deleted.', 'success');
 
         this.downloadData();
       },
-      leadSourceCategoryDeletingFailed(req) {
+      leadSourceDeletingFailed(req) {
         this.errors = false;
         this.error = 'The Lead Source Deleting failed! ' + req;
         console.log(req);

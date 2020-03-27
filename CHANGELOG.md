@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+## [0.24.3] - 2020-03-27
+### Added
+- Page "Lead Sources". Method softDelete is created.  
+
 ## [0.24.2] - 2020-03-26
 ### Changed
 - Page "Create New Lead Source". Buttons are configured
