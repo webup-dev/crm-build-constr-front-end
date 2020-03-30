@@ -39,6 +39,11 @@
               </a>
               <a href="#/admin/lead-source-categories/soft-deleted">
                 <p>Lead Sources
+                  <b-badge>{{ lsCategoriesSoftDeleted }}</b-badge>
+                </p>
+              </a>
+              <a href="#/admin/lead-sources/soft-deleted">
+                <p>Lead Sources
                   <b-badge>{{ leadSourcesSoftDeleted }}</b-badge>
                 </p>
               </a>
@@ -64,6 +69,7 @@
         userCustomersSoftDeleted: '',
         organizationsSoftDeleted: '',
         filesSoftDeleted: '',
+        lsCategoriesSoftDeleted: '',
         leadSourcesSoftDeleted: ''
       }
     },
@@ -82,7 +88,8 @@
               this.customersSoftDeleted = response.data.data[1].count,
               this.userCustomersSoftDeleted = response.data.data[3].count,
               this.organizationsSoftDeleted = response.data.data[2].count,
-              this.leadSourcesSoftDeleted = response.data.data[5].count,
+              this.lsCategoriesSoftDeleted = response.data.data[5].count,
+              this.leadSourcesSoftDeleted = response.data.data[6].count,
               this.filesSoftDeleted = response.data.data[4].count
           ));
     }
