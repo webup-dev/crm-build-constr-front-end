@@ -84,7 +84,6 @@
 
       this.$http.get(API_URL + '/soft-deleted-items', headers)
           .then(response => {
-            console.log(response.data.data);
             return (
               this.usersSoftDeleted = response.data.data[0].count,
                 this.customersSoftDeleted = response.data.data[1].count,

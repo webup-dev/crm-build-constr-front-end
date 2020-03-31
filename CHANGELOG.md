@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+## [0.24.5] - 2020-03-31
+### Added    
+- Lead Sources. Methods "restore", "deletePermanently".  
+
 ## [0.24.4] - 2020-03-31
 ### Changed
 - Dashboard of Developer
