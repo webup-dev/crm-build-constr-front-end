@@ -83,15 +83,18 @@
       };
 
       this.$http.get(API_URL + '/soft-deleted-items', headers)
-          .then(response => (
-            this.usersSoftDeleted = response.data.data[0].count,
-              this.customersSoftDeleted = response.data.data[1].count,
-              this.userCustomersSoftDeleted = response.data.data[3].count,
-              this.organizationsSoftDeleted = response.data.data[2].count,
-              this.lsCategoriesSoftDeleted = response.data.data[5].count,
-              this.leadSourcesSoftDeleted = response.data.data[6].count,
-              this.filesSoftDeleted = response.data.data[4].count
-          ));
+          .then(response => {
+            console.log(response.data.data);
+            return (
+              this.usersSoftDeleted = response.data.data[0].count,
+                this.customersSoftDeleted = response.data.data[1].count,
+                this.organizationsSoftDeleted = response.data.data[2].count,
+                this.userCustomersSoftDeleted = response.data.data[3].count,
+                this.filesSoftDeleted = response.data.data[4].count,
+                this.lsCategoriesSoftDeleted = response.data.data[5].count,
+                this.leadSourcesSoftDeleted = response.data.data[6].count
+            );
+          });
     }
   }
 </script>
