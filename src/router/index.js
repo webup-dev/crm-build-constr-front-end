@@ -106,11 +106,11 @@ const LsCategories = () => import('@/views/wny/leads/LsCategories');
 const LsCategoryCreate = () => import('@/views/wny/leads/LsCategoryCreate');
 const LsCategoryEdit = () => import('@/views/wny/leads/LsCategoryEdit');
 const LsCategoriesSoftDeleted = () => import('@/views/wny/leads/LsCategoriesSoftDeleted');
-
 // Lead Sources
 const LeadSources = () => import('@/views/wny/leads/LeadSources');
 const LeadSourceCreate = () => import('@/views/wny/leads/LeadSourceCreate');
 const LeadSourceUpdate = () => import('@/views/wny/leads/LeadSourceUpdate');
+const LeadSourcesSoftDeleted = () => import('@/views/wny/leads/LeadSourcesSoftDeleted');
 
 const Colors = () => import('@/views/theme/Colors');
 const Typography = () => import('@/views/theme/Typography');
@@ -617,6 +617,11 @@ export default new Router({
               path: 'lead-sources/:id/edit',
               name: 'LeadSourceUpdate',
               component: LeadSourceUpdate
+            },
+            {
+              path: 'lead-sources/soft-deleted',
+              name: 'LeadSourcesSoftDeleted',
+              component: LeadSourcesSoftDeleted
             }
           ]
         },

@@ -2,6 +2,14 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+## [0.24.4] - 2020-03-31
+### Changed
+- Dashboard of Developer
+    - Lead Sources Soft-Deleted are added.
+    
+### Added    
+- Page "Lead Sources" Soft-Deleted.  
+
 ## [0.24.3] - 2020-03-27
 ### Added
 - Page "Lead Sources". Method softDelete is created.  
