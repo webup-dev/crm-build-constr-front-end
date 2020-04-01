@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+## [0.25.0] - 2020-04-01
+### Changed
+- Bugs fixing
+    - Buttons Save&New are implemented,
+    - FlashMessaging: added timeout 3000 ms.
+
 ## [0.24.5] - 2020-03-31
 ### Added    
 - Lead Sources. Methods "restore", "deletePermanently".  
