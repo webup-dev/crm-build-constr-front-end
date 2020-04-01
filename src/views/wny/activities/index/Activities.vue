@@ -31,6 +31,8 @@
     import {ClientTable, Event} from 'vue-tables-2'
 
     const API_URL = process.env.VUE_APP_API_URL;
+    const VUE_APP_FLASH_TIMEOUT = process.env.VUE_APP_FLASH_TIMEOUT;
+
     Vue.use(ClientTable)
 
     export default {
@@ -81,7 +83,7 @@
             clearHistorySuccessful() {
                 this.errors = false;
                 this.error = false;
-                this.flash('The History of Activities is cleared.', 'success');
+                this.flash('The History of Activities is cleared.', 'success', {timeout: VUE_APP_FLASH_TIMEOUT});
 
                 this.downloadData();
             },

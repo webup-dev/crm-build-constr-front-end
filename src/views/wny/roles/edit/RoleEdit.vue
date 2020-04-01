@@ -81,6 +81,7 @@
 
 <script>
     const API_URL = process.env.VUE_APP_API_URL;
+    const VUE_APP_FLASH_TIMEOUT = process.env.VUE_APP_FLASH_TIMEOUT;
 
     export default {
         name: 'RoleEdit',
@@ -130,7 +131,7 @@
             roleUpdatingSuccessful() {
                 this.errors = false;
                 this.error = false;
-                this.flash('The Role is updated.', 'success');
+                this.flash('The Role is updated.', 'success', {timeout: VUE_APP_FLASH_TIMEOUT});
 
                 this.$router.replace(this.$route.query.redirect || '/roles/' + this.$route.params.id)
             },

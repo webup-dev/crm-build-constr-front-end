@@ -29,6 +29,7 @@
   import {getLeadSourceSoftDeleted, restoreLeadSource, deleteLeadSourcePermanently} from "../../../api/leadSources";
 
   const API_URL = process.env.VUE_APP_API_URL;
+  const VUE_APP_FLASH_TIMEOUT = process.env.VUE_APP_FLASH_TIMEOUT;
 
   Vue.use(ClientTable);
 
@@ -81,7 +82,7 @@
       leadSourceDeletingSuccessful() {
         this.errors = false;
         this.error = false;
-        this.flash('The Lead Source is deleted permanently.', 'success');
+        this.flash('The Lead Source is deleted permanently.', 'success', {timeout: VUE_APP_FLASH_TIMEOUT});
 
         this.downloadData();
       },
@@ -99,7 +100,7 @@
       leadSourceRestoringSuccessful() {
         this.errors = false;
         this.error = false;
-        this.flash('The Lead Source is restored.', 'success');
+        this.flash('The Lead Source is restored.', 'success', {timeout: VUE_APP_FLASH_TIMEOUT});
 
         this.downloadData();
       },

@@ -3,6 +3,7 @@
     <b-row>
       <b-col md="6">
         <b-card>
+          <flash-message></flash-message>
           <div slot="header">
             <strong>Create Lead Source</strong>
           </div>
@@ -27,6 +28,7 @@
             >
               <b-form-input
                 id="name"
+                autofocus
                 v-model="$v.name.$model"
                 type="text"
                 placeholder="Name"
@@ -76,16 +78,20 @@
 
             <div slot="footer">
               <b-button type="submit"
+                        class="mr-10"
                         size="sm"
-                        variant="primary"
-                        style="margin-right: 10px">
+                        variant="primary">
                 <i class="fa fa-dot-circle-o"></i>
                 Save
               </b-button>
-              <b-button class="btn btn-info"
+              <b-button class="btn btn-success mr-10"
                         size="sm"
-                        v-on:click="closeForm"
-                        style="margin-right: 10px">
+                        v-on:click="saveAndNew">
+                Save & New
+              </b-button>
+              <b-button class="btn btn-info mr-10"
+                        size="sm"
+                        v-on:click="closeForm">
                 Close form
               </b-button>
               <b-button class="btn btn-danger"
@@ -104,6 +110,9 @@
 <script>
   import {validations} from '../../../components/validations/leadSources';
   import {addLeadSources, getOrganizations, getCategories} from "../../../api/leadSources";
+
+  const VUE_APP_FLASH_TIMEOUT = process.env.VUE_APP_FLASH_TIMEOUT;
+  console.log(VUE_APP_FLASH_TIMEOUT);
 
   export default {
     name: 'LeadSourceCreate',
@@ -127,6 +136,7 @@
         this.lsCategoryId = '';
         this.organizationId = '';
         this.lsStatus = '';
+        this.$nextTick(() => { this.$v.$reset() })
       },
       closeForm() {
         this.cancel();
@@ -196,7 +206,7 @@
       leadSourceCreatingSuccessful() {
         this.errors = false;
         this.error = false;
-        this.flash('New Lead Source is created.', 'success');
+        this.flash('New Lead Source is created.', 'success', {timeout: 10000});
 
         this.$router.replace(this.$route.query.redirect || '/admin/lead-sources')
       },
@@ -206,6 +216,23 @@
         this.error = 'Lead Source Creating failed! ' + req;
         console.log(req);
       },
+      saveAndNew() {
+        let dataPost = {
+          name: this.name,
+          category_id: this.lsCategoryId,
+          organization_id: this.organizationId,
+          status: this.lsStatus
+        };
+        addLeadSources(dataPost)
+          .then(() => this.leadSourceStoringSuccessful())
+          .catch((request) => this.leadSourceCreatingFailed(request));
+      },
+      leadSourceStoringSuccessful() {
+        this.flash('New Lead Source is created.', 'success', {timeout: 10000});
+        this.cancel();
+        this.downloadData();
+      },
+
       downloadData() {
         getCategories()
           .then(response => {
@@ -281,5 +308,9 @@
 
   .label-bold {
     font-weight: bold
+  }
+
+  .mr-10 {
+    margin-right: 10px
   }
 </style>

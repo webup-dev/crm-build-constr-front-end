@@ -128,6 +128,7 @@
 
 <script>
     const API_URL = process.env.VUE_APP_API_URL;
+    const VUE_APP_FLASH_TIMEOUT = process.env.VUE_APP_FLASH_TIMEOUT;
 
     import orgDeps from "../../../../mixins/orderedDepartments";
     import {validations} from '../validation'
@@ -218,7 +219,7 @@
             organizationsCreatingSuccessful() {
                 this.errors = false;
                 this.error = false;
-                this.flash('New Customer is created.', 'success');
+                this.flash('New Customer is created.', 'success', {timeout: VUE_APP_FLASH_TIMEOUT});
 
                 this.$router.replace(this.$route.query.redirect || '/admin/customers')
             },

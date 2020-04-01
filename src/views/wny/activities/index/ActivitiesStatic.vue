@@ -30,6 +30,8 @@
     import {ClientTable, Event} from 'vue-tables-2'
     import sampleData from './_data'
 
+    const VUE_APP_FLASH_TIMEOUT = process.env.VUE_APP_FLASH_TIMEOUT;
+
     Vue.use(ClientTable)
 
     export default {

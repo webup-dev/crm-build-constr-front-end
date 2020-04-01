@@ -113,6 +113,8 @@
     import axios from "../../../../backend/vue-axios/axios";
 
     const API_URL = process.env.VUE_APP_API_URL;
+    const VUE_APP_FLASH_TIMEOUT = process.env.VUE_APP_FLASH_TIMEOUT;
+
     // console.log(localStorage.token);
     // console.log($route.params.id);
 

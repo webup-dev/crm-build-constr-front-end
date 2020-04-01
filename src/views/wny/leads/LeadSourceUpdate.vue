@@ -105,6 +105,8 @@
   import {validations} from '../../../components/validations/leadSources';
   import {getLeadSourceById, getOrganizations, getCategories, updateLeadSource} from "../../../api/leadSources";
 
+  const VUE_APP_FLASH_TIMEOUT = process.env.VUE_APP_FLASH_TIMEOUT;
+
   export default {
     name: 'LeadSourceUpdate',
     data() {
@@ -196,7 +198,7 @@
       leadSourceUpdatingSuccessful() {
         this.errors = false;
         this.error = false;
-        this.flash('The Lead Source is updated.', 'success');
+        this.flash('The Lead Source is updated.', 'success', {timeout: VUE_APP_FLASH_TIMEOUT});
 
         this.$router.replace(this.$route.query.redirect || '/admin/lead-sources')
       },

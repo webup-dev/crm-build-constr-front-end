@@ -105,6 +105,7 @@
 
 <script>
     const API_URL = process.env.VUE_APP_API_URL;
+    const VUE_APP_FLASH_TIMEOUT = process.env.VUE_APP_FLASH_TIMEOUT;
 
     export default {
         name: 'BookEdit',
@@ -165,7 +166,7 @@
             bookUpdatingSuccessful() {
                 this.errors = false;
                 this.error = false;
-                this.flash('The Book updated.', 'success');
+                this.flash('The Book updated.', 'success', {timeout: VUE_APP_FLASH_TIMEOUT});
 
                 this.$router.replace(this.$route.query.redirect || '/demo/books/' + this.$route.params.id)
             },

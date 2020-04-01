@@ -30,6 +30,8 @@
   import _ from 'lodash'
 
   const API_URL = process.env.VUE_APP_API_URL;
+  const VUE_APP_FLASH_TIMEOUT = process.env.VUE_APP_FLASH_TIMEOUT;
+
   Vue.use(ClientTable);
 
   export default {
@@ -83,7 +85,7 @@
       organizationRestoringSuccessful() {
         this.errors = false;
         this.error = false;
-        this.flash('The Organization is restored.', 'success');
+        this.flash('The Organization is restored.', 'success', {timeout: VUE_APP_FLASH_TIMEOUT});
 
         this.downloadData();
       },
@@ -107,7 +109,7 @@
       organizationDeletingSuccessful() {
         this.errors = false;
         this.error = false;
-        this.flash('The Organization is deleted permanently.', 'success');
+        this.flash('The Organization is deleted permanently.', 'success', {timeout: VUE_APP_FLASH_TIMEOUT});
 
         this.downloadData();
       },

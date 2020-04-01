@@ -87,8 +87,7 @@
 
 <script>
     const API_URL = process.env.VUE_APP_API_URL;
-    // console.log(localStorage.token);
-    // console.log($route.params.id);
+    const VUE_APP_FLASH_TIMEOUT = process.env.VUE_APP_FLASH_TIMEOUT;
 
     export default {
         name: 'RoleShowFinal',

@@ -29,6 +29,8 @@
   import BCardBody from "bootstrap-vue/es/components/card/card-body";
   import {getAllUserCustomersSoftDeleted, restoreUserCustomer, deleteUserCustomerPermanently} from "../../../api/userCustomers"
 
+  const VUE_APP_FLASH_TIMEOUT = process.env.VUE_APP_FLASH_TIMEOUT;
+
   Vue.use(ClientTable);
 
   export default {
@@ -80,7 +82,7 @@
       deletingSuccessful() {
         this.errors = false;
         this.error = false;
-        this.flash('The User-Customer is deleted permanently.', 'success');
+        this.flash('The User-Customer is deleted permanently.', 'success', {timeout: VUE_APP_FLASH_TIMEOUT});
 
         this.downloadData();
       },
@@ -100,7 +102,7 @@
       restoringSuccessful() {
         this.errors = false;
         this.error = false;
-        this.flash('The User-Customer is restored.', 'success');
+        this.flash('The User-Customer is restored.', 'success', {timeout: VUE_APP_FLASH_TIMEOUT});
 
         this.downloadData();
       },

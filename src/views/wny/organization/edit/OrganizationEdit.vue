@@ -86,6 +86,7 @@
 
 <script>
   const API_URL = process.env.VUE_APP_API_URL;
+  const VUE_APP_FLASH_TIMEOUT = process.env.VUE_APP_FLASH_TIMEOUT;
 
   const alphaNumSpace = (value) => {
     if (typeof value === 'undefined' || value === null || value === '') {
@@ -200,7 +201,7 @@
       organizationsUpdatingSuccessful() {
         this.errors = false;
         this.error = false;
-        this.flash('Organization is updated.', 'success');
+        this.flash('Organization is updated.', 'success', {timeout: VUE_APP_FLASH_TIMEOUT});
 
         this.$router.replace(this.$route.query.redirect || '/admin/organization')
       },

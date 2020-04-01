@@ -32,6 +32,8 @@
   import {ClientTable, Event} from 'vue-tables-2'
   import {softDeleted, restoreFile, permanentDestroyFile} from "../../../api/file";
 
+  const VUE_APP_FLASH_TIMEOUT = process.env.VUE_APP_FLASH_TIMEOUT;
+
   Vue.use(ClientTable)
 
   export default {
@@ -81,7 +83,7 @@
       fileDeletingSuccessful() {
         this.errors = false;
         this.error = false;
-        this.flash('The File data is deleted permanently.', 'success');
+        this.flash('The File data is deleted permanently.', 'success', {timeout: VUE_APP_FLASH_TIMEOUT});
 
         this.downloadData();
       },
@@ -101,7 +103,7 @@
       fileRestoringSuccessful() {
         this.errors = false;
         this.error = false;
-        this.flash('The File Data is restored.', 'success');
+        this.flash('The File Data is restored.', 'success', {timeout: VUE_APP_FLASH_TIMEOUT});
 
         this.downloadData();
       },

@@ -3,6 +3,7 @@
     <b-row>
       <b-col md="6">
         <b-card>
+          <flash-message></flash-message>
           <div slot="header">
             <strong>Create Lead Source Category</strong>
           </div>
@@ -27,6 +28,7 @@
             >
               <b-form-input
                 id="name"
+                autofocus
                 v-model="$v.name.$model"
                 type="text"
                 placeholder="Name"
@@ -52,19 +54,25 @@
 
             <div slot="footer">
               <b-button type="submit"
+                        class="mr-10"
                         size="sm"
                         variant="primary"
                         style="margin-right: 10px">
                 <i class="fa fa-dot-circle-o"></i>
                 Save
               </b-button>
-              <b-button class="btn btn-info"
+              <b-button class="btn btn-success mr-10"
+                        size="sm"
+                        v-on:click="saveAndNew">
+                Save & New
+              </b-button>
+              <b-button class="btn btn-info mr-10"
                         size="sm"
                         v-on:click="closeForm"
                         style="margin-right: 10px">
                 Close form
               </b-button>
-              <b-button class="btn btn-danger"
+              <b-button class="btn btn-danger mr-10"
                         size="sm"
                         v-on:click="cancel">
                 Cancel
@@ -80,6 +88,9 @@
 <script>
   import {validations} from '../../../components/validations/leadSource';
   import {addLsCategories} from "../../../api/lsCategories";
+  import {addLeadSources} from "../../../api/leadSources";
+
+  const VUE_APP_FLASH_TIMEOUT = process.env.VUE_APP_FLASH_TIMEOUT;
 
   export default {
     name: 'LsCategoryCreate',
@@ -96,6 +107,7 @@
       cancel() {
         this.lsDescription = '';
         this.name = '';
+        this.$nextTick(() => { this.$v.$reset() })
       },
       closeForm() {
         this.cancel();
@@ -143,7 +155,7 @@
       lsCategoryCreatingSuccessful() {
         this.errors = false;
         this.error = false;
-        this.flash('New Lead Source Category is created.', 'success');
+        this.flash('New Lead Source Category is created.', 'success', {timeout: 10000});
 
         this.$router.replace(this.$route.query.redirect || '/admin/lead-source-categories')
       },
@@ -152,6 +164,20 @@
         this.errors = false;
         this.error = 'Lead Source Category Creating failed! ' + req;
         console.log(req);
+      },
+      saveAndNew() {
+        let dataPost = {
+          name: this.name,
+          description: this.lsDescription,
+        };
+        addLsCategories(dataPost)
+          .then(() => this.lsCategoryStoringSuccessful())
+          .catch((request) => this.lsCategoryCreatingFailed(request));
+      },
+      lsCategoryStoringSuccessful() {
+        this.flash('New Lead Source Category is created.', 'success', {timeout: 10000});
+        this.cancel();
+        this.$router.replace(this.$route.query.redirect || '/admin/lead-source-categories/create')
       }
     }
   }
@@ -188,5 +214,9 @@
 
   .label-bold {
     font-weight: bold
+  }
+
+  .mr-10 {
+    margin-right: 10px
   }
 </style>

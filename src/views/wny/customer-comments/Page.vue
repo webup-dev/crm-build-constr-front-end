@@ -106,6 +106,8 @@
   import {getAllComments, createComment, updateComment, deleteComment} from "../../../api/customerComments"
   import {getCustomer} from "../../../api/customers"
 
+  const VUE_APP_FLASH_TIMEOUT = process.env.VUE_APP_FLASH_TIMEOUT;
+
   export default {
     name: "Page",
     mixins: [ordComms],
@@ -233,7 +235,7 @@
       commentCreatingSuccessful() {
         this.errors = false;
         this.error = false;
-        this.flash('New Comment is created.', 'success');
+        this.flash('New Comment is created.', 'success', {timeout: VUE_APP_FLASH_TIMEOUT});
 
         this.downloadData()
       },
@@ -252,14 +254,14 @@
       commentDeletingSuccessful() {
         this.errors = false;
         this.error = false;
-        this.flash('The Comment is deleted.', 'success');
+        this.flash('The Comment is deleted.', 'success', {timeout: VUE_APP_FLASH_TIMEOUT});
 
         this.downloadData();
       },
       commentDeletingFailed(req) {
         this.errors = false;
         this.error = 'Comment Deleting failed! ' + req;
-        this.flash(req.response.data.message + ' Code: ' + req.response.data.code)
+        this.flash(req.response.data.message + ' Code: ' + req.response.data.code, {timeout: VUE_APP_FLASH_TIMEOUT})
       },
       format(comments) {
         comments = this.formatResponse(comments);

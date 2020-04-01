@@ -61,6 +61,7 @@
   import store from "../../../store";
 
   const API_URL = process.env.VUE_APP_API_URL;
+  const VUE_APP_FLASH_TIMEOUT = process.env.VUE_APP_FLASH_TIMEOUT;
 
   Vue.use(ClientTable);
 
@@ -204,7 +205,7 @@
       fileDeletingSuccessful() {
         this.errors = false;
         this.error = false;
-        this.flash('The File is deleted.', 'success');
+        this.flash('The File is deleted.', 'success', {timeout: VUE_APP_FLASH_TIMEOUT});
 
         this.downloadData();
       },

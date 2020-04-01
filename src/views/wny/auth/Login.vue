@@ -57,6 +57,8 @@
   import store from "../../../store";
   import mixin from "../../../mixins/mixin";
 
+  const VUE_APP_FLASH_TIMEOUT = process.env.VUE_APP_FLASH_TIMEOUT;
+
   export default {
     name: 'Login',
     mixins: [mixin],

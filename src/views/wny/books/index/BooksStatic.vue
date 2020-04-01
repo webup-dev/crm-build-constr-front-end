@@ -33,6 +33,8 @@
     import BCardHeader from 'bootstrap-vue/es/components/card/card-header'
     import BCardBody from 'bootstrap-vue/es/components/card/card-body'
 
+    const VUE_APP_FLASH_TIMEOUT = process.env.VUE_APP_FLASH_TIMEOUT;
+
     Vue.use(ClientTable)
 
     export default {

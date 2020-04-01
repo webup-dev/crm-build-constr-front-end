@@ -59,6 +59,7 @@
 
 <script>
   const API_URL = process.env.VUE_APP_API_URL;
+  const VUE_APP_FLASH_TIMEOUT = process.env.VUE_APP_FLASH_TIMEOUT;
 
   export default {
     name: 'DashboardDeveloper',

@@ -16,6 +16,8 @@
 <script>
   import AddDetails from "../../../components/AddDetails";
 
+  const VUE_APP_FLASH_TIMEOUT = process.env.VUE_APP_FLASH_TIMEOUT;
+
   export default {
     name: "UserDetailsCreate",
     components: {

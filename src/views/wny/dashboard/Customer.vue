@@ -24,7 +24,9 @@
 </template>
 
 <script>
-    export default {
+  const VUE_APP_FLASH_TIMEOUT = process.env.VUE_APP_FLASH_TIMEOUT;
+
+  export default {
         name: 'DashboardCustomer',
         data: function() {
             return {

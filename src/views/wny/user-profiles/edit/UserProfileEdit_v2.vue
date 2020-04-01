@@ -410,6 +410,7 @@
 
 <script>
     const API_URL = process.env.VUE_APP_API_URL;
+    const VUE_APP_FLASH_TIMEOUT = process.env.VUE_APP_FLASH_TIMEOUT;
 
     import MaskedInput from 'vue-text-mask'
     import {setupCalendar, DatePicker} from 'v-calendar'
@@ -597,7 +598,7 @@
             userProfilesUpdatingSuccessful() {
                 this.errors = false;
                 this.error = false;
-                this.flash('User Profile updated.', 'success');
+                this.flash('User Profile updated.', 'success', {timeout: VUE_APP_FLASH_TIMEOUT});
 
                 this.$router.replace(this.$route.query.redirect || '/admin/user-profiles')
             },

@@ -72,6 +72,8 @@
 </template>
 
 <script>
+  const VUE_APP_FLASH_TIMEOUT = process.env.VUE_APP_FLASH_TIMEOUT;
+
     export default {
         name: 'RoleCreate',
         data() {
@@ -118,7 +120,7 @@
             roleCreatingSuccessful() {
                 this.errors = false;
                 this.error = false;
-                this.flash('New Role created.', 'success');
+                this.flash('New Role created.', 'success', {timeout: VUE_APP_FLASH_TIMEOUT});
 
                 this.$router.replace(this.$route.query.redirect || '/roles/index')
             },

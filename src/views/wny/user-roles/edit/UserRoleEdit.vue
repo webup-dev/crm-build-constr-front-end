@@ -81,6 +81,7 @@
 
 <script>
     const API_URL = process.env.VUE_APP_API_URL;
+    const VUE_APP_FLASH_TIMEOUT = process.env.VUE_APP_FLASH_TIMEOUT;
 
     import Multiselect from 'vue-multiselect';
 
@@ -139,7 +140,7 @@
             userRolesUpdatingSuccessful() {
                 this.errors = false;
                 this.error = false;
-                this.flash('User Roles updated.', 'success');
+                this.flash('User Roles updated.', 'success', {timeout: VUE_APP_FLASH_TIMEOUT});
 
                 this.$router.replace(this.$route.query.redirect || '/user-roles/index')
             },

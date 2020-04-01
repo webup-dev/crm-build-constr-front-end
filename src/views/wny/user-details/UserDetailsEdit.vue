@@ -17,6 +17,8 @@
   import EditDetails from "../../../components/EditDetails";
   import {getDetails} from "../../../api/getDetails";
 
+  const VUE_APP_FLASH_TIMEOUT = process.env.VUE_APP_FLASH_TIMEOUT;
+
   export default {
     name: "UserDetailsEdit",
     components: {

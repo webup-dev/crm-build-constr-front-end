@@ -29,6 +29,7 @@
   import {getLsCategorySoftDeleted, restoreLsCategory, deleteLsCategoryPermanently} from "../../../api/lsCategories";
 
   const API_URL = process.env.VUE_APP_API_URL;
+  const VUE_APP_FLASH_TIMEOUT = process.env.VUE_APP_FLASH_TIMEOUT;
 
   Vue.use(ClientTable);
 
@@ -77,7 +78,7 @@
       lsCategoryDeletingSuccessful() {
         this.errors = false;
         this.error = false;
-        this.flash('The Lead Source is deleted permanently.', 'success');
+        this.flash('The Lead Source is deleted permanently.', 'success', {timeout: VUE_APP_FLASH_TIMEOUT});
 
         this.downloadData();
       },
@@ -95,7 +96,7 @@
       lsCategoryRestoringSuccessful() {
         this.errors = false;
         this.error = false;
-        this.flash('The Lead Source is restored.', 'success');
+        this.flash('The Lead Source is restored.', 'success', {timeout: VUE_APP_FLASH_TIMEOUT});
 
         this.downloadData();
       },

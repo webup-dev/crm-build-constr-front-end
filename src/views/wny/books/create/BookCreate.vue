@@ -93,6 +93,8 @@
 </template>
 
 <script>
+  const VUE_APP_FLASH_TIMEOUT = process.env.VUE_APP_FLASH_TIMEOUT;
+
   export default {
     name: 'BookCreate',
     data() {
@@ -162,7 +164,7 @@
       bookCreatingSuccessful() {
         this.errors = false;
         this.error = false;
-        this.flash('New Book created.', 'success');
+        this.flash('New Book created.', 'success', {timeout: VUE_APP_FLASH_TIMEOUT});
 
         this.$router.replace(this.$route.query.redirect || '/demo/books-final')
       },
