@@ -47,6 +47,13 @@ export const alphaNumSpaceDotCommaHyphen = (value) => {
   return /^[0-9a-zA-Z #.,-]*$/.test(value)
 };
 
+export const alphaNumSpaceDotCommaHyphenApostrophe = (value) => {
+  if (typeof value === 'undefined' || value === null || value === '') {
+    return true
+  }
+  return /^[0-9a-zA-Z #'.,-]*$/.test(value)
+};
+
 export const address = (value) => {
   if (typeof value === 'undefined' || value === null || value === '') {
     return true

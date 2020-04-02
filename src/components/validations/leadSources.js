@@ -1,10 +1,10 @@
 import {required, integer, alpha} from 'vuelidate/lib/validators'
-import {alphaSpace} from '../../shared/validation-rules'
+import {alphaNumSpaceDotCommaHyphenApostrophe} from '../../shared/validation-rules'
 
 export const validations = {
   name: {
     required,
-    alphaSpace
+    alphaNumSpaceDotCommaHyphenApostrophe
   },
   lsCategoryId: {
     required,

@@ -136,7 +136,9 @@
         this.lsCategoryId = '';
         this.organizationId = '';
         this.lsStatus = '';
-        this.$nextTick(() => { this.$v.$reset() })
+        this.$nextTick(() => {
+          this.$v.$reset()
+        })
       },
       closeForm() {
         this.cancel();
@@ -156,8 +158,8 @@
           this.errors.push('Name is required.');
         }
 
-        if (!this.$v.name.alphaSpace) {
-          this.errors.push('Name consists of letters and space only.');
+        if (!this.$v.name.alphaNumSpaceDotCommaHyphenApostrophe) {
+          this.errors.push('Name consists of letters, numbers, dot, comma, hyphen, apostrophe and space only.');
         }
 
         if (!this.$v.lsCategoryId.required) {
@@ -258,6 +260,8 @@
             text: obj.name
           });
         });
+        newArr.sort((a,b) => {return (a.text > b.text) ? 1 : ((b.text > a.text) ? -1 : 0);} );
+
         return newArr;
       },
       formatOrganizations(organizations) {
