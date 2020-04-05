@@ -109,6 +109,11 @@ export default {
       icon: 'fa fa-users'
     },
     {
+      name: 'Trades',
+      url: '/admin/trades',
+      icon: 'fa fa-users'
+    },
+    {
       title: true,
       name: 'Theme',
       class: '',

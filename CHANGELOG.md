@@ -2,11 +2,22 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+## [0.26.0] - 2020-04-03
+### Added    
+- Page Trades
+    - Routes
+    - Menus
+    - API endpoints
+    - page.  
+
 ## [0.25.0] - 2020-04-01
 ### Changed
 - Bugs fixing
     - Buttons Save&New are implemented,
-    - FlashMessaging: added timeout 3000 ms.
+    - FlashMessaging: added timeout 3000 ms,
+    - Validation rules for Lead Sources are changed,
+    - Validation rules for Lead Source Categories are changed
+    - Lead Source Categories are sorted in alphabetical order.
 
 ## [0.24.5] - 2020-03-31
 ### Added    

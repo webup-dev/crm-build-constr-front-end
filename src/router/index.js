@@ -106,11 +106,19 @@ const LsCategories = () => import('@/views/wny/leads/LsCategories');
 const LsCategoryCreate = () => import('@/views/wny/leads/LsCategoryCreate');
 const LsCategoryEdit = () => import('@/views/wny/leads/LsCategoryEdit');
 const LsCategoriesSoftDeleted = () => import('@/views/wny/leads/LsCategoriesSoftDeleted');
+
 // Lead Sources
 const LeadSources = () => import('@/views/wny/leads/LeadSources');
 const LeadSourceCreate = () => import('@/views/wny/leads/LeadSourceCreate');
 const LeadSourceUpdate = () => import('@/views/wny/leads/LeadSourceUpdate');
 const LeadSourcesSoftDeleted = () => import('@/views/wny/leads/LeadSourcesSoftDeleted');
+
+// Trades
+const Trades = () => import('@/views/wny/leads/Trades');
+const TradeCreate = () => import('@/views/wny/leads/TradeCreate');
+const TradeUpdate = () => import('@/views/wny/leads/TradeUpdate');
+const TradesSoftDeleted = () => import('@/views/wny/leads/TradesSoftDeleted');
+
 
 const Colors = () => import('@/views/theme/Colors');
 const Typography = () => import('@/views/theme/Typography');
@@ -622,6 +630,26 @@ export default new Router({
               path: 'lead-sources/soft-deleted',
               name: 'LeadSourcesSoftDeleted',
               component: LeadSourcesSoftDeleted
+            },
+            {
+              path: 'trades',
+              name: 'Trades',
+              component: Trades
+            },
+            {
+              path: 'trades/create',
+              name: 'TradeCreate',
+              component: TradeCreate
+            },
+            {
+              path: 'trades/:id/edit',
+              name: 'TradeUpdate',
+              component: TradeUpdate
+            },
+            {
+              path: 'trades/soft-deleted',
+              name: 'TradesSoftDeleted',
+              component: TradesSoftDeleted
             }
           ]
         },
