@@ -119,6 +119,12 @@ const TradeCreate = () => import('@/views/wny/leads/TradeCreate');
 const TradeUpdate = () => import('@/views/wny/leads/TradeUpdate');
 const TradesSoftDeleted = () => import('@/views/wny/leads/TradesSoftDeleted');
 
+// LeadStatuses
+const LeadStatuses = () => import('@/views/wny/leads/LeadStatuses');
+const LeadStatusCreate = () => import('@/views/wny/leads/LeadStatusCreate');
+const LeadStatusUpdate = () => import('@/views/wny/leads/LeadStatusUpdate');
+const LeadStatusesSoftDeleted = () => import('@/views/wny/leads/LeadStatusesSoftDeleted');
+
 
 const Colors = () => import('@/views/theme/Colors');
 const Typography = () => import('@/views/theme/Typography');
@@ -650,6 +656,26 @@ export default new Router({
               path: 'trades/soft-deleted',
               name: 'TradesSoftDeleted',
               component: TradesSoftDeleted
+            },
+            {
+              path: 'lead-statuses',
+              name: 'LeadStatuses',
+              component: LeadStatuses
+            },
+            {
+              path: 'lead-status/create',
+              name: 'LeadStatusCreate',
+              component: LeadStatusCreate
+            },
+            {
+              path: 'lead-status/:id/edit',
+              name: 'LeadStatusUpdate',
+              component: LeadStatusUpdate
+            },
+            {
+              path: 'lead-statuses/soft-deleted',
+              name: 'LeadStatusesSoftDeleted',
+              component: LeadStatusesSoftDeleted
             }
           ]
         },

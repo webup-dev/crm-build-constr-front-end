@@ -114,6 +114,11 @@ export default {
       icon: 'fa fa-users'
     },
     {
+      name: 'Lead Statuses',
+      url: '/admin/lead-statuses',
+      icon: 'fa fa-users'
+    },
+    {
       title: true,
       name: 'Theme',
       class: '',

@@ -2,6 +2,14 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+## [0.27.0] - 2020-04-03
+### Added    
+- Page "Lead Statuses"
+    - Routes
+    - Menus
+    - API endpoints
+    - page.  
+
 ## [0.26.0] - 2020-04-03
 ### Added    
 - Page Trades
