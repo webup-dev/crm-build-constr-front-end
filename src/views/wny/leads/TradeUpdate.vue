@@ -145,7 +145,7 @@
           name: this.name,
           organization_id: this.organizationId,
         };
-        updateTrade(dataPost)
+        updateTrade(dataPost, this.$route.params.id)
           .then(() => this.tradeUpdatingSuccessful())
           .catch((request) => this.tradeUpdatingFailed(request));
       },
