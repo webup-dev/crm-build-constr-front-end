@@ -15,7 +15,7 @@
           <p slot="actions" slot-scope="props">
             <!--            <a :href="'#/roles/' + props.row.id" class="icon-eye action-icon"></a>-->
             <a :href="'#/admin/trades/' + props.row.id + '/edit'" class="icon-pencil action-icon"></a>
-            <a class="icon-trash" v-on:click="deleteLeadSource(props.row.id)" style="cursor: pointer"></a>
+            <a class="icon-trash" v-on:click="deleteTrade(props.row.id)" style="cursor: pointer"></a>
           </p>
 
         </v-client-table>
@@ -70,21 +70,21 @@
       }
     },
     methods: {
-      deleteLeadSource: function (id) {
-        deleteLeadSource(id)
-            .then(() => this.leadSourceDeletingSuccessful())
-            .catch((request) => this.leadSourceDeletingFailed(request));
+      deleteTrade: function (id) {
+        deleteTrade(id)
+            .then(() => this.tradeDeletingSuccessful())
+            .catch((request) => this.tradeDeletingFailed(request));
       },
-      leadSourceDeletingSuccessful() {
+      tradeDeletingSuccessful() {
         this.errors = false;
         this.error = false;
-        this.flash('The Lead Source is deleted.', 'success', {timeout: VUE_APP_FLASH_TIMEOUT});
+        this.flash('The Trade is deleted.', 'success', {timeout: VUE_APP_FLASH_TIMEOUT});
 
         this.downloadData();
       },
-      leadSourceDeletingFailed(req) {
+      tradeDeletingFailed(req) {
         this.errors = false;
-        this.error = 'The Lead Source Deleting failed! ' + req;
+        this.error = 'The Trade Deleting failed! ' + req;
         console.log(req);
       },
       downloadData() {

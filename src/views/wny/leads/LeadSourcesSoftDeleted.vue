@@ -52,7 +52,7 @@
             category_id: 'Category ID',
             'ls_category.name': 'Category Name',
             organization_id: 'Organization ID',
-            'organizatiob.name': 'Organization Name',
+            'organization.name': 'Organization Name',
             status: 'Status',
             deleted_at: 'Deleted',
             created_at: 'Created',

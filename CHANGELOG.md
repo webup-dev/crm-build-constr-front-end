@@ -2,6 +2,16 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+## [0.27.3] - 2020-04-07
+### Added    
+- Function 'Soft Delete Trade' is created
+- Page 'Soft Deleted Trades' is created
+- Function 'Restore Soft Deleted Trade' is created
+- Function 'Permanently Delete Trade' is created
+
+### Changed
+- Page 'Developer Dashboard' is created
+
 ## [0.27.2] - 2020-04-07
 ### Added    
 - Function 'Update Trade' is created
