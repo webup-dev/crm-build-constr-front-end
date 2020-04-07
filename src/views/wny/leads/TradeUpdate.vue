@@ -3,8 +3,9 @@
     <b-row>
       <b-col md="6">
         <b-card>
+          <flash-message></flash-message>
           <div slot="header">
-            <strong>Update Lead Source</strong>
+            <strong>Update Trade</strong>
           </div>
           <b-form
             @submit.prevent=checkForm
@@ -27,25 +28,13 @@
             >
               <b-form-input
                 id="name"
+                autofocus
                 v-model="$v.name.$model"
                 type="text"
                 placeholder="Name"
                 :class="status($v.name)">
 
               </b-form-input>
-            </b-form-group>
-
-            <b-form-group label="Category *"
-                          label-for="lsCategoryId"
-                          :label-cols="3"
-                          class="label-bold"
-            >
-              <b-form-select id="lsCategoryId"
-                             v-model="$v.lsCategoryId.$model"
-                             :plain="true"
-                             :options=lsCategoryOptions
-                             :class="status($v.lsCategoryId)">
-              </b-form-select>
             </b-form-group>
 
             <b-form-group label="Organization *"
@@ -61,31 +50,17 @@
               </b-form-select>
             </b-form-group>
 
-            <b-form-group label="Status *"
-                          label-for="lsStatus"
-                          :label-cols="3"
-                          class="label-bold"
-            >
-              <b-form-select id="lsStatus"
-                             v-model="$v.lsStatus.$model"
-                             :plain="true"
-                             :options=lsStatusOptions
-                             :class="status($v.lsStatus)">
-              </b-form-select>
-            </b-form-group>
-
             <div slot="footer">
               <b-button type="submit"
+                        class="mr-10"
                         size="sm"
-                        variant="primary"
-                        style="margin-right: 10px">
+                        variant="primary">
                 <i class="fa fa-dot-circle-o"></i>
                 Save
               </b-button>
-              <b-button class="btn btn-info"
+              <b-button class="btn btn-info mr-10"
                         size="sm"
-                        v-on:click="closeForm"
-                        style="margin-right: 10px">
+                        v-on:click="closeForm">
                 Close form
               </b-button>
               <b-button class="btn btn-danger"
@@ -102,22 +77,19 @@
 </template>
 
 <script>
-  import {validations} from '../../../components/validations/leadSources';
-  import {getLeadSourceById, getOrganizations, getCategories, updateLeadSource} from "../../../api/leadSources";
+  import {validations} from '../../../components/validations/trades';
+  import {updateTrade, getTradeById, getOrganizations} from "../../../api/trades";
+  import {getLeadSourceById} from "../../../api/leadSources";
 
   const VUE_APP_FLASH_TIMEOUT = process.env.VUE_APP_FLASH_TIMEOUT;
 
   export default {
-    name: 'LeadSourceUpdate',
+    name: 'TradeUpdate',
     data() {
       return {
         name: '',
-        lsCategoryOptions: '',
-        lsCategoryId: '',
-        organizationOptions: '',
+        organizationOptions: [{value: 0, text: 'org 1'}, {value: 1, text: 'org 2'}],
         organizationId: '',
-        lsStatusOptions: [{value: 'active', text: 'active'}, {value: 'inactive', text: 'inactive'}],
-        lsStatus: '',
         errors: [],
         error: false
       }
@@ -126,13 +98,14 @@
     methods: {
       cancel() {
         this.name = '';
-        this.lsCategoryId = '';
         this.organizationId = '';
-        this.lsStatus = '';
+        this.$nextTick(() => {
+          this.$v.$reset()
+        })
       },
       closeForm() {
         this.cancel();
-        this.$router.replace(this.$route.query.redirect || '/admin/lead-sources')
+        this.$router.replace(this.$route.query.redirect || '/admin/trades')
       },
       status(validation) {
         return {
@@ -152,14 +125,6 @@
           this.errors.push('Name consists of letters, numbers, dot, comma, hyphen, apostrophe and space only.');
         }
 
-        if (!this.$v.lsCategoryId.required) {
-          this.errors.push('Category is required.');
-        }
-
-        if (!this.$v.lsCategoryId.integer) {
-          this.errors.push('Wrong set of categories.');
-        }
-
         if (!this.$v.organizationId.required) {
           this.errors.push('Organization is required.');
         }
@@ -168,84 +133,54 @@
           this.errors.push('Wrong set of organizations.');
         }
 
-        if (!this.$v.lsStatus.required) {
-          this.errors.push('Status is required.');
-        }
-
-        if (!this.$v.lsStatus.alpha) {
-          this.errors.push('Wrong set of statuses.');
-        }
-
         if (!this.errors.length && !this.error.length) {
-          this.update(this.$route.params.id);
+          this.update();
           return true;
         }
 
         e.preventDefault();
       },
-      update(id) {
+      update() {
         let dataPost = {
           name: this.name,
-          category_id: this.lsCategoryId,
           organization_id: this.organizationId,
-          status: this.lsStatus
         };
-        updateLeadSource(dataPost, id)
-          .then(() => this.leadSourceUpdatingSuccessful())
-          .catch((request) => this.leadSourceUpdatingFailed(request));
+        updateTrade(dataPost)
+          .then(() => this.tradeUpdatingSuccessful())
+          .catch((request) => this.tradeUpdatingFailed(request));
       },
 
-      leadSourceUpdatingSuccessful() {
+      tradeUpdatingSuccessful() {
         this.errors = false;
         this.error = false;
-        this.flash('The Lead Source is updated.', 'success', {timeout: VUE_APP_FLASH_TIMEOUT});
+        this.flash('The Trade is updated.', 'success', {timeout: 3000});
 
-        this.$router.replace(this.$route.query.redirect || '/admin/lead-sources')
+        this.$router.replace(this.$route.query.redirect || '/admin/trades')
       },
 
-      leadSourceUpdatingFailed(req) {
+      tradeUpdatingFailed(req) {
         this.errors = false;
-        this.error = 'Lead Source Updating failed! ' + req;
+        this.error = 'Trade Updating failed! ' + req;
         console.log(req);
       },
-      downloadData() {
-        getCategories()
-          .then(response => {
-            this.lsCategoryOptions = this.formatCategories(response.data.data);
-            this.message = response.data.message;
-            this.success = response.data.success;
-          })
-          .catch(error => console.log(error));
 
+      downloadData() {
         getOrganizations()
           .then(response => {
-            this.organizationOptions = this.formatCategories(response.data.data);
-            this.message = this.formatOrganizations(response.data.message);
+            this.organizationOptions = this.formatOrganizations(response.data.data);
+            this.message = response.data.message;
             this.success = response.data.success;
           })
-          .catch(error => console.log(error));
+         .catch(error => console.log(error));
 
-        getLeadSourceById(this.$route.params.id)
+        getTradeById(this.$route.params.id)
           .then(response => {
-            this.lsCategoryId = response.data.data.category_id;
             this.organizationId = response.data.data.organization_id;
             this.name = response.data.data.name;
-            this.lsStatus = response.data.data.status;
             this.message = response.data.message;
             this.success = response.data.success;
           })
           .catch(error => console.log(error));
-      },
-      formatCategories(lsCategories) {
-        let newArr = [];
-        lsCategories.forEach(function (obj, index) {
-          newArr.push({
-            value: obj.id,
-            text: obj.name
-          });
-        });
-        newArr.sort((a,b) => {return (a.text > b.text) ? 1 : ((b.text > a.text) ? -1 : 0);} );
-        return newArr;
       },
       formatOrganizations(organizations) {
         let newArr = [];
@@ -295,5 +230,9 @@
 
   .label-bold {
     font-weight: bold
+  }
+
+  .mr-10 {
+    margin-right: 10px
   }
 </style>

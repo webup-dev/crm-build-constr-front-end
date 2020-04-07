@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+## [0.27.2] - 2020-04-07
+### Added    
+- Function 'Update Trade' is created
+
 ## [0.27.1] - 2020-04-07
 ### Added    
 - Function 'Add Trade' is created
