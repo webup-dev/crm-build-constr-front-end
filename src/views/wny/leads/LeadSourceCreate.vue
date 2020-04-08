@@ -246,8 +246,8 @@
 
         getOrganizations()
           .then(response => {
-            this.organizationOptions = this.formatCategories(response.data.data);
-            this.message = this.formatOrganizations(response.data.message);
+            this.organizationOptions = this.formatOrganizations(response.data.data);
+            this.message = this.response.data.message;
             this.success = response.data.success;
           })
           .catch(error => console.log(error));

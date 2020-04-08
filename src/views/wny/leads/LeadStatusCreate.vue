@@ -5,7 +5,7 @@
         <b-card>
           <flash-message></flash-message>
           <div slot="header">
-            <strong>Create Lead Source</strong>
+            <strong>Create Lead Status</strong>
           </div>
           <b-form
             @submit.prevent=checkForm
@@ -37,19 +37,6 @@
               </b-form-input>
             </b-form-group>
 
-            <b-form-group label="Category *"
-                          label-for="lsCategoryId"
-                          :label-cols="3"
-                          class="label-bold"
-            >
-              <b-form-select id="lsCategoryId"
-                             v-model="$v.lsCategoryId.$model"
-                             :plain="true"
-                             :options=lsCategoryOptions
-                             :class="status($v.lsCategoryId)">
-              </b-form-select>
-            </b-form-group>
-
             <b-form-group label="Organization *"
                           label-for="organizationId"
                           :label-cols="3"
@@ -63,16 +50,16 @@
               </b-form-select>
             </b-form-group>
 
-            <b-form-group label="Status *"
-                          label-for="lsStatus"
+            <b-form-group label="Parent"
+                          label-for="parentId"
                           :label-cols="3"
                           class="label-bold"
             >
-              <b-form-select id="lsStatus"
-                             v-model="$v.lsStatus.$model"
+              <b-form-select id="parentId"
+                             v-model="$v.parentId.$model"
                              :plain="true"
-                             :options=lsStatusOptions
-                             :class="status($v.lsStatus)">
+                             :options=parentOptions
+                             :class="status($v.parentId)">
               </b-form-select>
             </b-form-group>
 
@@ -108,23 +95,20 @@
 </template>
 
 <script>
-  import {validations} from '../../../components/validations/leadSources';
-  import {addLeadSources, getOrganizations, getCategories} from "../../../api/leadSources";
+  import {validations} from '../../../components/validations/leadStatuses';
+  import {addLeadStatus, getOrganizations, getLeadStatuses} from "../../../api/leadStatuses";
 
   const VUE_APP_FLASH_TIMEOUT = process.env.VUE_APP_FLASH_TIMEOUT;
-  console.log(VUE_APP_FLASH_TIMEOUT);
 
   export default {
-    name: 'LeadSourceCreate',
+    name: 'LeadStatusCreate',
     data() {
       return {
         name: '',
-        lsCategoryOptions: '',
-        lsCategoryId: '',
+        parentOptions: [],
+        parentId: '',
         organizationOptions: [{value: 0, text: 'org 1'}, {value: 1, text: 'org 2'}],
         organizationId: '',
-        lsStatusOptions: [{value: 'active', text: 'active'}, {value: 'inactive', text: 'inactive'}],
-        lsStatus: '',
         errors: [],
         error: false
       }
@@ -133,16 +117,15 @@
     methods: {
       cancel() {
         this.name = '';
-        this.lsCategoryId = '';
         this.organizationId = '';
-        this.lsStatus = '';
+        this.parentId = '';
         this.$nextTick(() => {
           this.$v.$reset()
         })
       },
       closeForm() {
         this.cancel();
-        this.$router.replace(this.$route.query.redirect || '/admin/lead-sources')
+        this.$router.replace(this.$route.query.redirect || '/admin/lead-statuses')
       },
       status(validation) {
         return {
@@ -162,28 +145,17 @@
           this.errors.push('Name consists of letters, numbers, dot, comma, hyphen, apostrophe and space only.');
         }
 
-        if (!this.$v.lsCategoryId.required) {
-          this.errors.push('Category is required.');
-        }
-
-        if (!this.$v.lsCategoryId.integer) {
-          this.errors.push('Wrong set of categories.');
-        }
-
         if (!this.$v.organizationId.required) {
           this.errors.push('Organization is required.');
         }
 
         if (!this.$v.organizationId.integer) {
+
           this.errors.push('Wrong set of organizations.');
         }
 
-        if (!this.$v.lsStatus.required) {
-          this.errors.push('Status is required.');
-        }
-
-        if (!this.$v.lsStatus.alpha) {
-          this.errors.push('Wrong set of statuses.');
+        if (!this.$v.parentId.integer) {
+          this.errors.push('Wrong set of parents.');
         }
 
         if (!this.errors.length && !this.error.length) {
@@ -196,72 +168,66 @@
       create() {
         let dataPost = {
           name: this.name,
-          category_id: this.lsCategoryId,
           organization_id: this.organizationId,
-          status: this.lsStatus
+          parent_id: this.parentId
         };
-        addLeadSources(dataPost)
-          .then(() => this.leadSourceCreatingSuccessful())
-          .catch((request) => this.leadSourceCreatingFailed(request));
+        addLeadStatus(dataPost)
+          .then(() => this.leadStatusCreatingSuccessful())
+          .catch((request) => this.leadStatusCreatingFailed(request));
       },
 
-      leadSourceCreatingSuccessful() {
+      leadStatusCreatingSuccessful() {
         this.errors = false;
         this.error = false;
-        this.flash('New Lead Source is created.', 'success', {timeout: 10000});
+        this.flash('New Lead Status is created.', 'success', {timeout: 10000});
 
-        this.$router.replace(this.$route.query.redirect || '/admin/lead-sources')
+        this.$router.replace(this.$route.query.redirect || '/admin/lead-statuses')
       },
 
-      leadSourceCreatingFailed(req) {
+      leadStatusCreatingFailed(req) {
         this.errors = false;
-        this.error = 'Lead Source Creating failed! ' + req;
+        this.error = 'Lead Status Creating failed! ' + req;
         console.log(req);
       },
       saveAndNew() {
         let dataPost = {
           name: this.name,
-          category_id: this.lsCategoryId,
           organization_id: this.organizationId,
-          status: this.lsStatus
+          parent_id: null
         };
-        addLeadSources(dataPost)
-          .then(() => this.leadSourceStoringSuccessful())
-          .catch((request) => this.leadSourceCreatingFailed(request));
+        addLeadStatus(dataPost)
+          .then(() => this.leadStatusStoringSuccessful())
+          .catch((request) => this.leadStatusCreatingFailed(request));
       },
-      leadSourceStoringSuccessful() {
-        this.flash('New Lead Source is created.', 'success', {timeout: 10000});
+      leadStatusStoringSuccessful() {
+        this.flash('New Lead Status is created.', 'success', {timeout: 10000});
         this.cancel();
         this.downloadData();
       },
 
       downloadData() {
-        getCategories()
+        getOrganizations()
           .then(response => {
-            this.lsCategoryOptions = this.formatCategories(response.data.data);
-            this.message = response.data.message;
-            this.success = response.data.success;
+            this.organizationOptions = this.formatOrganizations(response.data.data);
           })
           .catch(error => console.log(error));
 
-        getOrganizations()
+        getLeadStatuses()
           .then(response => {
-            this.organizationOptions = this.formatCategories(response.data.data);
-            this.message = this.formatOrganizations(response.data.message);
-            this.success = response.data.success;
+            this.parentOptions = this.formatParent(response.data.data);
           })
           .catch(error => console.log(error));
       },
-      formatCategories(lsCategories) {
+      formatParent(leadStatuses) {
         let newArr = [];
-        lsCategories.forEach(function (obj, index) {
-          newArr.push({
-            value: obj.id,
-            text: obj.name
-          });
+        leadStatuses.forEach(function (obj, index) {
+          if (obj.parent_id == null && obj.name == 'Declined') {
+            newArr.push({
+              value: obj.id,
+              text: obj.name
+            });
+          }
         });
-        newArr.sort((a,b) => {return (a.text > b.text) ? 1 : ((b.text > a.text) ? -1 : 0);} );
-
         return newArr;
       },
       formatOrganizations(organizations) {

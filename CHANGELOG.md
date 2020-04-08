@@ -2,6 +2,14 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+## [0.27.4] - 2020-04-07
+### Added 
+- Page 'Create New Lead Status' 
+    - Validation rules
+    - Routes
+    - API endpoint
+    - Page.  
+
 ## [0.27.3] - 2020-04-07
 ### Added    
 - Function 'Soft Delete Trade' is created

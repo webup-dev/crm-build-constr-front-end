@@ -663,12 +663,12 @@ export default new Router({
               component: LeadStatuses
             },
             {
-              path: 'lead-status/create',
+              path: 'lead-statuses/create',
               name: 'LeadStatusCreate',
               component: LeadStatusCreate
             },
             {
-              path: 'lead-status/:id/edit',
+              path: 'lead-statuses/:id/edit',
               name: 'LeadStatusUpdate',
               component: LeadStatusUpdate
             },
