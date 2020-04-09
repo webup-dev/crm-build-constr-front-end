@@ -2,12 +2,16 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+## [0.27.4] - 2020-04-08
+### Added 
+- Page 'Update Lead Status'.
+
 ## [0.27.4] - 2020-04-07
 ### Added 
 - Page 'Create New Lead Status' 
     - Validation rules
     - Routes
-    - API endpoint
+    - API endpoints
     - Page.  
 
 ## [0.27.3] - 2020-04-07

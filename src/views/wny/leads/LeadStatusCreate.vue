@@ -8,7 +8,6 @@
             <strong>Create Lead Status</strong>
           </div>
           <b-form
-            @submit.prevent=checkForm
             novalidate=novalidate
           >
             <div class="alert alert-danger" v-if="errors.length">
@@ -64,16 +63,18 @@
             </b-form-group>
 
             <div slot="footer">
-              <b-button type="submit"
+              <b-button id="save"
+                        v-on:click="checkForm('save', $event)"
                         class="mr-10"
                         size="sm"
                         variant="primary">
                 <i class="fa fa-dot-circle-o"></i>
                 Save
               </b-button>
-              <b-button class="btn btn-success mr-10"
-                        size="sm"
-                        v-on:click="saveAndNew">
+              <b-button id="saveAndNew"
+                        v-on:click="checkForm('saveAndNew', $event)"
+                        class="btn btn-success mr-10"
+                        size="sm">
                 Save & New
               </b-button>
               <b-button class="btn btn-info mr-10"
@@ -133,7 +134,7 @@
           dirty: validation.$dirty
         }
       },
-      checkForm: function (e) {
+      checkForm: function (keyWord, e) {
         // validation
         this.errors = [];
 
@@ -159,8 +160,17 @@
         }
 
         if (!this.errors.length && !this.error.length) {
-          this.create();
-          return true;
+          if (keyWord === 'save') {
+            this.create();
+            return true;
+          }
+        }
+
+        if (!this.errors.length && !this.error.length) {
+          if (keyWord === 'saveAndNew') {
+            this.saveAndNew();
+            return true;
+          }
         }
 
         e.preventDefault();
@@ -169,7 +179,7 @@
         let dataPost = {
           name: this.name,
           organization_id: this.organizationId,
-          parent_id: this.parentId
+          parent_id: this.parentId === '' ? null : this.parentId
         };
         addLeadStatus(dataPost)
           .then(() => this.leadStatusCreatingSuccessful())
@@ -179,7 +189,7 @@
       leadStatusCreatingSuccessful() {
         this.errors = false;
         this.error = false;
-        this.flash('New Lead Status is created.', 'success', {timeout: 10000});
+        this.flash('New Lead Status is created.', 'success', {timeout: VUE_APP_FLASH_TIMEOUT});
 
         this.$router.replace(this.$route.query.redirect || '/admin/lead-statuses')
       },
@@ -193,14 +203,14 @@
         let dataPost = {
           name: this.name,
           organization_id: this.organizationId,
-          parent_id: null
+          parent_id: this.parentId === '' ? null : this.parentId
         };
         addLeadStatus(dataPost)
           .then(() => this.leadStatusStoringSuccessful())
           .catch((request) => this.leadStatusCreatingFailed(request));
       },
       leadStatusStoringSuccessful() {
-        this.flash('New Lead Status is created.', 'success', {timeout: 10000});
+        this.flash('New Lead Status is created.', 'success', {timeout: VUE_APP_FLASH_TIMEOUT});
         this.cancel();
         this.downloadData();
       },

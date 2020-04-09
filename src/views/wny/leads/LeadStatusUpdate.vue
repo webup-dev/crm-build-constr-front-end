@@ -4,10 +4,9 @@
       <b-col md="6">
         <b-card>
           <div slot="header">
-            <strong>Update Lead Source</strong>
+            <strong>Update Lead Status</strong>
           </div>
           <b-form
-            @submit.prevent=checkForm
             novalidate=novalidate
           >
             <div class="alert alert-danger" v-if="errors.length">
@@ -35,19 +34,6 @@
               </b-form-input>
             </b-form-group>
 
-            <b-form-group label="Category *"
-                          label-for="lsCategoryId"
-                          :label-cols="3"
-                          class="label-bold"
-            >
-              <b-form-select id="lsCategoryId"
-                             v-model="$v.lsCategoryId.$model"
-                             :plain="true"
-                             :options=lsCategoryOptions
-                             :class="status($v.lsCategoryId)">
-              </b-form-select>
-            </b-form-group>
-
             <b-form-group label="Organization *"
                           label-for="organizationId"
                           :label-cols="3"
@@ -61,21 +47,22 @@
               </b-form-select>
             </b-form-group>
 
-            <b-form-group label="Status *"
-                          label-for="lsStatus"
+            <b-form-group label="Parent"
+                          label-for="parentId"
                           :label-cols="3"
                           class="label-bold"
             >
-              <b-form-select id="lsStatus"
-                             v-model="$v.lsStatus.$model"
+              <b-form-select id="parentId"
+                             v-model="$v.parentId.$model"
                              :plain="true"
-                             :options=lsStatusOptions
-                             :class="status($v.lsStatus)">
+                             :options=parentOptions
+                             :class="status($v.parentId)">
               </b-form-select>
             </b-form-group>
 
             <div slot="footer">
               <b-button type="submit"
+                        v-on:click="checkForm('save', $event)"
                         size="sm"
                         variant="primary"
                         style="margin-right: 10px">
@@ -102,22 +89,20 @@
 </template>
 
 <script>
-  import {validations} from '../../../components/validations/leadSources';
-  import {getLeadSourceById, getOrganizations, getCategories, updateLeadSource} from "../../../api/leadSources";
+  import {validations} from '../../../components/validations/leadStatuses';
+  import {getLeadStatusById, getOrganizations, getLeadStatuses, updateLeadStatus} from "../../../api/leadStatuses";
 
   const VUE_APP_FLASH_TIMEOUT = process.env.VUE_APP_FLASH_TIMEOUT;
 
   export default {
-    name: 'LeadSourceUpdate',
+    name: 'LeadStatusUpdate',
     data() {
       return {
         name: '',
-        lsCategoryOptions: '',
-        lsCategoryId: '',
-        organizationOptions: '',
+        organizationOptions: [],
         organizationId: '',
-        lsStatusOptions: [{value: 'active', text: 'active'}, {value: 'inactive', text: 'inactive'}],
-        lsStatus: '',
+        parentOptions: [],
+        parentId: '',
         errors: [],
         error: false
       }
@@ -126,13 +111,16 @@
     methods: {
       cancel() {
         this.name = '';
-        this.lsCategoryId = '';
         this.organizationId = '';
+        this.parentId = '';
         this.lsStatus = '';
+        this.$nextTick(() => {
+          this.$v.$reset()
+        })
       },
       closeForm() {
         this.cancel();
-        this.$router.replace(this.$route.query.redirect || '/admin/lead-sources')
+        this.$router.replace(this.$route.query.redirect || '/admin/lead-statuses')
       },
       status(validation) {
         return {
@@ -140,7 +128,7 @@
           dirty: validation.$dirty
         }
       },
-      checkForm: function (e) {
+      checkForm: function (keyWord, e) {
         // validation
         this.errors = [];
 
@@ -152,14 +140,6 @@
           this.errors.push('Name consists of letters, numbers, dot, comma, hyphen, apostrophe and space only.');
         }
 
-        if (!this.$v.lsCategoryId.required) {
-          this.errors.push('Category is required.');
-        }
-
-        if (!this.$v.lsCategoryId.integer) {
-          this.errors.push('Wrong set of categories.');
-        }
-
         if (!this.$v.organizationId.required) {
           this.errors.push('Organization is required.');
         }
@@ -168,17 +148,15 @@
           this.errors.push('Wrong set of organizations.');
         }
 
-        if (!this.$v.lsStatus.required) {
-          this.errors.push('Status is required.');
-        }
-
-        if (!this.$v.lsStatus.alpha) {
-          this.errors.push('Wrong set of statuses.');
+        if (!this.$v.parentId.integer) {
+          this.errors.push('Wrong set of parents.');
         }
 
         if (!this.errors.length && !this.error.length) {
-          this.update(this.$route.params.id);
-          return true;
+          if (keyWord === 'save') {
+            this.update(this.$route.params.id);
+            return true;
+          }
         }
 
         e.preventDefault();
@@ -186,65 +164,60 @@
       update(id) {
         let dataPost = {
           name: this.name,
-          category_id: this.lsCategoryId,
           organization_id: this.organizationId,
-          status: this.lsStatus
+          parent_id: this.parentId === '' ? null : this.parentId
         };
-        updateLeadSource(dataPost, id)
-          .then(() => this.leadSourceUpdatingSuccessful())
-          .catch((request) => this.leadSourceUpdatingFailed(request));
+        updateLeadStatus(dataPost, id)
+          .then(() => this.leadStatusUpdatingSuccessful())
+          .catch((request) => this.leadStatusUpdatingFailed(request));
       },
 
-      leadSourceUpdatingSuccessful() {
+      leadStatusUpdatingSuccessful() {
         this.errors = false;
         this.error = false;
-        this.flash('The Lead Source is updated.', 'success', {timeout: VUE_APP_FLASH_TIMEOUT});
+        this.flash('The Lead Status is updated.', 'success', {timeout: VUE_APP_FLASH_TIMEOUT});
 
-        this.$router.replace(this.$route.query.redirect || '/admin/lead-sources')
+        this.$router.replace(this.$route.query.redirect || '/admin/lead-statuses')
       },
 
-      leadSourceUpdatingFailed(req) {
+      leadStatusUpdatingFailed(req) {
         this.errors = false;
-        this.error = 'Lead Source Updating failed! ' + req;
+        this.error = 'Lead Status Updating failed! ' + req;
         console.log(req);
       },
       downloadData() {
-        getCategories()
-          .then(response => {
-            this.lsCategoryOptions = this.formatCategories(response.data.data);
-            this.message = response.data.message;
-            this.success = response.data.success;
-          })
-          .catch(error => console.log(error));
-
         getOrganizations()
           .then(response => {
-            this.organizationOptions = this.formatCategories(response.data.data);
-            this.message = this.formatOrganizations(response.data.message);
+            this.organizationOptions = this.formatOrganizations(response.data.data);
+            this.message = this.response.data.message;
             this.success = response.data.success;
           })
           .catch(error => console.log(error));
 
-        getLeadSourceById(this.$route.params.id)
+        getLeadStatusById(this.$route.params.id)
           .then(response => {
-            this.lsCategoryId = response.data.data.category_id;
-            this.organizationId = response.data.data.organization_id;
             this.name = response.data.data.name;
-            this.lsStatus = response.data.data.status;
-            this.message = response.data.message;
-            this.success = response.data.success;
+            this.organizationId = response.data.data.organization_id;
+            this.parentId = response.data.data.parent_id;
+          })
+          .catch(error => console.log(error));
+
+        getLeadStatuses()
+          .then(response => {
+            this.parentOptions = this.formatParent(response.data.data);
           })
           .catch(error => console.log(error));
       },
-      formatCategories(lsCategories) {
+      formatParent(leadStatuses) {
         let newArr = [];
-        lsCategories.forEach(function (obj, index) {
-          newArr.push({
-            value: obj.id,
-            text: obj.name
-          });
+        leadStatuses.forEach(function (obj, index) {
+          if (obj.parent_id == null && obj.name == 'Declined') {
+            newArr.push({
+              value: obj.id,
+              text: obj.name
+            });
+          }
         });
-        newArr.sort((a,b) => {return (a.text > b.text) ? 1 : ((b.text > a.text) ? -1 : 0);} );
         return newArr;
       },
       formatOrganizations(organizations) {
