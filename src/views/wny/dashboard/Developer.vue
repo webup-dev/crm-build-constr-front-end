@@ -52,6 +52,11 @@
                   <b-badge>{{ tradesSoftDeleted }}</b-badge>
                 </p>
               </a>
+              <a href="#/admin/lead-statuses/soft-deleted">
+                <p>Lead Statuses
+                  <b-badge>{{ leadStatusesSoftDeleted }}</b-badge>
+                </p>
+              </a>
             </div>
           </b-card>
         </b-col>
@@ -78,6 +83,7 @@
         lsCategoriesSoftDeleted: '',
         leadSourcesSoftDeleted: '',
         tradesSoftDeleted: '',
+        leadStatusesSoftDeleted: '',
       }
     },
 
@@ -99,7 +105,8 @@
                 this.filesSoftDeleted = response.data.data[4].count,
                 this.lsCategoriesSoftDeleted = response.data.data[5].count,
                 this.leadSourcesSoftDeleted = response.data.data[6].count,
-                this.tradesSoftDeleted = response.data.data[7].count
+                this.tradesSoftDeleted = response.data.data[7].count,
+                this.leadStatusesSoftDeleted = response.data.data[8].count
             );
           });
     }

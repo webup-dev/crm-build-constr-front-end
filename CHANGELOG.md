@@ -2,7 +2,18 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
-## [0.27.4] - 2020-04-08
+## [0.27.6] - 2020-04-09
+### Added 
+- Page 'Update Lead Status'. Function 'Soft Delete'
+- Page 'Soft Deleted Lead Statuses'
+- Function 'Restore Soft Deleted Lead Status' is added
+- Function 'Permanent Delete Soft Deleted Lead Status' is added
+
+### Changed
+- Developer Dashboard
+    - Soft-deleted Lead Statuses count is deleted  
+
+## [0.27.5] - 2020-04-08
 ### Added 
 - Page 'Update Lead Status'.
 

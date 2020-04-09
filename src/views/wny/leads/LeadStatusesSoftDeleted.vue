@@ -4,7 +4,7 @@
       <flash-message></flash-message>
 
       <b-card-header>
-        <i class="icon-menu mr-1"></i>Soft-Deleted Lead Sources
+        <i class="icon-menu mr-1"></i>Soft-Deleted Lead Statuses
 
         <div class="card-header-actions"></div>
       </b-card-header>
@@ -12,9 +12,9 @@
 
         <v-client-table :columns="columns" :data="data" :options="options" :theme="theme" id="dataTable">
           <p slot="actions" slot-scope="props">
-            <a class="icon-action-undo action-icon" v-on:click="restoreLeadSource(props.row.id)"
+            <a class="icon-action-undo action-icon" v-on:click="restoreLeadStatus(props.row.id)"
                style="cursor: pointer"></a>
-            <a class="icon-trash" v-on:click="permanentDeleteLeadSource(props.row.id)" style="cursor: pointer"></a>
+            <a class="icon-trash" v-on:click="permanentDeleteLeadStatus(props.row.id)" style="cursor: pointer"></a>
           </p>
         </v-client-table>
       </b-card-body>
@@ -26,7 +26,12 @@
   import Vue from 'vue'
   import {ClientTable, Event} from 'vue-tables-2'
   import axios from "../../../backend/vue-axios/axios";
-  import {getLeadSourceSoftDeleted, restoreLeadSource, deleteLeadSourcePermanently} from "../../../api/leadSources";
+  import {
+    getLeadStatusesSoftDeleted,
+    restoreLeadStatus,
+    deleteLeadStatusPermanently,
+    getLeadStatuses
+  } from "../../../api/leadStatuses";
 
   const API_URL = process.env.VUE_APP_API_URL;
   const VUE_APP_FLASH_TIMEOUT = process.env.VUE_APP_FLASH_TIMEOUT;
@@ -34,14 +39,24 @@
   Vue.use(ClientTable);
 
   export default {
-    name: 'LeadSourcesSoftDeleted',
+    name: 'LeadStatusesSoftDeleted',
     components: {
       ClientTable,
       Event
     },
     data: function () {
       return {
-        columns: ['id', 'name', 'category_id', 'ls_category.name', 'organization_id', 'organization.name', 'status', 'deleted_at', 'created_at', 'updated_at', 'actions'],
+        columns: [
+          'id',
+          'name',
+          'organization_id',
+          'organization.name',
+          'parent_id',
+          'lead_status_of_parent.name',
+          'deleted_at',
+          'created_at',
+          'updated_at',
+          'actions'],
         data: [],
         message: '',
         success: false,
@@ -49,18 +64,35 @@
           headings: {
             id: 'ID',
             name: 'Name',
-            category_id: 'Category ID',
-            'ls_category.name': 'Category Name',
             organization_id: 'Organization ID',
-            'organizatiob.name': 'Organization Name',
-            status: 'Status',
+            'organization.name': 'Organization Name',
+            parent_id: 'Parent ID',
+            'lead_status_of_parent.name': 'Parent Name',
             deleted_at: 'Deleted',
             created_at: 'Created',
             updated_at: 'Updated',
             actions: 'Actions'
           },
-          sortable: ['id', 'name', 'category_id', 'ls_category.name', 'organization_id', 'organization.name', 'status', 'deleted_at', 'created_at', 'updated_at', 'actions'],
-          filterable: ['id', 'name', 'category_id', 'ls_category.name', 'organization_id', 'organization.name', 'status', 'deleted_at', 'created_at', 'updated_at', 'actions'],
+          sortable: ['id',
+            'name',
+            'organization_id',
+            'organization.name',
+            'parent_id',
+            'lead_status_of_parent.name',
+            'deleted_at',
+            'created_at',
+            'updated_at',
+            'actions'],
+          filterable: ['id',
+            'name',
+            'organization_id',
+            'organization.name',
+            'parent_id',
+            'lead_status_of_parent.name',
+            'deleted_at',
+            'created_at',
+            'updated_at',
+            'actions'],
           sortIcon: {base: 'fa', up: 'fa-sort-asc', down: 'fa-sort-desc', is: 'fa-sort'},
           pagination: {
             chunk: 5,
@@ -74,48 +106,49 @@
       }
     },
     methods: {
-      permanentDeleteLeadSource: function (id) {
-        deleteLeadSourcePermanently(id)
-             .then(() => this.leadSourceDeletingSuccessful())
-             .catch((request) => this.leadSourceDeletingFailed(request));
+      permanentDeleteLeadStatus: function (id) {
+        deleteLeadStatusPermanently(id)
+          .then(() => this.leadStatusDeletingSuccessful())
+          .catch((request) => this.leadStatusDeletingFailed(request));
       },
-      leadSourceDeletingSuccessful() {
+      leadStatusDeletingSuccessful() {
         this.errors = false;
         this.error = false;
-        this.flash('The Lead Source is deleted permanently.', 'success', {timeout: VUE_APP_FLASH_TIMEOUT});
+        this.flash('The Lead Status is deleted permanently.', 'success', {timeout: VUE_APP_FLASH_TIMEOUT});
 
         this.downloadData();
       },
-      leadSourceDeletingFailed(req) {
+      leadStatusDeletingFailed(req) {
         this.errors = false;
-        this.error = 'Lead Source deleting permanently failed! ' + req;
+        this.error = 'Lead Status deleting permanently failed! ' + req;
       },
 
-      restoreLeadSource: function (id) {
-        restoreLeadSource(id)
-            .then(() => this.leadSourceRestoringSuccessful())
-            .catch((request) => this.leadSourceRestoringFailed(request));
+      restoreLeadStatus: function (id) {
+        restoreLeadStatus(id)
+          .then(() => this.leadStatusRestoringSuccessful())
+          .catch((request) => this.leadStatusRestoringFailed(request));
 
       },
-      leadSourceRestoringSuccessful() {
+      leadStatusRestoringSuccessful() {
         this.errors = false;
         this.error = false;
-        this.flash('The Lead Source is restored.', 'success', {timeout: VUE_APP_FLASH_TIMEOUT});
+        this.flash('The Lead Status is restored.', 'success', {timeout: VUE_APP_FLASH_TIMEOUT});
 
         this.downloadData();
       },
-      leadSourceRestoringFailed(req) {
+      leadStatusRestoringFailed(req) {
         this.errors = false;
-        this.error = 'Lead Source Restoring failed! ' + req;
+        this.error = 'Lead Status Restoring failed! ' + req;
         console.log(req);
       },
 
       downloadData() {
-        getLeadSourceSoftDeleted()
+        getLeadStatusesSoftDeleted()
           .then(response => {
             if (response.status === 204) {
               this.data = [];
             } else {
+              this.data = response.data.data;
               this.data = response.data.data;
               this.message = response.data.message;
               this.success = response.data.success;

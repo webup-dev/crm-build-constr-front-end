@@ -71,20 +71,20 @@
     },
     methods: {
       deleteLeadSource: function (id) {
-        deleteLeadSource(id)
-            .then(() => this.leadSourceDeletingSuccessful())
-            .catch((request) => this.leadSourceDeletingFailed(request));
+        deleteLeadStatus(id)
+            .then(() => this.leadStatusDeletingSuccessful())
+            .catch((request) => this.leadStatusDeletingFailed(request));
       },
-      leadSourceDeletingSuccessful() {
+      leadStatusDeletingSuccessful() {
         this.errors = false;
         this.error = false;
-        this.flash('The Lead Source is deleted.', 'success', {timeout: VUE_APP_FLASH_TIMEOUT});
+        this.flash('The Lead Status is deleted.', 'success', {timeout: VUE_APP_FLASH_TIMEOUT});
 
         this.downloadData();
       },
-      leadSourceDeletingFailed(req) {
+      leadStatusDeletingFailed(req) {
         this.errors = false;
-        this.error = 'The Lead Source Deleting failed! ' + req;
+        this.error = 'The Lead Status Deleting failed! ' + req;
         console.log(req);
       },
       downloadData() {
