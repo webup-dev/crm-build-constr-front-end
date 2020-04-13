@@ -5,7 +5,7 @@
         <b-card>
           <flash-message></flash-message>
           <div slot="header">
-            <strong>Create Lead Status</strong>
+            <strong>Create Stage</strong>
           </div>
           <b-form
             novalidate=novalidate
@@ -49,17 +49,33 @@
               </b-form-select>
             </b-form-group>
 
-            <b-form-group label="Parent"
-                          label-for="parentId"
+            <b-form-group label="Workflow Type *"
+                          label-for="workflowType"
                           :label-cols="3"
                           class="label-bold"
             >
-              <b-form-select id="parentId"
-                             v-model="$v.parentId.$model"
+              <b-form-select id="workflowType"
+                             v-model="$v.workflowType.$model"
                              :plain="true"
-                             :options=parentOptions
-                             :class="status($v.parentId)">
+                             :options=workflowTypeOptions
+                             :class="status($v.workflowType)">
               </b-form-select>
+            </b-form-group>
+
+            <b-form-group
+              label="Description"
+              label-for="description"
+              :label-cols="3"
+              style="font-weight: bold"
+            >
+              <b-form-input
+                id="description"
+                v-model="$v.description.$model"
+                type="text"
+                placeholder="Description"
+                :class="status($v.description)">
+
+              </b-form-input>
             </b-form-group>
 
             <div slot="footer">
@@ -96,20 +112,23 @@
 </template>
 
 <script>
-  import {validations} from '../../../components/validations/leadStatuses';
+  import {validations} from '../../../components/validations/stages';
   import {addLeadStatus, getOrganizations, getLeadStatuses} from "../../../api/leadStatuses";
+  import WORKFLOW_TYPES from '../../../constants/workflows';
+  import {addStage} from "../../../api/stages";
 
   const VUE_APP_FLASH_TIMEOUT = process.env.VUE_APP_FLASH_TIMEOUT;
 
   export default {
-    name: 'LeadStatusCreate',
+    name: 'StageCreate',
     data() {
       return {
         name: '',
-        parentOptions: [],
-        parentId: '',
         organizationOptions: [{value: 0, text: 'org 1'}, {value: 1, text: 'org 2'}],
         organizationId: '',
+        workflowTypeOptions: WORKFLOW_TYPES,
+        workflowType: '',
+        description: '',
         errors: [],
         error: false
       }
@@ -119,14 +138,15 @@
       cancel() {
         this.name = '';
         this.organizationId = '';
-        this.parentId = '';
+        this.workflowType = '';
+        this.description = '';
         this.$nextTick(() => {
           this.$v.$reset()
         })
       },
       closeForm() {
         this.cancel();
-        this.$router.replace(this.$route.query.redirect || '/admin/lead-statuses')
+        this.$router.replace(this.$route.query.redirect || '/admin/stages')
       },
       status(validation) {
         return {
@@ -155,8 +175,12 @@
           this.errors.push('Wrong set of organizations.');
         }
 
-        if (!this.$v.parentId.integer) {
-          this.errors.push('Wrong set of parents.');
+        if (!this.$v.workflowType.alpha) {
+          this.errors.push('Wrong set of Workflow Types.');
+        }
+
+        if (!this.$v.description.alphaNumSpaceDotCommaHyphenApostrophe) {
+          this.errors.push('Name consists of letters, numbers, dot, comma, hyphen, apostrophe and space only.');
         }
 
         if (!this.errors.length && !this.error.length) {
@@ -179,38 +203,40 @@
         let dataPost = {
           name: this.name,
           organization_id: this.organizationId,
-          parent_id: this.parentId === '' ? null : this.parentId
+          workflow_type: this.workflowType,
+          description: this.description,
         };
-        addLeadStatus(dataPost)
-          .then(() => this.leadStatusCreatingSuccessful())
-          .catch((request) => this.leadStatusCreatingFailed(request));
+        addStage(dataPost)
+          .then(() => this.stageCreatingSuccessful())
+          .catch((request) => this.stageCreatingFailed(request));
       },
 
-      leadStatusCreatingSuccessful() {
+      stageCreatingSuccessful() {
         this.errors = false;
         this.error = false;
-        this.flash('New Lead Status is created.', 'success', {timeout: VUE_APP_FLASH_TIMEOUT});
+        this.flash('New Stage is created.', 'success', {timeout: VUE_APP_FLASH_TIMEOUT});
 
-        this.$router.replace(this.$route.query.redirect || '/admin/lead-statuses')
+        this.$router.replace(this.$route.query.redirect || '/admin/stage')
       },
 
-      leadStatusCreatingFailed(req) {
+      stageCreatingFailed(req) {
         this.errors = false;
-        this.error = 'Lead Status Creating failed! ' + req;
+        this.error = 'Stage Creating failed! ' + req;
         console.log(req);
       },
       saveAndNew() {
         let dataPost = {
           name: this.name,
           organization_id: this.organizationId,
-          parent_id: this.parentId === '' ? null : this.parentId
+          workflow_type: this.workflowType,
+          description: this.description,
         };
-        addLeadStatus(dataPost)
-          .then(() => this.leadStatusStoringSuccessful())
-          .catch((request) => this.leadStatusCreatingFailed(request));
+        addStage(dataPost)
+          .then(() => this.stageStoringSuccessful())
+          .catch((request) => this.stageCreatingFailed(request));
       },
-      leadStatusStoringSuccessful() {
-        this.flash('New Lead Status is created.', 'success', {timeout: VUE_APP_FLASH_TIMEOUT});
+      stageStoringSuccessful() {
+        this.flash('New Stage is created.', 'success', {timeout: VUE_APP_FLASH_TIMEOUT});
         this.cancel();
         this.downloadData();
       },
@@ -221,24 +247,6 @@
             this.organizationOptions = this.formatOrganizations(response.data.data);
           })
           .catch(error => console.log(error));
-
-        getLeadStatuses()
-          .then(response => {
-            this.parentOptions = this.formatParent(response.data.data);
-          })
-          .catch(error => console.log(error));
-      },
-      formatParent(leadStatuses) {
-        let newArr = [];
-        leadStatuses.forEach(function (obj, index) {
-          if (obj.parent_id == null && obj.name == 'Declined') {
-            newArr.push({
-              value: obj.id,
-              text: obj.name
-            });
-          }
-        });
-        return newArr;
       },
       formatOrganizations(organizations) {
         let newArr = [];

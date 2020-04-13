@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 ## [0.28.0] - 2020-04-13
 ### Added 
 - Page 'Stages'
+    - Routes
+    - Menus
+    - API endpoints
+    - Page.
+- Page 'Create Stage'
+    - Validation
+    - constant WORKFLOW_TYPES.
 
 ## [0.27.6] - 2020-04-09
 ### Added 
