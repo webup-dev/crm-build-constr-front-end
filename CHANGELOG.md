@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+## [0.28.0] - 2020-04-13
+### Added 
+- Page 'Stages'
+
 ## [0.27.6] - 2020-04-09
 ### Added 
 - Page 'Update Lead Status'. Function 'Soft Delete'

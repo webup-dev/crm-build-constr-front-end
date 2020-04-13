@@ -119,6 +119,11 @@ export default {
       icon: 'fa fa-users'
     },
     {
+      name: 'Stages',
+      url: '/admin/stages',
+      icon: 'fa fa-users'
+    },
+    {
       title: true,
       name: 'Theme',
       class: '',

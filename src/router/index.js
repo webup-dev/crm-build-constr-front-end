@@ -125,6 +125,12 @@ const LeadStatusCreate = () => import('@/views/wny/leads/LeadStatusCreate');
 const LeadStatusUpdate = () => import('@/views/wny/leads/LeadStatusUpdate');
 const LeadStatusesSoftDeleted = () => import('@/views/wny/leads/LeadStatusesSoftDeleted');
 
+// Stages
+const Stages = () => import('@/views/wny/stages/Stages');
+const StageCreate = () => import('@/views/wny/stages/StageCreate');
+const StageUpdate = () => import('@/views/wny/stages/StageUpdate');
+const StagesSoftDeleted = () => import('@/views/wny/stages/StagesSoftDeleted');
+
 
 const Colors = () => import('@/views/theme/Colors');
 const Typography = () => import('@/views/theme/Typography');
@@ -676,6 +682,26 @@ export default new Router({
               path: 'lead-statuses/soft-deleted',
               name: 'LeadStatusesSoftDeleted',
               component: LeadStatusesSoftDeleted
+            },
+            {
+              path: 'stages',
+              name: 'Stages',
+              component: Stages
+            },
+            {
+              path: 'stage/create',
+              name: 'StageCreate',
+              component: StageCreate
+            },
+            {
+              path: 'stage/:id/edit',
+              name: 'StageUpdate',
+              component: StageUpdate
+            },
+            {
+              path: 'stages/soft-deleted',
+              name: 'StagesSoftDeleted',
+              component: StagesSoftDeleted
             }
           ]
         },
