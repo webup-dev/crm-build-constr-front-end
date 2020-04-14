@@ -4,7 +4,7 @@
       <flash-message></flash-message>
 
       <b-card-header>
-        <i class="icon-menu mr-1"></i>Soft-Deleted Lead Statuses
+        <i class="icon-menu mr-1"></i>Soft-Deleted Stagees
 
         <div class="card-header-actions"></div>
       </b-card-header>
@@ -12,9 +12,9 @@
 
         <v-client-table :columns="columns" :data="data" :options="options" :theme="theme" id="dataTable">
           <p slot="actions" slot-scope="props">
-            <a class="icon-action-undo action-icon" v-on:click="restoreLeadStatus(props.row.id)"
+            <a class="icon-action-undo action-icon" v-on:click="restoreStage(props.row.id)"
                style="cursor: pointer"></a>
-            <a class="icon-trash" v-on:click="permanentDeleteLeadStatus(props.row.id)" style="cursor: pointer"></a>
+            <a class="icon-trash" v-on:click="permanentDeleteStage(props.row.id)" style="cursor: pointer"></a>
           </p>
         </v-client-table>
       </b-card-body>
@@ -25,13 +25,13 @@
 <script>
   import Vue from 'vue'
   import {ClientTable, Event} from 'vue-tables-2'
-  import axios from "../../../backend/vue-axios/axios";
+  import WORKFLOW_TYPES from '../../../constants/workflows';
   import {
-    getLeadStatusesSoftDeleted,
-    restoreLeadStatus,
-    deleteLeadStatusPermanently,
-    getLeadStatuses
-  } from "../../../api/leadStatuses";
+    getStagesSoftDeleted,
+    restoreStage,
+    deleteStagePermanently,
+    getStages
+  } from "../../../api/stages";
 
   const API_URL = process.env.VUE_APP_API_URL;
   const VUE_APP_FLASH_TIMEOUT = process.env.VUE_APP_FLASH_TIMEOUT;
@@ -39,7 +39,7 @@
   Vue.use(ClientTable);
 
   export default {
-    name: 'LeadStatusesSoftDeleted',
+    name: 'StagesSoftDeleted',
     components: {
       ClientTable,
       Event
@@ -51,8 +51,8 @@
           'name',
           'organization_id',
           'organization.name',
-          'parent_id',
-          'lead_status_of_parent.name',
+          'workflow_type',
+          'description',
           'deleted_at',
           'created_at',
           'updated_at',
@@ -66,8 +66,8 @@
             name: 'Name',
             organization_id: 'Organization ID',
             'organization.name': 'Organization Name',
-            parent_id: 'Parent ID',
-            'lead_status_of_parent.name': 'Parent Name',
+            workflow_type: 'Workflow Type',
+            description: 'description',
             deleted_at: 'Deleted',
             created_at: 'Created',
             updated_at: 'Updated',
@@ -77,8 +77,8 @@
             'name',
             'organization_id',
             'organization.name',
-            'parent_id',
-            'lead_status_of_parent.name',
+            'workflow_type',
+            'description',
             'deleted_at',
             'created_at',
             'updated_at',
@@ -87,8 +87,8 @@
             'name',
             'organization_id',
             'organization.name',
-            'parent_id',
-            'lead_status_of_parent.name',
+            'workflow_type',
+            'description',
             'deleted_at',
             'created_at',
             'updated_at',
@@ -106,49 +106,48 @@
       }
     },
     methods: {
-      permanentDeleteLeadStatus: function (id) {
-        deleteLeadStatusPermanently(id)
-          .then(() => this.leadStatusDeletingSuccessful())
-          .catch((request) => this.leadStatusDeletingFailed(request));
+      permanentDeleteStage: function (id) {
+        deleteStagePermanently(id)
+          .then(() => this.stageDeletingSuccessful())
+          .catch((request) => this.stageDeletingFailed(request));
       },
-      leadStatusDeletingSuccessful() {
+      stageDeletingSuccessful() {
         this.errors = false;
         this.error = false;
-        this.flash('The Lead Status is deleted permanently.', 'success', {timeout: VUE_APP_FLASH_TIMEOUT});
+        this.flash('The Stage is deleted permanently.', 'success', {timeout: VUE_APP_FLASH_TIMEOUT});
 
         this.downloadData();
       },
-      leadStatusDeletingFailed(req) {
+      stageDeletingFailed(req) {
         this.errors = false;
-        this.error = 'Lead Status deleting permanently failed! ' + req;
+        this.error = 'Stage deleting permanently failed! ' + req;
       },
 
-      restoreLeadStatus: function (id) {
-        restoreLeadStatus(id)
-          .then(() => this.leadStatusRestoringSuccessful())
-          .catch((request) => this.leadStatusRestoringFailed(request));
+      restoreStage: function (id) {
+        restoreStage(id)
+          .then(() => this.stageRestoringSuccessful())
+          .catch((request) => this.stageRestoringFailed(request));
 
       },
-      leadStatusRestoringSuccessful() {
+      stageRestoringSuccessful() {
         this.errors = false;
         this.error = false;
-        this.flash('The Lead Status is restored.', 'success', {timeout: VUE_APP_FLASH_TIMEOUT});
+        this.flash('The Stage is restored.', 'success', {timeout: VUE_APP_FLASH_TIMEOUT});
 
         this.downloadData();
       },
-      leadStatusRestoringFailed(req) {
+      stageRestoringFailed(req) {
         this.errors = false;
-        this.error = 'Lead Status Restoring failed! ' + req;
+        this.error = 'Stage Restoring failed! ' + req;
         console.log(req);
       },
 
       downloadData() {
-        getLeadStatusesSoftDeleted()
+        getStagesSoftDeleted()
           .then(response => {
             if (response.status === 204) {
               this.data = [];
             } else {
-              this.data = response.data.data;
               this.data = response.data.data;
               this.message = response.data.message;
               this.success = response.data.success;

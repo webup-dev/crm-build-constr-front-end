@@ -51,7 +51,6 @@
             id: 'ID',
             name: 'Name',
             organization_id: 'Organization ID',
-            parent_id: 'Parent ID',
             'organization.name': 'Organization',
             workflow_type: 'Workflow Type',
             description: 'Description',

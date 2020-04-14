@@ -4,7 +4,7 @@
       <b-col md="6">
         <b-card>
           <div slot="header">
-            <strong>Update Lead Status</strong>
+            <strong>Update Stages</strong>
           </div>
           <b-form
             novalidate=novalidate
@@ -47,17 +47,33 @@
               </b-form-select>
             </b-form-group>
 
-            <b-form-group label="Parent"
-                          label-for="parentId"
+            <b-form-group label="Workflow Type *"
+                          label-for="workflowType"
                           :label-cols="3"
                           class="label-bold"
             >
-              <b-form-select id="parentId"
-                             v-model="$v.parentId.$model"
+              <b-form-select id="workflowType"
+                             v-model="$v.workflowType.$model"
                              :plain="true"
-                             :options=parentOptions
-                             :class="status($v.parentId)">
+                             :options=workflowTypeOptions
+                             :class="status($v.workflowType)">
               </b-form-select>
+            </b-form-group>
+
+            <b-form-group
+              label="Description"
+              label-for="description"
+              :label-cols="3"
+              style="font-weight: bold"
+            >
+              <b-form-input
+                id="description"
+                v-model="$v.description.$model"
+                type="text"
+                placeholder="Description"
+                :class="status($v.description)">
+
+              </b-form-input>
             </b-form-group>
 
             <div slot="footer">
@@ -89,20 +105,22 @@
 </template>
 
 <script>
-  import {validations} from '../../../components/validations/leadStatuses';
-  import {getLeadStatusById, getOrganizations, getLeadStatuses, updateLeadStatus} from "../../../api/leadStatuses";
+  import {validations} from '../../../components/validations/stages';
+  import {getStageById, getOrganizations, updateStage} from "../../../api/stages";
+  import WORKFLOW_TYPES from '../../../constants/workflows';
 
   const VUE_APP_FLASH_TIMEOUT = process.env.VUE_APP_FLASH_TIMEOUT;
 
   export default {
-    name: 'LeadStatusUpdate',
+    name: 'StageUpdate',
     data() {
       return {
         name: '',
         organizationOptions: [],
         organizationId: '',
-        parentOptions: [],
-        parentId: '',
+        workflowTypeOptions: WORKFLOW_TYPES,
+        workflowType: '',
+        description: '',
         errors: [],
         error: false
       }
@@ -112,15 +130,15 @@
       cancel() {
         this.name = '';
         this.organizationId = '';
-        this.parentId = '';
-        this.lsStatus = '';
+        this.workflowType = '';
+        this.description = '';
         this.$nextTick(() => {
           this.$v.$reset()
         })
       },
       closeForm() {
         this.cancel();
-        this.$router.replace(this.$route.query.redirect || '/admin/lead-statuses')
+        this.$router.replace(this.$route.query.redirect || '/admin/stages')
       },
       status(validation) {
         return {
@@ -148,8 +166,12 @@
           this.errors.push('Wrong set of organizations.');
         }
 
-        if (!this.$v.parentId.integer) {
-          this.errors.push('Wrong set of parents.');
+        if (!this.$v.workflowType.alpha) {
+          this.errors.push('Wrong set of Workflow Types.');
+        }
+
+        if (!this.$v.description.alphaNumSpaceDotCommaHyphenApostrophe) {
+          this.errors.push('Description consists of letters, numbers, dot, comma, hyphen, apostrophe and space only.');
         }
 
         if (!this.errors.length && !this.error.length) {
@@ -165,24 +187,25 @@
         let dataPost = {
           name: this.name,
           organization_id: this.organizationId,
-          parent_id: this.parentId === '' ? null : this.parentId
+          workflow_type: this.workflowType,
+          description: this.description,
         };
-        updateLeadStatus(dataPost, id)
-          .then(() => this.leadStatusUpdatingSuccessful())
-          .catch((request) => this.leadStatusUpdatingFailed(request));
+        updateStage(dataPost, id)
+          .then(() => this.stageUpdatingSuccessful())
+          .catch((request) => this.stageUpdatingFailed(request));
       },
 
-      leadStatusUpdatingSuccessful() {
+      stageUpdatingSuccessful() {
         this.errors = false;
         this.error = false;
-        this.flash('The Lead Status is updated.', 'success', {timeout: VUE_APP_FLASH_TIMEOUT});
+        this.flash('The Stage is updated.', 'success', {timeout: VUE_APP_FLASH_TIMEOUT});
 
-        this.$router.replace(this.$route.query.redirect || '/admin/lead-statuses')
+        this.$router.replace(this.$route.query.redirect || '/admin/stages')
       },
 
-      leadStatusUpdatingFailed(req) {
+      stageUpdatingFailed(req) {
         this.errors = false;
-        this.error = 'Lead Status Updating failed! ' + req;
+        this.error = 'Stage Updating failed! ' + req;
         console.log(req);
       },
       downloadData() {
@@ -194,31 +217,14 @@
           })
           .catch(error => console.log(error));
 
-        getLeadStatusById(this.$route.params.id)
+        getStageById(this.$route.params.id)
           .then(response => {
             this.name = response.data.data.name;
             this.organizationId = response.data.data.organization_id;
-            this.parentId = response.data.data.parent_id;
+            this.workflowType = response.data.data.workflow_type;
+            this.description = response.data.data.description;
           })
           .catch(error => console.log(error));
-
-        getLeadStatuses()
-          .then(response => {
-            this.parentOptions = this.formatParent(response.data.data);
-          })
-          .catch(error => console.log(error));
-      },
-      formatParent(leadStatuses) {
-        let newArr = [];
-        leadStatuses.forEach(function (obj, index) {
-          if (obj.parent_id == null && obj.name == 'Declined') {
-            newArr.push({
-              value: obj.id,
-              text: obj.name
-            });
-          }
-        });
-        return newArr;
       },
       formatOrganizations(organizations) {
         let newArr = [];

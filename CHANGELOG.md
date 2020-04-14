@@ -2,6 +2,24 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+## [0.28.2] - 2020-04-13
+### Added 
+- Page 'Update Stage'
+- Function "Soft Delete" in the page "Stages"
+- Page "Index of Soft Deleted Stages"
+- Function "Restore Soft Deleted Stage" in the page "Stages"
+- Function "Permanent Deleting of a Stage" in the page "Stages"
+
+### Changed
+- Developer Dashboard
+    - Soft-deleted Stages count is added  
+
+## [0.28.1] - 2020-04-13
+### Added 
+- Page 'Create Stage'
+    - Validation
+    - constant WORKFLOW_TYPES.
+
 ## [0.28.0] - 2020-04-13
 ### Added 
 - Page 'Stages'
@@ -9,9 +27,6 @@ All notable changes to this project will be documented in this file.
     - Menus
     - API endpoints
     - Page.
-- Page 'Create Stage'
-    - Validation
-    - constant WORKFLOW_TYPES.
 
 ## [0.27.6] - 2020-04-09
 ### Added 
@@ -22,7 +37,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 - Developer Dashboard
-    - Soft-deleted Lead Statuses count is deleted  
+    - Soft-deleted Lead Statuses count is added  
 
 ## [0.27.5] - 2020-04-08
 ### Added 

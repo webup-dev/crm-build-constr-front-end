@@ -113,9 +113,8 @@
 
 <script>
   import {validations} from '../../../components/validations/stages';
-  import {addLeadStatus, getOrganizations, getLeadStatuses} from "../../../api/leadStatuses";
   import WORKFLOW_TYPES from '../../../constants/workflows';
-  import {addStage} from "../../../api/stages";
+  import {addStage, getOrganizations} from "../../../api/stages";
 
   const VUE_APP_FLASH_TIMEOUT = process.env.VUE_APP_FLASH_TIMEOUT;
 
@@ -216,7 +215,7 @@
         this.error = false;
         this.flash('New Stage is created.', 'success', {timeout: VUE_APP_FLASH_TIMEOUT});
 
-        this.$router.replace(this.$route.query.redirect || '/admin/stage')
+        this.$router.replace(this.$route.query.redirect || '/admin/stages')
       },
 
       stageCreatingFailed(req) {
