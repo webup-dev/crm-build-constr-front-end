@@ -131,6 +131,12 @@ const StageCreate = () => import('@/views/wny/stages/StageCreate');
 const StageUpdate = () => import('@/views/wny/stages/StageUpdate');
 const StagesSoftDeleted = () => import('@/views/wny/stages/StagesSoftDeleted');
 
+// Workflows
+const Workflows = () => import('@/views/wny/workflows/Workflows');
+const WorkflowCreate = () => import('@/views/wny/workflows/WorkflowCreate');
+const WorkflowUpdate = () => import('@/views/wny/workflows/WorkflowUpdate');
+const WorkflowsSoftDeleted = () => import('@/views/wny/workflows/WorkflowsSoftDeleted');
+
 
 const Colors = () => import('@/views/theme/Colors');
 const Typography = () => import('@/views/theme/Typography');
@@ -481,7 +487,6 @@ export default new Router({
         {
           path: 'admin',
           redirect: '/admin/activities',
-          name: 'Activities',
           component: {
             render(c) {
               return c('router-view')
@@ -702,6 +707,26 @@ export default new Router({
               path: 'stages/soft-deleted',
               name: 'StagesSoftDeleted',
               component: StagesSoftDeleted
+            },
+            {
+              path: 'workflows',
+              name: 'Workflows',
+              component: Workflows
+            },
+            {
+              path: 'workflow/create',
+              name: 'WorkflowCreate',
+              component: WorkflowCreate
+            },
+            {
+              path: 'workflow/:id/edit',
+              name: 'WorkflowUpdate',
+              component: StageUpdate
+            },
+            {
+              path: 'workflows/soft-deleted',
+              name: 'WorkflowsSoftDeleted',
+              component: WorkflowsSoftDeleted
             }
           ]
         },

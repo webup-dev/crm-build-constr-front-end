@@ -124,6 +124,11 @@ export default {
       icon: 'fa fa-users'
     },
     {
+      name: 'Workflows',
+      url: '/admin/workflows',
+      icon: 'fa fa-users'
+    },
+    {
       title: true,
       name: 'Theme',
       class: '',

@@ -2,6 +2,14 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+## [0.29.0] - 2020-04-16
+### Added 
+- Page 'Workflows'
+    - Routes
+    - Menus
+    - API endpoints
+    - Page.
+
 ## [0.28.2] - 2020-04-13
 ### Added 
 - Page 'Update Stage'
