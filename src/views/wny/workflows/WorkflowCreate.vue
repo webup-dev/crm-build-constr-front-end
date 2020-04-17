@@ -5,7 +5,7 @@
         <b-card>
           <flash-message></flash-message>
           <div slot="header">
-            <strong>Create Stage</strong>
+            <strong>Create Workflow</strong>
           </div>
           <b-form
             novalidate=novalidate
@@ -77,7 +77,46 @@
 
               </b-form-input>
             </b-form-group>
+            <hr>
+            <div class="row">
+              <div class="col-4">
+                <p class="label-bold">Included Stages</p>
+                <draggable class="list-group" :list="list1" group="people" :emptyInsertThreshold="100">
+                  <div
+                    class="list-group-item green"
+                    v-for="(element, index) in list1"
+                    :key="element.name"
+                  >
+                    {{ index }} &nbsp;&nbsp;&nbsp; {{ element.name }}
+                  </div>
+                </draggable>
+              </div>
 
+              <div class="col-4">
+                <p class="label-bold">Not Included Stages</p>
+                <draggable class="list-group" :list="list2" group="people" :emptyInsertThreshold="100">
+                  <div
+                    class="list-group-item grey"
+                    v-for="(element, index) in list2"
+                    :key="element.name"
+                  >
+                    {{ element.name }}
+                  </div>
+                </draggable>
+              </div>
+
+              <div class="col-4">
+                <p class="label-bold">Instruction</p>
+                <p>Collect the required stages in the column "Included Stages" by drag-and-drop.</p>
+                <p>Collect the unnecessary stages in the column "Not Included Stages" by drag-and-drop.</p>
+                <p>Sort the selected stages in the required order by drag-and-drop.</p>
+              </div>
+
+<!--              <rawDisplayer class="col-3" :value="list1" title="List 1" />-->
+
+<!--              <rawDisplayer class="col-3" :value="list2" title="List 2" />-->
+            </div>
+            <hr>
             <div slot="footer">
               <b-button id="save"
                         v-on:click="checkForm('save', $event)"
@@ -112,14 +151,19 @@
 </template>
 
 <script>
-  import {validations} from '../../../components/validations/stages';
+  import {validations} from '../../../components/validations/workflows';
   import WORKFLOW_TYPES from '../../../constants/workflows';
-  import {addStage, getOrganizations} from "../../../api/stages";
+  import {addWorkflow, getOrganizations} from "../../../api/workflows";
+  import {getStages} from "../../../api/stages";
+  import draggable from 'vuedraggable';
 
   const VUE_APP_FLASH_TIMEOUT = process.env.VUE_APP_FLASH_TIMEOUT;
 
   export default {
-    name: 'StageCreate',
+    name: 'WorkflowCreate',
+    components: {
+      draggable
+    },
     data() {
       return {
         name: '',
@@ -128,12 +172,35 @@
         workflowTypeOptions: WORKFLOW_TYPES,
         workflowType: '',
         description: '',
+        list1: [
+          { name: "Documenting", id: 1 },
+          { name: "Review of plans and specifications", id: 2 },
+          { name: "Clarification", id: 3 },
+          { name: "Under review", id: 4 },
+          { name: "Determination", id: 5 }
+        ],
+        list2: [],
         errors: [],
         error: false
       }
     },
     validations: validations,
     methods: {
+      // add: function() {
+      //   this.list.push({ name: "Juan" });
+      // },
+      // replace: function() {
+      //   this.list = [{ name: "Edgard" }];
+      // },
+      // clone: function(el) {
+      //   return {
+      //     name: el.name + " cloned"
+      //   };
+      // },
+      // log: function(evt) {
+      //   window.console.log(evt);
+      // },
+
       cancel() {
         this.name = '';
         this.organizationId = '';
@@ -145,7 +212,7 @@
       },
       closeForm() {
         this.cancel();
-        this.$router.replace(this.$route.query.redirect || '/admin/stages')
+        this.$router.replace(this.$route.query.redirect || '/admin/workflows')
       },
       status(validation) {
         return {
@@ -199,45 +266,55 @@
         e.preventDefault();
       },
       create() {
-        let dataPost = {
-          name: this.name,
-          organization_id: this.organizationId,
-          workflow_type: this.workflowType,
-          description: this.description,
-        };
-        addStage(dataPost)
-          .then(() => this.stageCreatingSuccessful())
-          .catch((request) => this.stageCreatingFailed(request));
+        let dataPost = this.dataPost();
+        addWorkflow(dataPost)
+          .then(() => this.workflowCreatingSuccessful())
+          .catch((request) => this.workflowCreatingFailed(request));
+      },
+      formatStages(list) {
+        let stages = [];
+        list.forEach(function (obj, index) {
+          stages.push({
+            id: obj.id,
+            order: index
+          })
+        });
+
+        return stages
       },
 
-      stageCreatingSuccessful() {
+      workflowCreatingSuccessful() {
         this.errors = false;
         this.error = false;
         this.flash('New Stage is created.', 'success', {timeout: VUE_APP_FLASH_TIMEOUT});
 
-        this.$router.replace(this.$route.query.redirect || '/admin/stages')
+        this.$router.replace(this.$route.query.redirect || '/admin/workflows')
       },
 
-      stageCreatingFailed(req) {
+      workflowCreatingFailed(req) {
         this.errors = false;
         this.error = 'Stage Creating failed! ' + req;
         console.log(req);
       },
       saveAndNew() {
-        let dataPost = {
+        let dataPost = this.dataPost();
+        addWorkflow(dataPost)
+          .then(() => this.workflowStoringSuccessful())
+          .catch((request) => this.workflowCreatingFailed(request));
+      },
+      workflowStoringSuccessful() {
+        this.flash('New Workflow is created.', 'success', {timeout: VUE_APP_FLASH_TIMEOUT});
+        this.cancel();
+        this.downloadData();
+      },
+      dataPost() {
+       return {
           name: this.name,
           organization_id: this.organizationId,
           workflow_type: this.workflowType,
           description: this.description,
+          stages: this.formatStages(this.list1),
         };
-        addStage(dataPost)
-          .then(() => this.stageStoringSuccessful())
-          .catch((request) => this.stageCreatingFailed(request));
-      },
-      stageStoringSuccessful() {
-        this.flash('New Stage is created.', 'success', {timeout: VUE_APP_FLASH_TIMEOUT});
-        this.cancel();
-        this.downloadData();
       },
 
       downloadData() {
@@ -246,6 +323,25 @@
             this.organizationOptions = this.formatOrganizations(response.data.data);
           })
           .catch(error => console.log(error));
+
+        getStages()
+          .then(response => {
+            this.list1 = this.formatList(response.data.data);
+            this.message = response.data.message;
+            this.success = response.data.success;
+          })
+          .catch(error => console.log(error));
+      },
+      formatList(stages) {
+        let list = [];
+        stages.forEach(function (obj, index) {
+          list.push({
+            name: obj.name,
+            id: obj.id,
+          });
+        });
+
+        return list
       },
       formatOrganizations(organizations) {
         let newArr = [];
@@ -299,5 +395,20 @@
 
   .mr-10 {
     margin-right: 10px
+  }
+
+  .list-group-item {
+    padding: 0.375rem 0.75rem
+  }
+
+  .green {
+    background-color: #4dbd74;
+    color: #fff;
+    cursor: pointer;
+  }
+
+  .grey {
+    background-color: #dfdfdf;
+    cursor: pointer;
   }
 </style>

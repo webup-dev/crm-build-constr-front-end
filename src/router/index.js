@@ -133,6 +133,7 @@ const StagesSoftDeleted = () => import('@/views/wny/stages/StagesSoftDeleted');
 
 // Workflows
 const Workflows = () => import('@/views/wny/workflows/Workflows');
+const WorkflowTest = () => import('@/views/wny/workflows/Drag');
 const WorkflowCreate = () => import('@/views/wny/workflows/WorkflowCreate');
 const WorkflowUpdate = () => import('@/views/wny/workflows/WorkflowUpdate');
 const WorkflowsSoftDeleted = () => import('@/views/wny/workflows/WorkflowsSoftDeleted');
@@ -714,6 +715,11 @@ export default new Router({
               component: Workflows
             },
             {
+              path: 'workflow/test',
+              name: 'WorkflowTest',
+              component: WorkflowTest
+            },
+            {
               path: 'workflow/create',
               name: 'WorkflowCreate',
               component: WorkflowCreate
@@ -721,7 +727,7 @@ export default new Router({
             {
               path: 'workflow/:id/edit',
               name: 'WorkflowUpdate',
-              component: StageUpdate
+              component: WorkflowUpdate
             },
             {
               path: 'workflows/soft-deleted',
