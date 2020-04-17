@@ -206,9 +206,12 @@
         this.organizationId = '';
         this.workflowType = '';
         this.description = '';
+        this.list1 = this.list1.concat(this.list2);
+        this.list2 = [];
+        this.errors = [];
         this.$nextTick(() => {
           this.$v.$reset()
-        })
+        });
       },
       closeForm() {
         this.cancel();
@@ -235,10 +238,12 @@
         if (!this.$v.organizationId.required) {
           this.errors.push('Organization is required.');
         }
-
         if (!this.$v.organizationId.integer) {
-
           this.errors.push('Wrong set of organizations.');
+        }
+
+        if (!this.$v.workflowType.required) {
+          this.errors.push('Workflow Type is required.');
         }
 
         if (!this.$v.workflowType.alpha) {
