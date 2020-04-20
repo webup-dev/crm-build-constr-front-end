@@ -26,7 +26,8 @@ export default new Vuex.Store({
     userDetails: {
       customerId: '',
       userId: ''
-    }
+    },
+    listStages: []
   },
 
   getters: {
@@ -44,6 +45,9 @@ export default new Vuex.Store({
     },
     setUDUserId(state, id) {
       state.userDetails.userId = id;
+    },
+    setListStages(state, array) {
+      state.listStages = array;
     }
   }
 })

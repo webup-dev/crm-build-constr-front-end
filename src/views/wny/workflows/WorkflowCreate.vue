@@ -43,6 +43,7 @@
             >
               <b-form-select id="organizationId"
                              v-model="$v.organizationId.$model"
+                             v-on:change="changeOrganization()"
                              :plain="true"
                              :options=organizationOptions
                              :class="status($v.organizationId)">
@@ -56,6 +57,7 @@
             >
               <b-form-select id="workflowType"
                              v-model="$v.workflowType.$model"
+                             v-on:change="changeWorkflowType()"
                              :plain="true"
                              :options=workflowTypeOptions
                              :class="status($v.workflowType)">
@@ -77,45 +79,47 @@
 
               </b-form-input>
             </b-form-group>
-            <hr>
-            <div class="row">
-              <div class="col-4">
-                <p class="label-bold">Included Stages</p>
-                <draggable class="list-group" :list="list1" group="people" :emptyInsertThreshold="100">
-                  <div
-                    class="list-group-item green"
-                    v-for="(element, index) in list1"
-                    :key="element.name"
-                  >
-                    {{ index }} &nbsp;&nbsp;&nbsp; {{ element.name }}
-                  </div>
-                </draggable>
+            <section v-if="isWorkflowType === true && isOrganizationId === true">
+              <hr>
+              <div class="row">
+                <div class="col-4">
+                  <p class="label-bold">Included Stages</p>
+                  <draggable class="list-group" :list="list1" group="people" :emptyInsertThreshold="100">
+                    <div
+                      class="list-group-item green"
+                      v-for="(element, index) in list1"
+                      :key="element.name"
+                    >
+                      {{ index }} &nbsp;&nbsp;&nbsp; {{ element.name }}
+                    </div>
+                  </draggable>
+                </div>
+
+                <div class="col-4">
+                  <p class="label-bold">Not Included Stages</p>
+                  <draggable class="list-group" :list="list2" group="people" :emptyInsertThreshold="100">
+                    <div
+                      class="list-group-item grey"
+                      v-for="(element, index) in list2"
+                      :key="element.name"
+                    >
+                      {{ element.name }}
+                    </div>
+                  </draggable>
+                </div>
+
+                <div class="col-4">
+                  <p class="label-bold">Instruction</p>
+                  <p>Collect the required stages in the column "Included Stages" by drag-and-drop.</p>
+                  <p>Collect the unnecessary stages in the column "Not Included Stages" by drag-and-drop.</p>
+                  <p>Sort the selected stages in the required order by drag-and-drop.</p>
+                </div>
+
+                <!--              <rawDisplayer class="col-3" :value="list1" title="List 1" />-->
+
+                <!--              <rawDisplayer class="col-3" :value="list2" title="List 2" />-->
               </div>
-
-              <div class="col-4">
-                <p class="label-bold">Not Included Stages</p>
-                <draggable class="list-group" :list="list2" group="people" :emptyInsertThreshold="100">
-                  <div
-                    class="list-group-item grey"
-                    v-for="(element, index) in list2"
-                    :key="element.name"
-                  >
-                    {{ element.name }}
-                  </div>
-                </draggable>
-              </div>
-
-              <div class="col-4">
-                <p class="label-bold">Instruction</p>
-                <p>Collect the required stages in the column "Included Stages" by drag-and-drop.</p>
-                <p>Collect the unnecessary stages in the column "Not Included Stages" by drag-and-drop.</p>
-                <p>Sort the selected stages in the required order by drag-and-drop.</p>
-              </div>
-
-<!--              <rawDisplayer class="col-3" :value="list1" title="List 1" />-->
-
-<!--              <rawDisplayer class="col-3" :value="list2" title="List 2" />-->
-            </div>
+            </section>
             <hr>
             <div slot="footer">
               <b-button id="save"
@@ -156,6 +160,7 @@
   import {addWorkflow, getOrganizations} from "../../../api/workflows";
   import {getStages} from "../../../api/stages";
   import draggable from 'vuedraggable';
+  import store from "../../../store";
 
   const VUE_APP_FLASH_TIMEOUT = process.env.VUE_APP_FLASH_TIMEOUT;
 
@@ -169,16 +174,12 @@
         name: '',
         organizationOptions: [{value: 0, text: 'org 1'}, {value: 1, text: 'org 2'}],
         organizationId: '',
+        isOrganizationId: false,
         workflowTypeOptions: WORKFLOW_TYPES,
         workflowType: '',
+        isWorkflowType: true,
         description: '',
-        list1: [
-          { name: "Documenting", id: 1 },
-          { name: "Review of plans and specifications", id: 2 },
-          { name: "Clarification", id: 3 },
-          { name: "Under review", id: 4 },
-          { name: "Determination", id: 5 }
-        ],
+        list1: [],
         list2: [],
         errors: [],
         error: false
@@ -204,10 +205,12 @@
       cancel() {
         this.name = '';
         this.organizationId = '';
+        this.isOrganizationId = '';
+        this.isWorkflowType = '';
         this.workflowType = '';
         this.description = '';
-        this.list1 = this.list1.concat(this.list2);
-        this.list2 = [];
+        this.list2 = store.state.listStages;
+        this.list1 = [];
         this.errors = [];
         this.$nextTick(() => {
           this.$v.$reset()
@@ -223,6 +226,37 @@
           dirty: validation.$dirty
         }
       },
+      changeOrganization() {
+        this.isOrganizationId = true;
+        this.isFilterList();
+      },
+      changeWorkflowType() {
+        this.isWorkflowType = true;
+        this.isFilterList();
+      },
+
+      isFilterList() {
+        if (this.isOrganizationId && this.isWorkflowType) {
+          let list = store.state.listStages;
+          this.list2 = this.filterList(list);
+          this.list1 = [];
+        }
+      },
+
+      filterList(list) {
+        const newList = [];
+        let sel2 = document.getElementById('workflowType');
+        let sel1 = document.getElementById('organizationId');
+
+        list.forEach(function (obj, index) {
+          if ((obj.organizationId == sel1.value) && (obj.workflowType == sel2.value)) {
+            newList.push(obj);
+          }
+        })
+
+        return newList;
+      },
+
       checkForm: function (keyWord, e) {
         // validation
         this.errors = [];
@@ -272,6 +306,7 @@
       },
       create() {
         let dataPost = this.dataPost();
+        console.log(dataPost);
         addWorkflow(dataPost)
           .then(() => this.workflowCreatingSuccessful())
           .catch((request) => this.workflowCreatingFailed(request));
@@ -279,10 +314,10 @@
       formatStages(list) {
         let stages = [];
         list.forEach(function (obj, index) {
-          stages.push({
-            id: obj.id,
-            order: index
-          })
+            stages.push({
+              id: obj.id,
+              order: index
+            });
         });
 
         return stages
@@ -291,14 +326,14 @@
       workflowCreatingSuccessful() {
         this.errors = false;
         this.error = false;
-        this.flash('New Stage is created.', 'success', {timeout: VUE_APP_FLASH_TIMEOUT});
+        this.flash('New Workflow is created.', 'success', {timeout: VUE_APP_FLASH_TIMEOUT});
 
         this.$router.replace(this.$route.query.redirect || '/admin/workflows')
       },
 
       workflowCreatingFailed(req) {
         this.errors = false;
-        this.error = 'Stage Creating failed! ' + req;
+        this.error = 'Workflow Creating failed! ' + req;
         console.log(req);
       },
       saveAndNew() {
@@ -313,7 +348,7 @@
         this.downloadData();
       },
       dataPost() {
-       return {
+        return {
           name: this.name,
           organization_id: this.organizationId,
           workflow_type: this.workflowType,
@@ -331,7 +366,7 @@
 
         getStages()
           .then(response => {
-            this.list1 = this.formatList(response.data.data);
+            this.list2 = this.formatList(response.data.data);
             this.message = response.data.message;
             this.success = response.data.success;
           })
@@ -342,10 +377,13 @@
         stages.forEach(function (obj, index) {
           list.push({
             name: obj.name,
+            organizationId: obj.organization_id,
+            workflowType: obj.workflow_type,
             id: obj.id,
           });
         });
 
+        store.commit('setListStages', list);
         return list
       },
       formatOrganizations(organizations) {
