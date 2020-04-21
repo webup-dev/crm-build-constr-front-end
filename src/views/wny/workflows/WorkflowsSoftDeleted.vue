@@ -4,7 +4,7 @@
       <flash-message></flash-message>
 
       <b-card-header>
-        <i class="icon-menu mr-1"></i>Soft-Deleted Stagees
+        <i class="icon-menu mr-1"></i>Soft-Deleted Workflows
 
         <div class="card-header-actions"></div>
       </b-card-header>
@@ -12,9 +12,9 @@
 
         <v-client-table :columns="columns" :data="data" :options="options" :theme="theme" id="dataTable">
           <p slot="actions" slot-scope="props">
-            <a class="icon-action-undo action-icon" v-on:click="restoreStage(props.row.id)"
+            <a class="icon-action-undo action-icon" v-on:click="restoreWorkflow(props.row.id)"
                style="cursor: pointer"></a>
-            <a class="icon-trash" v-on:click="permanentDeleteStage(props.row.id)" style="cursor: pointer"></a>
+            <a class="icon-trash" v-on:click="permanentDeleteWorkflow(props.row.id)" style="cursor: pointer"></a>
           </p>
         </v-client-table>
       </b-card-body>
@@ -27,11 +27,10 @@
   import {ClientTable, Event} from 'vue-tables-2'
   import WORKFLOW_TYPES from '../../../constants/workflows';
   import {
-    getStagesSoftDeleted,
-    restoreStage,
-    deleteStagePermanently,
-    getStages
-  } from "../../../api/stages";
+    getWorkflowsSoftDeleted,
+    restoreWorkflow,
+    deleteWorkflowPermanently
+  } from "../../../api/workflows";
 
   const API_URL = process.env.VUE_APP_API_URL;
   const VUE_APP_FLASH_TIMEOUT = process.env.VUE_APP_FLASH_TIMEOUT;
@@ -39,7 +38,7 @@
   Vue.use(ClientTable);
 
   export default {
-    name: 'StagesSoftDeleted',
+    name: 'WorkflowsSoftDeleted',
     components: {
       ClientTable,
       Event
@@ -106,44 +105,44 @@
       }
     },
     methods: {
-      permanentDeleteStage: function (id) {
-        deleteStagePermanently(id)
-          .then(() => this.stageDeletingSuccessful())
-          .catch((request) => this.stageDeletingFailed(request));
+      permanentDeleteWorkflow: function (id) {
+        deleteWorkflowPermanently(id)
+          .then(() => this.workflowDeletingSuccessful())
+          .catch((request) => this.workflowDeletingFailed(request));
       },
-      stageDeletingSuccessful() {
+      workflowDeletingSuccessful() {
         this.errors = false;
         this.error = false;
-        this.flash('The Stage is deleted permanently.', 'success', {timeout: VUE_APP_FLASH_TIMEOUT});
+        this.flash('The Workflow is deleted permanently.', 'success', {timeout: VUE_APP_FLASH_TIMEOUT});
 
         this.downloadData();
       },
-      stageDeletingFailed(req) {
+      workflowDeletingFailed(req) {
         this.errors = false;
-        this.error = 'Stage deleting permanently failed! ' + req;
+        this.error = 'workflow deleting permanently failed! ' + req;
       },
 
-      restoreStage: function (id) {
-        restoreStage(id)
-          .then(() => this.stageRestoringSuccessful())
-          .catch((request) => this.stageRestoringFailed(request));
+      restoreWorkflow: function (id) {
+        restoreWorkflow(id)
+          .then(() => this.workflowRestoringSuccessful())
+          .catch((request) => this.workflowRestoringFailed(request));
 
       },
-      stageRestoringSuccessful() {
+      workflowRestoringSuccessful() {
         this.errors = false;
         this.error = false;
-        this.flash('The Stage is restored.', 'success', {timeout: VUE_APP_FLASH_TIMEOUT});
+        this.flash('The Workflow is restored.', 'success', {timeout: VUE_APP_FLASH_TIMEOUT});
 
         this.downloadData();
       },
-      stageRestoringFailed(req) {
+      workflowRestoringFailed(req) {
         this.errors = false;
-        this.error = 'Stage Restoring failed! ' + req;
+        this.error = 'Workflow Restoring failed! ' + req;
         console.log(req);
       },
 
       downloadData() {
-        getStagesSoftDeleted()
+        getWorkflowsSoftDeleted()
           .then(response => {
             if (response.status === 204) {
               this.data = [];

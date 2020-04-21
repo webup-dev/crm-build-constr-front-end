@@ -2,6 +2,16 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+## [0.29.3] - 2020-04-21
+### Added 
+- Page 'Update Workflow'. Function 'Soft Delete'.
+- Page 'Index of Soft Deleted Workflows'.
+- Page 'Index of Soft Deleted Workflows'. Function 'Restore' is added.
+- Page 'Index of Soft Deleted Workflows'. Function 'Delete Permanently' is added.
+
+### Changed
+- Developer Dashboard. Soft Deleted Workflows are added. 
+
 ## [0.29.2] - 2020-04-21
 ### Added 
 - Page 'Update Workflow'
