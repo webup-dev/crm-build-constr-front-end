@@ -3,8 +3,9 @@
     <b-row>
       <b-col md="6">
         <b-card>
+          <flash-message></flash-message>
           <div slot="header">
-            <strong>Update Stages</strong>
+            <strong>Update Workflow</strong>
           </div>
           <b-form
             novalidate=novalidate
@@ -26,6 +27,7 @@
             >
               <b-form-input
                 id="name"
+                autofocus
                 v-model="$v.name.$model"
                 type="text"
                 placeholder="Name"
@@ -41,6 +43,7 @@
             >
               <b-form-select id="organizationId"
                              v-model="$v.organizationId.$model"
+                             v-on:change="changeOrganization()"
                              :plain="true"
                              :options=organizationOptions
                              :class="status($v.organizationId)">
@@ -54,6 +57,7 @@
             >
               <b-form-select id="workflowType"
                              v-model="$v.workflowType.$model"
+                             v-on:change="changeWorkflowType()"
                              :plain="true"
                              :options=workflowTypeOptions
                              :class="status($v.workflowType)">
@@ -75,20 +79,60 @@
 
               </b-form-input>
             </b-form-group>
+            <section v-if="isWorkflowType === true && isOrganizationId === true">
+              <hr>
+              <div class="row">
+                <div class="col-4">
+                  <p class="label-bold">Included Stages</p>
+                  <draggable class="list-group" :list="list1" group="people" :emptyInsertThreshold="100">
+                    <div
+                      class="list-group-item green"
+                      v-for="(element, index) in list1"
+                      :key="element.name"
+                    >
+                      {{ index }} &nbsp;&nbsp;&nbsp; {{ element.name }}
+                    </div>
+                  </draggable>
+                </div>
 
+                <div class="col-4">
+                  <p class="label-bold">Not Included Stages</p>
+                  <draggable class="list-group" :list="list2" group="people" :emptyInsertThreshold="100">
+                    <div
+                      class="list-group-item grey"
+                      v-for="(element, index) in list2"
+                      :key="element.name"
+                    >
+                      {{ element.name }}
+                    </div>
+                  </draggable>
+                </div>
+
+                <div class="col-4">
+                  <p class="label-bold">Instruction</p>
+                  <p>Collect the required stages in the column "Included Stages" by drag-and-drop.</p>
+                  <p>Collect the unnecessary stages in the column "Not Included Stages" by drag-and-drop.</p>
+                  <p>Sort the selected stages in the required order by drag-and-drop.</p>
+                </div>
+
+                <!--              <rawDisplayer class="col-3" :value="list1" title="List 1" />-->
+
+                <!--              <rawDisplayer class="col-3" :value="list2" title="List 2" />-->
+              </div>
+            </section>
+            <hr>
             <div slot="footer">
-              <b-button type="submit"
-                        v-on:click="checkForm('save', $event)"
+              <b-button id="save"
+                        v-on:click="checkForm()"
+                        class="mr-10"
                         size="sm"
-                        variant="primary"
-                        style="margin-right: 10px">
+                        variant="primary">
                 <i class="fa fa-dot-circle-o"></i>
                 Save
               </b-button>
-              <b-button class="btn btn-info"
+              <b-button class="btn btn-info mr-10"
                         size="sm"
-                        v-on:click="closeForm"
-                        style="margin-right: 10px">
+                        v-on:click="closeForm">
                 Close form
               </b-button>
               <b-button class="btn btn-danger"
@@ -105,22 +149,32 @@
 </template>
 
 <script>
-  import {validations} from '../../../components/validations/stages';
-  import {getStageById, getOrganizations, updateStage} from "../../../api/stages";
+  import {validations} from '../../../components/validations/workflows';
   import WORKFLOW_TYPES from '../../../constants/workflows';
+  import {updateWorkflow, getWorkflowById, getOrganizations} from "../../../api/workflows";
+  import {getStages} from "../../../api/stages";
+  import draggable from 'vuedraggable';
+  import store from "../../../store";
 
   const VUE_APP_FLASH_TIMEOUT = process.env.VUE_APP_FLASH_TIMEOUT;
 
   export default {
-    name: 'StageUpdate',
+    name: 'WorkflowUpdate',
+    components: {
+      draggable
+    },
     data() {
       return {
         name: '',
-        organizationOptions: [],
+        organizationOptions: [{value: 0, text: 'org 1'}, {value: 1, text: 'org 2'}],
         organizationId: '',
+        isOrganizationId: false,
         workflowTypeOptions: WORKFLOW_TYPES,
         workflowType: '',
+        isWorkflowType: true,
         description: '',
+        list1: [],
+        list2: [],
         errors: [],
         error: false
       }
@@ -128,17 +182,22 @@
     validations: validations,
     methods: {
       cancel() {
-        this.name = '';
-        this.organizationId = '';
-        this.workflowType = '';
-        this.description = '';
+        let workflow = store.state.workflow;
+        this.name = workflow.name;
+        this.organizationId = workflow.organization_id;
+        this.isOrganizationId = true;
+        this.isWorkflowType = true;
+        this.workflowType = workflow.workflow_type;
+        this.description = workflow.description;
+        this.formatUpdatedLists();
+        this.errors = [];
         this.$nextTick(() => {
           this.$v.$reset()
-        })
+        });
       },
       closeForm() {
         this.cancel();
-        this.$router.replace(this.$route.query.redirect || '/admin/stages')
+        this.$router.replace(this.$route.query.redirect || '/admin/workflows')
       },
       status(validation) {
         return {
@@ -146,6 +205,37 @@
           dirty: validation.$dirty
         }
       },
+      changeOrganization() {
+        this.isOrganizationId = true;
+        this.isFilterList();
+      },
+      changeWorkflowType() {
+        this.isWorkflowType = true;
+        this.isFilterList();
+      },
+
+      isFilterList() {
+        if (this.isOrganizationId && this.isWorkflowType) {
+          let list = store.state.listStages;
+          this.list2 = this.filterList(list);
+          this.list1 = [];
+        }
+      },
+
+      filterList(list) {
+        const newList = [];
+        let sel2 = document.getElementById('workflowType');
+        let sel1 = document.getElementById('organizationId');
+
+        list.forEach(function (obj, index) {
+          if ((obj.organizationId == sel1.value) && (obj.workflowType == sel2.value)) {
+            newList.push(obj);
+          }
+        })
+
+        return newList;
+      },
+
       checkForm: function (keyWord, e) {
         // validation
         this.errors = [];
@@ -161,9 +251,12 @@
         if (!this.$v.organizationId.required) {
           this.errors.push('Organization is required.');
         }
-
         if (!this.$v.organizationId.integer) {
           this.errors.push('Wrong set of organizations.');
+        }
+
+        if (!this.$v.workflowType.required) {
+          this.errors.push('Workflow Type is required.');
         }
 
         if (!this.$v.workflowType.alpha) {
@@ -171,61 +264,139 @@
         }
 
         if (!this.$v.description.alphaNumSpaceDotCommaHyphenApostrophe) {
-          this.errors.push('Description consists of letters, numbers, dot, comma, hyphen, apostrophe and space only.');
+          this.errors.push('Name consists of letters, numbers, dot, comma, hyphen, apostrophe and space only.');
         }
 
         if (!this.errors.length && !this.error.length) {
-          if (keyWord === 'save') {
-            this.update(this.$route.params.id);
+            this.update();
             return true;
-          }
         }
 
         e.preventDefault();
       },
-      update(id) {
-        let dataPost = {
+
+      update() {
+        let dataPost = this.dataPost();
+        updateWorkflow(dataPost, this.$route.params.id)
+          .then(() => this.workflowCreatingSuccessful())
+          .catch((request) => this.workflowCreatingFailed(request));
+      },
+
+      dataPost() {
+        return {
           name: this.name,
           organization_id: this.organizationId,
           workflow_type: this.workflowType,
           description: this.description,
+          stages: this.formatStages(this.list1),
         };
-        updateStage(dataPost, id)
-          .then(() => this.stageUpdatingSuccessful())
-          .catch((request) => this.stageUpdatingFailed(request));
       },
 
-      stageUpdatingSuccessful() {
+      formatStages(list) {
+        let stages = [];
+        list.forEach(function (obj, index) {
+          stages.push({
+            id: obj.id,
+            order: index
+          });
+        });
+
+        return stages
+      },
+
+      workflowCreatingSuccessful() {
         this.errors = false;
         this.error = false;
-        this.flash('The Stage is updated.', 'success', {timeout: VUE_APP_FLASH_TIMEOUT});
+        this.flash('New Workflow is created.', 'success', {timeout: VUE_APP_FLASH_TIMEOUT});
 
-        this.$router.replace(this.$route.query.redirect || '/admin/stages')
+        this.$router.replace(this.$route.query.redirect || '/admin/workflows')
       },
 
-      stageUpdatingFailed(req) {
+      workflowCreatingFailed(req) {
         this.errors = false;
-        this.error = 'Stage Updating failed! ' + req;
+        this.error = 'Workflow Creating failed! ' + req;
         console.log(req);
       },
+
       downloadData() {
         getOrganizations()
           .then(response => {
             this.organizationOptions = this.formatOrganizations(response.data.data);
-            this.message = this.response.data.message;
-            this.success = response.data.success;
           })
           .catch(error => console.log(error));
 
-        getStageById(this.$route.params.id)
+        getWorkflowById(this.$route.params.id)
           .then(response => {
-            this.name = response.data.data.name;
-            this.organizationId = response.data.data.organization_id;
-            this.workflowType = response.data.data.workflow_type;
-            this.description = response.data.data.description;
+            const workflow = response.data.data;
+            this.name = workflow.name;
+            this.organizationId = workflow.organization_id;
+            this.workflowType = workflow.workflow_type;
+            this.description = workflow.description;
+            this.message = response.data.message;
+            this.success = response.data.success;
+            this.isOrganizationId = true;
+            this.isWorkflowType = true;
+            workflow.stages = this.formatList(workflow.stages);
+            store.commit('setWorkflow', workflow);
+            console.log("store.state.workflow")
+            console.log(store.state.workflow)
+
+            getStages()
+              .then(response => {
+                const fullList = this.formatList(response.data.data);
+                store.commit('setListStages', fullList);
+                this.message = response.data.message;
+                this.success = response.data.success;
+
+                this.formatUpdatedLists();
+              })
+              .catch(error => console.log(error));
           })
           .catch(error => console.log(error));
       },
+
+      formatList(stages) {
+        let list = [];
+        stages.forEach(function (obj, index) {
+          list.push({
+            name: obj.name,
+            organizationId: obj.organization_id,
+            workflowType: obj.workflow_type,
+            id: obj.id,
+          });
+        });
+
+        return list
+      },
+
+      filterInitialList(list) {
+        const finalList = [];
+        let workflow_type = store.state.workflow.workflow_type;
+        let organization_id = store.state.workflow.organization_id;
+
+        list.forEach(function (obj, index) {
+          if ((obj.organizationId == organization_id) && (obj.workflowType == workflow_type)) {
+            finalList.push(obj);
+          }
+        })
+
+        return finalList;
+      },
+
+      formatUpdatedLists() {
+        this.list1 = this.filterInitialList(store.state.workflow.stages);
+        let actualList = this.filterInitialList(store.state.listStages);
+        this.list2 = actualList.filter(this.comparer(this.list1));
+      },
+
+      comparer(otherArray) {
+        return function (current) {
+          return otherArray.filter(function (other) {
+            return other.id === current.id
+          }).length === 0;
+        }
+      },
+
       formatOrganizations(organizations) {
         let newArr = [];
         organizations.forEach(function (obj, index) {
@@ -274,5 +445,24 @@
 
   .label-bold {
     font-weight: bold
+  }
+
+  .mr-10 {
+    margin-right: 10px
+  }
+
+  .list-group-item {
+    padding: 0.375rem 0.75rem
+  }
+
+  .green {
+    background-color: #4dbd74;
+    color: #fff;
+    cursor: pointer;
+  }
+
+  .grey {
+    background-color: #dfdfdf;
+    cursor: pointer;
   }
 </style>

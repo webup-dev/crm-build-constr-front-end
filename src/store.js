@@ -27,7 +27,8 @@ export default new Vuex.Store({
       customerId: '',
       userId: ''
     },
-    listStages: []
+    listStages: [],
+    workflow: []
   },
 
   getters: {
@@ -48,6 +49,9 @@ export default new Vuex.Store({
     },
     setListStages(state, array) {
       state.listStages = array;
+    },
+    setWorkflow(state, array) {
+      state.workflow = array;
     }
   }
 })

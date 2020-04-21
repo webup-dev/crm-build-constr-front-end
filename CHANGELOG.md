@@ -2,7 +2,11 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
-## [0.29.1] - 2020-04-17
+## [0.29.2] - 2020-04-21
+### Added 
+- Page 'Update Workflow'
+
+## [0.29.1] - 2020-04-20
 ### Added 
 - Page 'Create New Workflow'
 
