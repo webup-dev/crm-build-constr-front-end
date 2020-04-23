@@ -2,6 +2,17 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+## [0.29.4] - 2020-04-23
+### Changed
+- Change pages "Create Workflow", "Update Workflow"
+    - Included stages -> Work Flow Stages    
+    - Not Included stages → Available Stages
+    - Remove Instructions
+    - Move Available stages to the left side
+    - Change colX to col6
+    - Index has to start from 1
+    - Capitalize the first letter in the name of the workflow types.
+
 ## [0.29.3] - 2020-04-21
 ### Added 
 - Page 'Update Workflow'. Function 'Soft Delete'.

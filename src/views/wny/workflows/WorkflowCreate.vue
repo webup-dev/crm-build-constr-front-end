@@ -82,21 +82,8 @@
             <section v-if="isWorkflowType === true && isOrganizationId === true">
               <hr>
               <div class="row">
-                <div class="col-4">
-                  <p class="label-bold">Included Stages</p>
-                  <draggable class="list-group" :list="list1" group="people" :emptyInsertThreshold="100">
-                    <div
-                      class="list-group-item green"
-                      v-for="(element, index) in list1"
-                      :key="element.name"
-                    >
-                      {{ index }} &nbsp;&nbsp;&nbsp; {{ element.name }}
-                    </div>
-                  </draggable>
-                </div>
-
-                <div class="col-4">
-                  <p class="label-bold">Not Included Stages</p>
+                <div class="col-6">
+                  <p class="label-bold">Available Stages</p>
                   <draggable class="list-group" :list="list2" group="people" :emptyInsertThreshold="100">
                     <div
                       class="list-group-item grey"
@@ -108,12 +95,25 @@
                   </draggable>
                 </div>
 
-                <div class="col-4">
-                  <p class="label-bold">Instruction</p>
-                  <p>Collect the required stages in the column "Included Stages" by drag-and-drop.</p>
-                  <p>Collect the unnecessary stages in the column "Not Included Stages" by drag-and-drop.</p>
-                  <p>Sort the selected stages in the required order by drag-and-drop.</p>
+                <div class="col-6">
+                  <p class="label-bold">Work Flow Stages</p>
+                  <draggable class="list-group" :list="list1" group="people" :emptyInsertThreshold="100">
+                    <div
+                      class="list-group-item green"
+                      v-for="(element, index) in list1"
+                      :key="element.name"
+                    >
+                      {{ index + 1 }} &nbsp;&nbsp;&nbsp; {{ element.name }}
+                    </div>
+                  </draggable>
                 </div>
+
+<!--                <div class="col-4">-->
+<!--                  <p class="label-bold">Instruction</p>-->
+<!--                  <p>Collect the required stages in the column "Included Stages" by drag-and-drop.</p>-->
+<!--                  <p>Collect the unnecessary stages in the column "Not Included Stages" by drag-and-drop.</p>-->
+<!--                  <p>Sort the selected stages in the required order by drag-and-drop.</p>-->
+<!--                </div>-->
 
                 <!--              <rawDisplayer class="col-3" :value="list1" title="List 1" />-->
 
