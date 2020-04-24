@@ -1,6 +1,6 @@
 const WORKFLOW_TYPES = [
-  {value: 'request', text: 'request'},
-  {value: 'opportunity', text: 'opportunity'}
+  {value: 'Request', text: 'Request'},
+  {value: 'Opportunity', text: 'Opportunity'}
 ];
 
 export default WORKFLOW_TYPES
