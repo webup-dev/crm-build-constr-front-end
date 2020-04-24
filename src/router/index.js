@@ -138,6 +138,12 @@ const WorkflowCreate = () => import('@/views/wny/workflows/WorkflowCreate');
 const WorkflowUpdate = () => import('@/views/wny/workflows/WorkflowUpdate');
 const WorkflowsSoftDeleted = () => import('@/views/wny/workflows/WorkflowsSoftDeleted');
 
+// Requesters
+const Requesters = () => import('@/views/wny/requesters/Requesters');
+const RequesterCreate = () => import('@/views/wny/requesters/RequesterCreate');
+const RequesterUpdate = () => import('@/views/wny/requesters/RequesterUpdate');
+const RequestersSoftDeleted = () => import('@/views/wny/requesters/RequestersSoftDeleted');
+
 
 const Colors = () => import('@/views/theme/Colors');
 const Typography = () => import('@/views/theme/Typography');
@@ -733,6 +739,26 @@ export default new Router({
               path: 'workflows/soft-deleted',
               name: 'WorkflowsSoftDeleted',
               component: WorkflowsSoftDeleted
+            },
+            {
+              path: 'requesters',
+              name: 'Requesters',
+              component: Requesters
+            },
+            {
+              path: 'requester/create',
+              name: 'RequesterCreate',
+              component: RequesterCreate
+            },
+            {
+              path: 'requester/:id/edit',
+              name: 'RequesterUpdate',
+              component: RequesterUpdate
+            },
+            {
+              path: 'requesters/soft-deleted',
+              name: 'RequestersSoftDeleted',
+              component: RequestersSoftDeleted
             }
           ]
         },

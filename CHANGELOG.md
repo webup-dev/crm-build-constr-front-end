@@ -2,6 +2,14 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+## [0.30.0] - 2020-04-24
+### Added 
+- Page 'Requesters'
+    - Routes
+    - Menus
+    - API endpoints
+    - Page.
+
 ## [0.29.4] - 2020-04-23
 ### Changed
 - Change pages "Create Workflow", "Update Workflow"

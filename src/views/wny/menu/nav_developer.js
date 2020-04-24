@@ -129,6 +129,11 @@ export default {
       icon: 'fa fa-users'
     },
     {
+      name: 'Requesters',
+      url: '/admin/requesters',
+      icon: 'fa fa-users'
+    },
+    {
       title: true,
       name: 'Theme',
       class: '',
