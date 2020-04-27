@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+## [0.30.1] - 2020-04-27
+### Added 
+- Page 'Create New Requester'
+    - Validation rules
+    - Page. 
+
 ## [0.30.0] - 2020-04-24
 ### Added 
 - Page 'Requesters'
