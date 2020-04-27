@@ -187,21 +187,6 @@
     },
     validations: validations,
     methods: {
-      // add: function() {
-      //   this.list.push({ name: "Juan" });
-      // },
-      // replace: function() {
-      //   this.list = [{ name: "Edgard" }];
-      // },
-      // clone: function(el) {
-      //   return {
-      //     name: el.name + " cloned"
-      //   };
-      // },
-      // log: function(evt) {
-      //   window.console.log(evt);
-      // },
-
       cancel() {
         this.name = '';
         this.organizationId = '';

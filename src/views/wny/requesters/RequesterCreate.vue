@@ -229,7 +229,7 @@
                   </b-row>
                 </section>
               </b-col>
-<!--                            <b-col cols="1"></b-col>-->
+              <!--                            <b-col cols="1"></b-col>-->
               <b-col cols="7">
                 <section style="border: 1px solid lightgrey; padding: 15px;">
                   <b-row>
@@ -297,7 +297,7 @@
                   </b-row>
                   <b-row>
                     <b-col cols="12">
-                      <b-form-group label="Address Line 1"
+                      <b-form-group label="Address Line 1 *"
                                     label-for="addressLine1"
                                     :label-cols="4"
                                     style="font-weight: bold">
@@ -311,7 +311,7 @@
                   </b-row>
                   <b-row>
                     <b-col cols="12">
-                      <b-form-group label="Address Line 2"
+                      <b-form-group label="Address Line 2 *"
                                     label-for="addressLine2"
                                     :label-cols="4"
                                     style="font-weight: bold">
@@ -326,7 +326,7 @@
                   </b-row>
                   <b-row>
                     <b-col cols="12">
-                      <b-form-group label="City"
+                      <b-form-group label="City *"
                                     label-for="city"
                                     :label-cols="4"
                                     style="font-weight: bold">
@@ -340,33 +340,33 @@
                   </b-row>
                   <b-row>
                     <b-col cols="12">
-                        <b-form-group label="State"
-                                      label-for="addressState"
-                                      :label-cols="4"
-                                      description="Select one"
-                                      style="font-weight: bold">
-                          <b-form-select id="state"
-                                         v-model="$v.addressState.$model"
-                                         :plain="true"
-                                         :options=states
-                                         :class="status($v.addressState)">
-                          </b-form-select>
-                        </b-form-group>
+                      <b-form-group label="State *"
+                                    label-for="addressState"
+                                    :label-cols="4"
+                                    description="Select one"
+                                    style="font-weight: bold">
+                        <b-form-select id="state"
+                                       v-model="$v.addressState.$model"
+                                       :plain="true"
+                                       :options=states
+                                       :class="status($v.addressState)">
+                        </b-form-select>
+                      </b-form-group>
                     </b-col>
                   </b-row>
                   <b-row>
                     <b-col cols="12">
-                        <b-form-group label="Postal Code"
-                                      label-for="zip"
-                                      :label-cols="4"
-                                      description="Numbers"
-                                      style="font-weight: bold">
-                          <b-form-input id="zip"
-                                        v-model="$v.zip.$model"
-                                        type="text"
-                                        :class="status($v.zip)">
-                          </b-form-input>
-                        </b-form-group>
+                      <b-form-group label="Postal Code *"
+                                    label-for="zip"
+                                    :label-cols="4"
+                                    description="Numbers"
+                                    style="font-weight: bold">
+                        <b-form-input id="zip"
+                                      v-model="$v.zip.$model"
+                                      type="text"
+                                      :class="status($v.zip)">
+                        </b-form-input>
+                      </b-form-group>
                     </b-col>
                   </b-row>
                 </section>
@@ -497,32 +497,30 @@
     },
     validations: validations,
     methods: {
-      // add: function() {
-      //   this.list.push({ name: "Juan" });
-      // },
-      // replace: function() {
-      //   this.list = [{ name: "Edgard" }];
-      // },
-      // clone: function(el) {
-      //   return {
-      //     name: el.name + " cloned"
-      //   };
-      // },
-      // log: function(evt) {
-      //   window.console.log(evt);
-      // },
-
       cancel() {
-        this.name = '';
-        this.organizationId = '';
-        this.isOrganizationId = '';
-        this.isRequesterType = '';
-        this.requesterType = '';
-        this.description = '';
-        this.list2 = store.state.listStages;
-        this.list1 = [];
-        this.errors = [];
-        this.$nextTick(() => {
+          this.firstName = '';
+          this.lastName = '';
+          this.prefix = '';
+          this.suffix = '';
+          this.organizationId = '';
+          this.emailWork = '';
+          this.emailPersonal = '';
+          this.addressLine1 = '';
+          this.addressLine2 = '';
+          this.city = '';
+          this.addressState = '';
+          this.zip = '';
+          this.phoneHome = '';
+          this.phoneWork = '';
+          this.phoneExtension = '';
+          this.fax = '';
+          this.phoneMob1 = '';
+          this.phoneMob2 = '';
+          this.website = '';
+          this.otherSource = '';
+          this.note = '';
+          this.errors = [];
+          this.$nextTick(() => {
           this.$v.$reset()
         });
       },
@@ -535,36 +533,6 @@
           error: validation.$error,
           dirty: validation.$dirty
         }
-      },
-      changeOrganization() {
-        this.isOrganizationId = true;
-        this.isFilterList();
-      },
-      changeRequesterType() {
-        this.isRequesterType = true;
-        this.isFilterList();
-      },
-
-      isFilterList() {
-        if (this.isOrganizationId && this.isRequesterType) {
-          let list = store.state.listStages;
-          this.list2 = this.filterList(list);
-          this.list1 = [];
-        }
-      },
-
-      filterList(list) {
-        const newList = [];
-        let sel2 = document.getElementById('requesterType');
-        let sel1 = document.getElementById('organizationId');
-
-        list.forEach(function (obj, index) {
-          if ((obj.organizationId == sel1.value) && (obj.requesterType == sel2.value)) {
-            newList.push(obj);
-          }
-        })
-
-        return newList;
       },
 
       checkForm: function (keyWord, e) {
