@@ -43,18 +43,22 @@ export const validations = {
     email
   },
   addressLine1: {
+    required,
     address
   },
   addressLine2: {
     address
   },
   city: {
+    required,
     city
   },
   addressState: {
+    required,
     alphaSpace
   },
   zip: {
+    required,
     usaZip
   },
   website: {

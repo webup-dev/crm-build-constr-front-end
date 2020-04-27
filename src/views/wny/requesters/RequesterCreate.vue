@@ -311,7 +311,7 @@
                   </b-row>
                   <b-row>
                     <b-col cols="12">
-                      <b-form-group label="Address Line 2 *"
+                      <b-form-group label="Address Line 2"
                                     label-for="addressLine2"
                                     :label-cols="4"
                                     style="font-weight: bold">
@@ -535,7 +535,7 @@
         }
       },
 
-      checkForm: function (keyWord, e) {
+      checkForm: function(keyWord, e) {
         this.errors = [];
 
         if (!this.$v.firstName.name) {
@@ -570,6 +570,10 @@
           this.errors.push('Wrong Email Personal.');
         }
 
+        if (!this.$v.addressLine1.required) {
+          this.errors.push('Address Line 1 is required.');
+        }
+
         if (!this.$v.addressLine1.address) {
           this.errors.push('Address Line 1 consist of digits, slash, comma, dot, number, hyphen');
         }
@@ -578,8 +582,20 @@
           this.errors.push('Address Line 2 consist of alphas, digits, slash, comma, dot, number, hyphen');
         }
 
+        if (!this.$v.city.required) {
+          this.errors.push('City is required.');
+        }
+
         if (!this.$v.city.city) {
           this.errors.push('City consist of alphas, space, hyphen, apostrophe');
+        }
+
+        if (!this.$v.zip.required) {
+          this.errors.push('Postal Code is required.');
+        }
+
+        if (!this.$v.addressState.required) {
+          this.errors.push('State is required.');
         }
 
         if (!this.$v.zip.usaZip) {
@@ -614,6 +630,7 @@
 
         e.preventDefault();
       },
+
       create() {
         let dataPost = this.dataPost();
         console.log(dataPost);
