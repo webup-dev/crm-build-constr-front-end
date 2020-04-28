@@ -338,8 +338,6 @@
             this.isWorkflowType = true;
             workflow.stages = this.formatList(workflow.stages);
             store.commit('setWorkflow', workflow);
-            console.log("store.state.workflow")
-            console.log(store.state.workflow)
 
             getStages()
               .then(response => {

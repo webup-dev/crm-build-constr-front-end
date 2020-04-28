@@ -93,7 +93,6 @@
       downloadData() {
         getRequesters()
           .then(response => {
-            console.log(response);
             this.data = response.data.data;
             this.message = response.data.message;
             this.success = response.data.success;

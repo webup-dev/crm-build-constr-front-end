@@ -28,7 +28,8 @@ export default new Vuex.Store({
       userId: ''
     },
     listStages: [],
-    workflow: []
+    workflow: [],
+    requester: {}
   },
 
   getters: {
@@ -52,6 +53,9 @@ export default new Vuex.Store({
     },
     setWorkflow(state, array) {
       state.workflow = array;
+    },
+    setRequester(state, obj) {
+      state.requester = obj;
     }
   }
 })

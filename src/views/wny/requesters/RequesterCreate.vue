@@ -70,7 +70,7 @@
                                     label-for="suffix"
                                     :label-cols="3"
                                     style="font-weight: bold">
-                        <b-form-input id="prefix"
+                        <b-form-input id="suffix"
                                       v-model="$v.suffix.$model"
                                       :class="status($v.suffix)"
                                       type="text">
@@ -392,7 +392,7 @@
                                     label-for="otherSource"
                                     :label-cols="3"
                                     style="font-weight: bold">
-                        <b-form-input id="lastName"
+                        <b-form-input id="otherSource"
                                       v-model="$v.otherSource.$model"
                                       :class="status($v.otherSource)"
                                       type="text">
@@ -406,7 +406,7 @@
                                     label-for="note"
                                     :label-cols="3"
                                     style="font-weight: bold">
-                        <b-form-input id="prefix"
+                        <b-form-input id="note"
                                       v-model="$v.note.$model"
                                       :class="status($v.note)"
                                       type="text">

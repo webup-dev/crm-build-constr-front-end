@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+## [0.30.3] - 2020-04-28
+### Added
+- Page 'Update Requester'
+    
 ## [0.30.2] - 2020-04-27
 ### Changed
 - Page 'Create New Requester'
