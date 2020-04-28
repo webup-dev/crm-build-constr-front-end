@@ -516,7 +516,7 @@
         this.phoneMob2 = requester.phone_mob2;
         this.website = requester.website;
         this.otherSource = requester.other_source;
-        this.note = '';
+        this.note = requester.note;
         this.errors = [];
         this.$nextTick(() => {
           this.$v.$reset()
