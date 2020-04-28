@@ -2,6 +2,14 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+## [0.30.4] - 2020-04-28
+### Added
+- Page 'Update Requester'. Function "Soft Delete" is added
+- Developer Dashboard. Soft Deleted Requesters are added
+- Page 'Index of Soft Deleted Requesters'
+- Page 'Index of Soft Deleted Requesters'. Function 'Restore' is added
+- Page 'Index of Soft Deleted Requesters'. Function 'Delete Permanently' is added.
+
 ## [0.30.3] - 2020-04-28
 ### Added
 - Page 'Update Requester'

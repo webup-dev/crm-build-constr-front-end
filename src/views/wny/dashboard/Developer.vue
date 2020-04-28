@@ -67,6 +67,11 @@
                   <b-badge>{{ workflowsSoftDeleted }}</b-badge>
                 </p>
               </a>
+              <a href="#/admin/requesters/soft-deleted">
+                <p>Requesters
+                  <b-badge>{{ requestersSoftDeleted }}</b-badge>
+                </p>
+              </a>
             </div>
           </b-card>
         </b-col>
@@ -96,6 +101,7 @@
         leadStatusesSoftDeleted: '',
         stagesSoftDeleted: '',
         workflowsSoftDeleted: '',
+        requestersSoftDeleted: '',
       }
     },
 
@@ -120,7 +126,8 @@
                 this.tradesSoftDeleted = response.data.data[7].count,
                 this.leadStatusesSoftDeleted = response.data.data[8].count,
                 this.stagesSoftDeleted = response.data.data[9].count,
-                this.workflowsSoftDeleted = response.data.data[10].count
+                this.workflowsSoftDeleted = response.data.data[10].count,
+                this.requestersSoftDeleted = response.data.data[11].count
             );
           });
     }

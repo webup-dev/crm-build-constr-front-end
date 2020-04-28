@@ -4,7 +4,7 @@
       <flash-message></flash-message>
 
       <b-card-header>
-        <i class="icon-menu mr-1"></i>Soft-Deleted Workflows
+        <i class="icon-menu mr-1"></i>Soft-Deleted Requesters
 
         <div class="card-header-actions"></div>
       </b-card-header>
@@ -12,9 +12,9 @@
 
         <v-client-table :columns="columns" :data="data" :options="options" :theme="theme" id="dataTable">
           <p slot="actions" slot-scope="props">
-            <a class="icon-action-undo action-icon" v-on:click="restoreWorkflow(props.row.id)"
+            <a class="icon-action-undo action-icon" v-on:click="restoreRequester(props.row.id)"
                style="cursor: pointer"></a>
-            <a class="icon-trash" v-on:click="permanentDeleteWorkflow(props.row.id)" style="cursor: pointer"></a>
+            <a class="icon-trash" v-on:click="permanentDeleteRequester(props.row.id)" style="cursor: pointer"></a>
           </p>
         </v-client-table>
       </b-card-body>
@@ -25,20 +25,18 @@
 <script>
   import Vue from 'vue'
   import {ClientTable, Event} from 'vue-tables-2'
-  import WORKFLOW_TYPES from '../../../constants/workflows';
   import {
-    getWorkflowsSoftDeleted,
-    restoreWorkflow,
-    deleteWorkflowPermanently
-  } from "../../../api/workflows";
+    getRequestersSoftDeleted,
+    restoreRequester,
+    deleteRequesterPermanently
+  } from "../../../api/requesters";
 
-  const API_URL = process.env.VUE_APP_API_URL;
   const VUE_APP_FLASH_TIMEOUT = process.env.VUE_APP_FLASH_TIMEOUT;
 
   Vue.use(ClientTable);
 
   export default {
-    name: 'WorkflowsSoftDeleted',
+    name: 'RequestersSoftDeleted',
     components: {
       ClientTable,
       Event
@@ -47,15 +45,16 @@
       return {
         columns: [
           'id',
-          'name',
           'organization_id',
           'organization.name',
-          'workflow_type',
-          'description',
+          'line_1',
+          'line_2',
+          'city',
           'deleted_at',
           'created_at',
           'updated_at',
-          'actions'],
+          'actions'
+        ],
         data: [],
         message: '',
         success: false,
@@ -65,33 +64,36 @@
             name: 'Name',
             organization_id: 'Organization ID',
             'organization.name': 'Organization Name',
-            workflow_type: 'Workflow Type',
-            description: 'description',
+            line_1: 'Address Line 1',
+            line_2: 'Address Line 2',
+            city: 'city',
             deleted_at: 'Deleted',
             created_at: 'Created',
             updated_at: 'Updated',
             actions: 'Actions'
           },
-          sortable: ['id',
-            'name',
+          sortable: [
+            'id',
             'organization_id',
             'organization.name',
-            'workflow_type',
-            'description',
+            'line_1',
+            'line_2',
+            'city',
             'deleted_at',
             'created_at',
-            'updated_at',
-            'actions'],
-          filterable: ['id',
-            'name',
+            'updated_at'
+          ],
+          filterable: [
+            'id',
             'organization_id',
             'organization.name',
-            'workflow_type',
-            'description',
+            'line_1',
+            'line_2',
+            'city',
             'deleted_at',
             'created_at',
-            'updated_at',
-            'actions'],
+            'updated_at'
+          ],
           sortIcon: {base: 'fa', up: 'fa-sort-asc', down: 'fa-sort-desc', is: 'fa-sort'},
           pagination: {
             chunk: 5,
@@ -105,44 +107,44 @@
       }
     },
     methods: {
-      permanentDeleteWorkflow: function (id) {
-        deleteWorkflowPermanently(id)
-          .then(() => this.workflowDeletingSuccessful())
-          .catch((request) => this.workflowDeletingFailed(request));
+      permanentDeleteRequester: function (id) {
+        deleteRequesterPermanently(id)
+          .then(() => this.requesterDeletingSuccessful())
+          .catch((request) => this.requesterDeletingFailed(request));
       },
-      workflowDeletingSuccessful() {
+      requesterDeletingSuccessful() {
         this.errors = false;
         this.error = false;
-        this.flash('The Workflow is deleted permanently.', 'success', {timeout: VUE_APP_FLASH_TIMEOUT});
+        this.flash('The Requester is deleted permanently.', 'success', {timeout: VUE_APP_FLASH_TIMEOUT});
 
         this.downloadData();
       },
-      workflowDeletingFailed(req) {
+      requesterDeletingFailed(req) {
         this.errors = false;
-        this.error = 'workflow deleting permanently failed! ' + req;
+        this.error = 'Requester deleting permanently failed! ' + req;
       },
 
-      restoreWorkflow: function (id) {
-        restoreWorkflow(id)
-          .then(() => this.workflowRestoringSuccessful())
-          .catch((request) => this.workflowRestoringFailed(request));
+      restoreRequester: function (id) {
+        restoreRequester(id)
+          .then(() => this.requesterRestoringSuccessful())
+          .catch((request) => this.requesterRestoringFailed(request));
 
       },
-      workflowRestoringSuccessful() {
+      requesterRestoringSuccessful() {
         this.errors = false;
         this.error = false;
-        this.flash('The Workflow is restored.', 'success', {timeout: VUE_APP_FLASH_TIMEOUT});
+        this.flash('The Requester is restored.', 'success', {timeout: VUE_APP_FLASH_TIMEOUT});
 
         this.downloadData();
       },
-      workflowRestoringFailed(req) {
+      requesterRestoringFailed(req) {
         this.errors = false;
-        this.error = 'Workflow Restoring failed! ' + req;
+        this.error = 'Requester Restoring failed! ' + req;
         console.log(req);
       },
 
       downloadData() {
-        getWorkflowsSoftDeleted()
+        getRequestersSoftDeleted()
           .then(response => {
             if (response.status === 204) {
               this.data = [];
