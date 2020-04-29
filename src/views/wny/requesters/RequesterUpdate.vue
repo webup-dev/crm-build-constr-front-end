@@ -84,7 +84,6 @@
                   <b-row>
                     <b-col cols="12">
                       <b-form-group label="Cell Phone 1"
-                                    description="ex. (999) 999-9999"
                                     :label-cols="3"
                                     style="font-weight: bold">
                         <b-input-group>
@@ -110,7 +109,6 @@
                   <b-row>
                     <b-col cols="12">
                       <b-form-group label="Cell Phone 2"
-                                    description="ex. (999) 999-9999"
                                     :label-cols="3"
                                     style="font-weight: bold">
                         <b-input-group>
@@ -136,7 +134,6 @@
                   <b-row>
                     <b-col cols="12">
                       <b-form-group label="Home Phone"
-                                    description="ex. (999) 999-9999"
                                     :label-cols="3"
                                     style="font-weight: bold">
                         <b-input-group>
@@ -162,7 +159,6 @@
                   <b-row>
                     <b-col cols="12">
                       <b-form-group label="Work Phone"
-                                    description="ex. (999) 999-9999"
                                     :label-cols="3"
                                     style="font-weight: bold">
                         <b-input-group>
@@ -187,9 +183,8 @@
                   </b-row>
                   <b-row>
                     <b-col cols="12">
-                      <b-form-group label="Extension"
+                      <b-form-group label="Work Extension"
                                     :label-cols="3"
-                                    description="Numbers"
                                     style="font-weight: bold">
                         <b-form-input id="phoneExtension"
                                       type="text"
@@ -204,7 +199,6 @@
                   <b-row>
                     <b-col cols="12">
                       <b-form-group label="Fax"
-                                    description="ex. (999) 999-9999"
                                     :label-cols="3"
                                     style="font-weight: bold">
                         <b-input-group>
@@ -276,7 +270,6 @@
                     <b-col cols="12">
                       <b-form-group label="Email Personal"
                                     :label-cols="4"
-                                    description="Email"
                                     style="font-weight: bold">
                         <b-input-group>
                           <div class="input-group-prepend">
@@ -343,7 +336,6 @@
                       <b-form-group label="State *"
                                     label-for="addressState"
                                     :label-cols="4"
-                                    description="Select one"
                                     style="font-weight: bold">
                         <b-form-select id="state"
                                        v-model="$v.addressState.$model"
@@ -359,7 +351,6 @@
                       <b-form-group label="Postal Code *"
                                     label-for="zip"
                                     :label-cols="4"
-                                    description="Numbers"
                                     style="font-weight: bold">
                         <b-form-input id="zip"
                                       v-model="$v.zip.$model"

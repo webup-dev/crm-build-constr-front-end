@@ -96,7 +96,7 @@
                 </div>
 
                 <div class="col-6">
-                  <p class="label-bold">Work Flow Stages</p>
+                  <p class="label-bold">Workflow Stages</p>
                   <draggable class="list-group" :list="list1" group="people" :emptyInsertThreshold="100">
                     <div
                       class="list-group-item green"
