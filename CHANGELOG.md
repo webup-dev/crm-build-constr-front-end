@@ -2,6 +2,14 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+## [0.31.0] - 2020-05-01
+### Added
+- Page 'Leads'
+    - Routes
+    - Menus
+    - API endpoints
+    - Page.
+
 ## [0.30.5] - 2020-04-28
 ### Changed
 - Bugs are fixed
