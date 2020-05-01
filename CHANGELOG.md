@@ -2,6 +2,14 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+## [0.30.5] - 2020-04-28
+### Changed
+- Bugs are fixed
+    - Work Flow -> workflow in the Create/Update forms of Workflow module,
+    - Requesters. Forms Create, Update: Extension -> “Work Extension”,
+    - Requesters. Forms Create, Update: Descriptions for input fields must
+    be deleted.
+
 ## [0.30.4] - 2020-04-28
 ### Added
 - Page 'Update Requester'. Function "Soft Delete" is added

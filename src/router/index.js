@@ -144,6 +144,12 @@ const RequesterCreate = () => import('@/views/wny/requesters/RequesterCreate');
 const RequesterUpdate = () => import('@/views/wny/requesters/RequesterUpdate');
 const RequestersSoftDeleted = () => import('@/views/wny/requesters/RequestersSoftDeleted');
 
+// Requesters
+const Leads = () => import('@/views/wny/leads/Leads');
+const LeadCreate = () => import('@/views/wny/leads/LeadCreate');
+const LeadUpdate = () => import('@/views/wny/leads/LeadUpdate');
+const LeadsSoftDeleted = () => import('@/views/wny/leads/LeadsSoftDeleted');
+
 
 const Colors = () => import('@/views/theme/Colors');
 const Typography = () => import('@/views/theme/Typography');
@@ -759,6 +765,26 @@ export default new Router({
               path: 'requesters/soft-deleted',
               name: 'RequestersSoftDeleted',
               component: RequestersSoftDeleted
+            },
+            {
+              path: 'leads',
+              name: 'Leads',
+              component: Leads
+            },
+            {
+              path: 'lead/create',
+              name: 'LeadCreate',
+              component: LeadCreate
+            },
+            {
+              path: 'lead/:id/edit',
+              name: 'LeadUpdate',
+              component: LeadUpdate
+            },
+            {
+              path: 'leads/soft-deleted',
+              name: 'LeadsSoftDeleted',
+              component: LeadsSoftDeleted
             }
           ]
         },

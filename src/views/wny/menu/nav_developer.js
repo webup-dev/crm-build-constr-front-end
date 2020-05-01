@@ -134,6 +134,11 @@ export default {
       icon: 'fa fa-users'
     },
     {
+      name: 'Leads',
+      url: '/admin/leads',
+      icon: 'fa fa-users'
+    },
+    {
       title: true,
       name: 'Theme',
       class: '',
