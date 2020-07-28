@@ -113,7 +113,6 @@ export default {
   computed: {
     options: function () {
       let trick = this.optionsApi;
-      console.log(trick);
       let optionsArr = [
         {value: 0, text: "Select Organization"}
       ];

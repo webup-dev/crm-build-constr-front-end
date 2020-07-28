@@ -29,7 +29,10 @@ export default new Vuex.Store({
     },
     listStages: [],
     workflow: [],
-    requester: {}
+    requester: {},
+    trades: {},
+    leadStatuses: {},
+    declinedReasons: {}
   },
 
   getters: {
@@ -56,6 +59,15 @@ export default new Vuex.Store({
     },
     setRequester(state, obj) {
       state.requester = obj;
+    },
+    setTrades(state, obj) {
+      state.trades = obj;
+    },
+    setLeadStatuses(state, obj) {
+      state.leadStatuses = obj;
+    },
+    setDeclinedReasons(state, obj) {
+      state.declinedReasons = obj;
     }
   }
 })
